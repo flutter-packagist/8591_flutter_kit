@@ -10,6 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  shared_preferences: ^2.0.15
+  vm_service: ^9.0.0
 
 dev_dependencies:
   flutter_test:
