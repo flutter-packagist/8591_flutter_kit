@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kit/core/pluggable.dart';
 import 'package:flutter_kit/core/pluggable_message_service.dart';
 import 'package:flutter_kit/core/plugin_manager.dart';
+import 'package:flutter_kit/util/icon_cache.dart';
 import 'package:flutter_kit/util/store_manager.dart';
 
 import 'draggable_widget.dart';
@@ -64,6 +65,86 @@ class MenuPageState extends State<MenuPage>
 
   @override
   Widget build(BuildContext context) {
+    return ConsolePanel(
+      onClose: () {
+        widget.closeAction?.call();
+      },
+      child: _dataList.isEmpty
+          ? const EmptyPlaceholder()
+          : ColoredBox(
+              color: Colors.white,
+              child: DraggableGridView(
+                _dataList,
+                childAspectRatio: 0.9,
+                canAccept: (oldIndex, newIndex) {
+                  return true;
+                },
+                dragCompletion: (dataList) {
+                  _saveData(dataList as List<Pluggable?>);
+                },
+                itemBuilder: (context, dynamic data) {
+                  return GestureDetector(
+                    onTap: () {
+                      widget.action!(data);
+                      PluggableMessageService().resetCounter(data);
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: MenuCell(pluginData: data),
+                  );
+                },
+              ),
+            ),
+    );
+  }
+}
+
+class MenuCell extends StatelessWidget {
+  final Pluggable? pluginData;
+
+  const MenuCell({Key? key, this.pluginData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Color lineColor = Colors.grey.withOpacity(0.25);
+    return LayoutBuilder(builder: (_, constraints) {
+      return Material(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: IconCache.icon(pluginData!),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                pluginData!.displayName,
+                style: const TextStyle(fontSize: 15, color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class ConsolePanel extends StatelessWidget {
+  final VoidCallback? onClose;
+  final Widget child;
+
+  const ConsolePanel({
+    Key? key,
+    this.onClose,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return ColoredBox(
       color: Colors.black26,
       child: SafeArea(
@@ -77,9 +158,7 @@ class MenuPageState extends State<MenuPage>
             height: 36,
             child: Row(children: [
               RawMaterialButton(
-                onPressed: () {
-                  widget.closeAction?.call();
-                },
+                onPressed: onClose,
                 elevation: 0,
                 shape: const CircleBorder(),
                 padding: EdgeInsets.zero,
@@ -96,104 +175,10 @@ class MenuPageState extends State<MenuPage>
               ),
             ]),
           ),
-          Expanded(
-            child: _dataList.isEmpty
-                ? const EmptyPlaceholder()
-                : ColoredBox(
-                    color: Colors.white,
-                    child: DraggableGridView(
-                      _dataList,
-                      childAspectRatio: 0.85,
-                      canAccept: (oldIndex, newIndex) {
-                        return true;
-                      },
-                      dragCompletion: (dataList) {
-                        _saveData(dataList as List<Pluggable?>);
-                      },
-                      itemBuilder: (context, dynamic data) {
-                        return GestureDetector(
-                          onTap: () {
-                            widget.action!(data);
-                            PluggableMessageService().resetCounter(data);
-                          },
-                          behavior: HitTestBehavior.opaque,
-                          child: _MenuCell(pluginData: data),
-                        );
-                      },
-                    ),
-                  ),
-          ),
+          Expanded(child: child),
         ]),
       ),
     );
-  }
-}
-
-class _MenuCell extends StatelessWidget {
-  const _MenuCell({Key? key, this.pluginData}) : super(key: key);
-
-  final Pluggable? pluginData;
-
-  @override
-  Widget build(BuildContext context) {
-    final Color lineColor = Colors.grey.withOpacity(0.25);
-    return LayoutBuilder(builder: (_, constraints) {
-      return Material(
-        color: Colors.white,
-        child: Container(
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Positioned(
-                  left: 0,
-                  top: 0,
-                  child: Container(
-                      height: constraints.maxHeight,
-                      width: 0.5,
-                      color: lineColor)),
-              Positioned(
-                  left: 0,
-                  top: 0,
-                  child: Container(
-                      height: 0.5,
-                      width: constraints.maxWidth,
-                      color: lineColor)),
-              Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                      height: constraints.maxHeight,
-                      width: 0.5,
-                      color: lineColor)),
-              Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Container(
-                      height: 0.5,
-                      width: constraints.maxWidth,
-                      color: lineColor)),
-              Container(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // Container(
-                    //     child: IconCache.icon(pluggableInfo: pluginData!),
-                    //     height: 40,
-                    //     width: 40),
-                    Container(
-                        margin: const EdgeInsets.only(top: 25),
-                        child: Text(pluginData!.displayName,
-                            style: const TextStyle(
-                                fontSize: 15, color: Colors.black)))
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
   }
 }
 

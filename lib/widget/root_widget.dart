@@ -9,6 +9,7 @@ import 'package:flutter_kit/util/constants.dart';
 import 'package:flutter_kit/util/store_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'icon.dart' as icon;
 import 'menu_page.dart';
 
 const defaultLocalizationsDelegates = [
@@ -175,9 +176,6 @@ class __ContentPageState extends State<_ContentPage> {
   Widget? _menuPage;
   BuildContext? _context;
 
-  bool _minimalContent = true;
-  Widget? _toolbarWidget;
-
   void dragEvent(DragUpdateDetails details) {
     _dx = details.globalPosition.dx - dotSize.width / 2;
     _dy = details.globalPosition.dy - dotSize.height / 2;
@@ -209,10 +207,6 @@ class __ContentPageState extends State<_ContentPage> {
       }
       _currentSelected = null;
       _currentWidget = _empty;
-      if (_minimalContent) {
-        _currentWidget = _toolbarWidget;
-        _showedMenu = true;
-      }
       setState(() {});
       return;
     }
@@ -259,17 +253,12 @@ class __ContentPageState extends State<_ContentPage> {
   }
 
   Widget _logoWidget() {
-    if (_currentSelected != null) {
-      return SizedBox(
-        height: 30,
-        width: 30,
-        child: Image(image: _currentSelected!.iconImageProvider),
-      );
-    }
-    return Icon(
-      Icons.backpack_outlined,
-      size: 32,
-      color: _showedMenu ? Colors.grey : Colors.black,
+    return Image(
+      height: 32,
+      width: 32,
+      image: _currentSelected != null
+          ? _currentSelected!.iconImageProvider
+          : MemoryImage(icon.iconBytes),
     );
   }
 
@@ -344,7 +333,7 @@ class __ContentPageState extends State<_ContentPage> {
                   ),
                   width: dotSize.width,
                   height: dotSize.height,
-                  child: _logoWidget(),
+                  child: Center(child: _logoWidget()),
                 ),
               ),
             ),

@@ -17,7 +17,7 @@ class DraggableGridView<T> extends StatefulWidget {
     this.dataList, {
     Key? key,
     this.scrollDirection = Axis.vertical,
-    this.crossAxisCount = 3,
+    this.crossAxisCount = 4,
     this.childAspectRatio = 1.0,
     this.dragCompletion,
     required this.itemBuilder,
@@ -48,9 +48,9 @@ class _DraggableGridViewState<T> extends State<DraggableGridView> {
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.zero,
       itemCount: dataList!.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 0.85,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: widget.crossAxisCount,
+        childAspectRatio: widget.childAspectRatio,
       ),
       itemBuilder: (ctx, index) {
         return _buildDraggable(ctx, index);

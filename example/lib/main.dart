@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_kit/core/plugin_manager.dart';
 import 'package:flutter_kit/widget/root_widget.dart';
+import 'package:flutter_kit_device/cpu_info/cpu_info_panel.dart';
+import 'package:flutter_kit_device/device_info/device_info_panel.dart';
 
 void main() {
+  PluginManager().registerAll(const [
+    CpuInfoPanel(),
+    DeviceInfoPanel(),
+  ]);
   runApp(const KitWidget(enable: true, child: MyApp()));
   setupSystemChrome();
 }
