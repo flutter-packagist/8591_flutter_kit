@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_kit_code/flutter_kit_code.dart';
-
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
-  });
+  String url = "libraries/@100029200/scripts/dart:convert/codec.dart/0";
+  int index = url.indexOf("scripts/");
+  int lastIndex = url.lastIndexOf("/");
+  String subStr = url.substring(index + 8, lastIndex);
+  print(index);
+  print(lastIndex);
+  print(subStr);
 }

@@ -132,6 +132,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  flutter_kit_code:
+    dependency: "direct main"
+    description:
+      path: "../plugin/flutter_kit_code"
+      relative: true
+    source: path
+    version: "0.0.1"
   flutter_kit_device:
     dependency: "direct main"
     description:

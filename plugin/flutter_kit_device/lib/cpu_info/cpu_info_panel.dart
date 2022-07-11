@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
-import 'package:flutter_kit/widget/menu_page.dart';
 import 'package:platform/platform.dart';
 import 'package:system_info2/system_info2.dart';
 

@@ -17,6 +17,8 @@ dependencies:
     path: ../
   flutter_kit_device:
     path: ../plugin/flutter_kit_device/
+  flutter_kit_code:
+    path: ../plugin/flutter_kit_code/
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
-import 'package:flutter_kit/widget/menu_page.dart';
 import 'package:platform/platform.dart';
 
 import 'icon.dart' as icon;
