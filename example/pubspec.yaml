@@ -13,12 +13,15 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  dio: ^4.0.6
   flutter_kit:
     path: ../
   flutter_kit_device:
     path: ../plugin/flutter_kit_device/
   flutter_kit_code:
     path: ../plugin/flutter_kit_code/
+  flutter_kit_dio:
+    path: ../plugin/flutter_kit_dio/
 
 dev_dependencies:
   flutter_test:

@@ -135,11 +135,15 @@ class MenuCell extends StatelessWidget {
 
 class ConsolePanel extends StatelessWidget {
   final VoidCallback? onClose;
+  final Widget? title;
+  final List<Widget>? actions;
   final Widget child;
 
   const ConsolePanel({
     Key? key,
     this.onClose,
+    this.title,
+    this.actions,
     required this.child,
   }) : super(key: key);
 
@@ -156,29 +160,47 @@ class ConsolePanel extends StatelessWidget {
             ),
             width: MediaQuery.of(context).size.width,
             height: 36,
-            child: Row(children: [
-              RawMaterialButton(
-                onPressed: onClose,
-                elevation: 0,
-                shape: const CircleBorder(),
-                padding: EdgeInsets.zero,
-                fillColor: const Color(0xffff5a52),
-                constraints: const BoxConstraints(
-                  minHeight: 18,
-                  minWidth: 18,
-                ),
-                // child: const Icon(
-                //   Icons.close,
-                //   color: Colors.black54,
-                //   size: 16,
-                // ),
-              ),
-            ]),
+            child: NavigationToolbar(
+              leading: leading(),
+              middle: title,
+              trailing: trailing(),
+            ),
           ),
           Expanded(child: child),
         ]),
       ),
     );
+  }
+
+  Widget leading() {
+    return RawMaterialButton(
+      onPressed: onClose,
+      elevation: 0,
+      shape: const CircleBorder(),
+      padding: EdgeInsets.zero,
+      fillColor: const Color(0xffff5a52),
+      constraints: const BoxConstraints(
+        minHeight: 18,
+        minWidth: 18,
+      ),
+      // child: const Icon(
+      //   Icons.close,
+      //   color: Colors.black54,
+      //   size: 16,
+      // ),
+    );
+  }
+
+  Widget? trailing() {
+    Widget? action;
+    if (actions != null && actions!.isNotEmpty) {
+      action = Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: actions!,
+      );
+    }
+    return action;
   }
 }
 
