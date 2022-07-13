@@ -1,12 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_kit_log/flutter_kit_log.dart';
+import 'package:flutter_kit_log/log/log.dart';
 
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
-  });
+  DateTime dateTime = DateTime.now();
+  String date = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
+  logD(date);
 }
