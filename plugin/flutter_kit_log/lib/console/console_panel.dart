@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
 import 'package:flutter_kit_log/log/log_data.dart';
+import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
 import 'console_manager.dart';
@@ -44,9 +45,9 @@ class Console extends StatefulWidget implements PluggableWithStream {
 class ConsoleState extends State<Console>
     with WidgetsBindingObserver, StoreMixin {
   final TextEditingController textEditingController = TextEditingController();
-  final TextStyle inputTextStyle =
-      const TextStyle(fontSize: 14, color: Colors.white, height: 1.3);
+  final FocusNode focusNode = FocusNode();
   List<Tuple2<DateTime, LogData>> _logList = <Tuple2<DateTime, LogData>>[];
+  Level _filterLevel = Level.verbose;
   StreamSubscription? _subscription;
   ScrollController? _controller;
   DateTimeStyle? _dateTimeStyle;
@@ -93,55 +94,57 @@ class ConsoleState extends State<Console>
 
         setState(() {});
         Future.delayed(const Duration(milliseconds: 200), () {
-          _controller!.animateTo(
-            _controller!.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
+          _scrollToBottom();
         });
       }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _controller!.animateTo(
-        _controller!.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      ); // 22 i
+      _scrollToBottom();
     });
   }
 
+  void _scrollToBottom() {
+    _controller!.animateTo(
+      _controller!.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    ); // 22 i
+  }
+
   void _refreshConsole() {
-    if (_filterExp != null) {
-      _logList = ConsoleManager.logData.where((e) {
-        return _filterExp!.hasMatch(e.item1.toString()) ||
-            _filterExp!.hasMatch(e.item2.lowerCaseText);
-      }).toList();
-    } else {
-      _logList = ConsoleManager.logData.toList();
-    }
+    _logList = ConsoleManager.logData
+        .where((e) {
+          var logLevelMatches = e.item2.level.index >= _filterLevel.index;
+          if (!logLevelMatches) {
+            return false;
+          } else if (_filterExp != null) {
+            return _filterExp!.hasMatch(e.item1.toString()) ||
+                _filterExp!.hasMatch(e.item2.lowerCaseText);
+          } else {
+            return true;
+          }
+        })
+        .toList()
+        .reversed
+        .toList();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _scrollToBottom();
+      focusNode.unfocus();
+    });
   }
 
   String _dateTimeString(int logIndex) {
+    var logList = _logList.reversed.toList()[_logList.length - logIndex - 1];
     String result = '';
     switch (_dateTimeStyle) {
       case DateTimeStyle.datetime:
-        result = _logList[_logList.length - logIndex - 1]
-            .item1
-            .toString()
-            .padRight(26, '0');
+        result = logList.item1.toString().padRight(26, '0');
         break;
       case DateTimeStyle.time:
-        result = _logList[_logList.length - logIndex - 1]
-            .item1
-            .toString()
-            .padRight(26, '0')
-            .substring(11);
+        result = logList.item1.toString().padRight(26, '0').substring(11);
         break;
       case DateTimeStyle.timestamp:
-        result = _logList[_logList.length - logIndex - 1]
-            .item1
-            .millisecondsSinceEpoch
-            .toString();
+        result = logList.item1.millisecondsSinceEpoch.toString();
         break;
       case DateTimeStyle.none:
         result = '';
@@ -154,22 +157,47 @@ class ConsoleState extends State<Console>
 
   @override
   Widget build(BuildContext context) {
-    return ConsolePanel(
-      actions: [
-        __changeDateTimeStyleButton(context),
-        _clearAllButton(context),
-      ],
-      child: ColoredBox(
-        color: Colors.black,
-        child: Column(children: [
-          Expanded(child: consoleListView()),
-          filterTextField(),
-        ]),
+    return MaterialApp(
+      home: ConsolePanel(
+        actions: [
+          scrollToBottomButton(context),
+          changeDateTimeStyleButton(context),
+          clearAllButton(context),
+        ],
+        child: ColoredBox(
+          color: Colors.black,
+          child: Column(children: [
+            Expanded(child: consoleListView()),
+            filterTextField(),
+          ]),
+        ),
       ),
     );
   }
 
-  Widget __changeDateTimeStyleButton(BuildContext context) {
+  Widget scrollToBottomButton(BuildContext context) {
+    return TextButton(
+      onPressed: () => _scrollToBottom(),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const <Widget>[
+          Icon(
+            Icons.arrow_circle_down,
+            size: 16,
+            color: Colors.black,
+          ),
+          SizedBox(width: 4),
+          Text(
+            '到底部',
+            style: TextStyle(color: Colors.black, fontSize: 14),
+          ),
+          SizedBox(width: 8),
+        ],
+      ),
+    );
+  }
+
+  Widget changeDateTimeStyleButton(BuildContext context) {
     return TextButton(
       onPressed: () async {
         _dateTimeStyle = styleById((idByStyle(_dateTimeStyle!) + 1) % 4);
@@ -195,7 +223,7 @@ class ConsoleState extends State<Console>
     );
   }
 
-  Widget _clearAllButton(BuildContext context) {
+  Widget clearAllButton(BuildContext context) {
     return TextButton(
       onPressed: ConsoleManager.clearLog,
       child: Row(
@@ -238,8 +266,8 @@ class ConsoleState extends State<Console>
                 height: 1.3,
               ),
               text: TextSpan(children: [
-                TextSpan(text: _dateTimeString(index)),
-                const TextSpan(text: "  "),
+                if (_dateTimeString(index).isNotEmpty)
+                  TextSpan(text: "${_dateTimeString(index)}\n"),
                 logEntry.item2.span,
               ]),
             );
@@ -250,14 +278,23 @@ class ConsoleState extends State<Console>
   }
 
   Widget filterTextField() {
+    const TextStyle inputTextStyle = TextStyle(
+      fontSize: 14,
+      color: Colors.white,
+      height: 1.3,
+      decoration: TextDecoration.none,
+    );
     return Padding(
       padding: EdgeInsets.only(
         left: 10,
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Row(children: [
+        dropdownButton(),
+        const SizedBox(width: 10),
         Expanded(
           child: TextField(
+            focusNode: focusNode,
             controller: textEditingController,
             onChanged: (value) {
               if (value.isNotEmpty) {
@@ -271,13 +308,13 @@ class ConsoleState extends State<Console>
             maxLines: 1,
             style: inputTextStyle,
             textInputAction: TextInputAction.search,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               contentPadding: EdgeInsets.zero,
               prefixText: "\$ ",
               prefixStyle: inputTextStyle,
               hintText: "输入要过滤的内容",
               hintStyle: inputTextStyle,
-              focusedBorder: const UnderlineInputBorder(
+              focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent),
               ),
             ),
@@ -294,6 +331,55 @@ class ConsoleState extends State<Console>
           },
         ),
       ]),
+    );
+  }
+
+  Widget dropdownButton() {
+    const textStyle = TextStyle(fontSize: 14, color: Colors.black);
+    String showName = _filterLevel.name;
+    if (_filterLevel.name == "wtf") showName = "network";
+    return PopupMenuButton(
+      initialValue: _filterLevel,
+      itemBuilder: (context) => const [
+        PopupMenuItem(
+          value: Level.verbose,
+          child: Text("VERBOSE", style: textStyle),
+        ),
+        PopupMenuItem(
+          value: Level.debug,
+          child: Text("DEBUG", style: textStyle),
+        ),
+        PopupMenuItem(
+          value: Level.info,
+          child: Text("INFO", style: textStyle),
+        ),
+        PopupMenuItem(
+          value: Level.warning,
+          child: Text("WARNING", style: textStyle),
+        ),
+        PopupMenuItem(
+          value: Level.error,
+          child: Text("ERROR", style: textStyle),
+        ),
+        PopupMenuItem(
+          value: Level.wtf,
+          child: Text("NETWORK", style: textStyle),
+        )
+      ],
+      position: PopupMenuPosition.over,
+      child: Text(
+        showName,
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+          decoration: TextDecoration.none,
+        ),
+      ),
+      onSelected: (Level? level) {
+        _filterLevel = level ?? Level.verbose;
+        setState(() {});
+        _refreshConsole();
+      },
     );
   }
 }

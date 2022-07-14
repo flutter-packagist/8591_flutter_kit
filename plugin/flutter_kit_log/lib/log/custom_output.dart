@@ -36,26 +36,26 @@ class CustomOutput extends LogOutput {
     // 输出log到控制台
     event.lines.forEach(print);
     // 输出log到手机测试控制台
-    event.lines
-        .map((line) => LogData(
-              _currentId++,
-              event.level,
-              TextSpan(children: parser.parse(line)),
-              line.toLowerCase(),
-            ))
-        .forEach(ConsoleManager.addLog);
+    var linesText = event.lines.join('\n');
+    var logEvent = LogData(
+      _currentId++,
+      event.level,
+      TextSpan(children: parser.parse(linesText)),
+      linesText.toLowerCase(),
+    );
+    ConsoleManager.addLog(logEvent);
     // 输出log到文件
     var lines = event.lines.map((line) {
       return line
           .replaceAll("[38;5;12m", "")
           .replaceAll("[38;5;196m", "")
-          .replaceAll("[38;5;199m", "")
+          .replaceAll("[38;5;35m", "")
           .replaceAll("[38;5;208m", "")
           .replaceAll("[38;5;244m", "")
           .replaceAll("[38;5;250m", "")
           .replaceAll("[48;5;12m", "")
           .replaceAll("[48;5;196m", "")
-          .replaceAll("[48;5;199m", "")
+          .replaceAll("[48;5;35m", "")
           .replaceAll("[48;5;208m", "")
           .replaceAll("[48;5;244m", "")
           .replaceAll("[48;5;250m", "")

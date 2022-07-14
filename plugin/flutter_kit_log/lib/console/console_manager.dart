@@ -56,13 +56,14 @@ class ConsoleManager {
   }
 
   static addLog(LogData logData) {
-    _logStreamController!.add(logData);
+    if (logData.level == Level.wtf) return;
+    _logStreamController?.add(logData);
   }
 
   static clearLog() {
     logData.clear();
-    _logStreamController!
-        .add(LogData(0, Level.verbose, const TextSpan(text: "Welcome!"), ""));
+    _logStreamController
+        ?.add(LogData(0, Level.verbose, const TextSpan(text: "Welcome!"), ""));
   }
 
   @visibleForTesting

@@ -28,7 +28,7 @@ class CustomPrinter extends LogPrinter {
     Level.info: AnsiColor.fg(12),
     Level.warning: AnsiColor.fg(208),
     Level.error: AnsiColor.fg(196),
-    Level.wtf: AnsiColor.fg(199),
+    Level.wtf: AnsiColor.fg(35),
   };
 
   static final levelEmojis = {

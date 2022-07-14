@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_kit_log/flutter_kit_log.dart';
 
 import '../constants/extensions.dart';
 import '../core/instances.dart';
+
+const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
 int get _timestamp => DateTime.now().millisecondsSinceEpoch;
 
@@ -27,6 +32,7 @@ class DioLogInterceptor extends Interceptor {
     response.requestOptions.extra[dioExtraEndTime] = _timestamp;
     response.requestOptions.extra[dioExtraExpand] = false;
     InspectorInstance.httpContainer.addRequest(response);
+    logN(getPrintLog(response));
     handler.next(response);
   }
 
@@ -37,6 +43,54 @@ class DioLogInterceptor extends Interceptor {
     err.response!.requestOptions.extra[dioExtraEndTime] = _timestamp;
     err.response!.requestOptions.extra[dioExtraExpand] = false;
     InspectorInstance.httpContainer.addRequest(err.response!);
+    logE(getPrintLog(err.response!));
     handler.next(err);
+  }
+
+  String getPrintLog(Response<dynamic> response) {
+    RequestOptions request = response.requestOptions;
+    StringBuffer sb = StringBuffer();
+    sb.write("请求时间：${response.startTime}\n");
+    sb.write("请求链接：${request.uri}\n");
+    sb.write("请求方式：${request.method}\n");
+    Duration duration = response.endTime.difference(response.startTime);
+    sb.write("请求时长：${duration.inMilliseconds}ms\n");
+    sb.write("状态码：${response.statusCode ?? 0}\n\n");
+    if (request.headers.isNotEmpty) {
+      sb.write("请求头部：\n");
+      request.headers.forEach((key, value) {
+        value.forEach((e) => sb.writeln('$key: $e'));
+      });
+      sb.write("\n");
+    }
+    if (request.data != null) {
+      sb.write("请求参数：\n");
+      String requestData = "";
+      try {
+        requestData = _encoder.convert(request.data);
+      } on FormatException catch (_) {
+        requestData = request.data.toString();
+      }
+      sb.write("$requestData\n");
+    }
+    if (!response.headers.isEmpty) {
+      sb.write("响应头部：\n");
+      response.headers.forEach((key, value) {
+        value.forEach((e) => sb.writeln('$key: $e'));
+      });
+      sb.write("\n");
+    }
+    if (response.data != null) {
+      sb.write("响应内容：\n");
+      String responseData = "";
+      try {
+        responseData = _encoder.convert(response.data);
+      } on FormatException catch (_) {
+        responseData = response.data.toString();
+      }
+      sb.write("$responseData\n");
+    }
+
+    return sb.toString();
   }
 }

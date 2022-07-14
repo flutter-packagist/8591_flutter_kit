@@ -107,7 +107,7 @@ class AnsiParser {
         return dark ? Colors.orange[300] : Colors.orange[700];
       case 196:
         return dark ? Colors.red[300] : Colors.red[700];
-      case 199:
+      case 35:
         return dark ? Colors.pink[300] : Colors.pink[700];
       case 244:
         return dark ? Colors.grey[400] : Colors.grey;
