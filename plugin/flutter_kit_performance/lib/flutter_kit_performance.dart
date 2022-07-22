@@ -1,7 +1,4 @@
 library flutter_kit_performance;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'fps/performance.dart';
+export 'memory/memory_panel.dart';

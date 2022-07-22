@@ -167,6 +167,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  flutter_kit_performance:
+    dependency: "direct main"
+    description:
+      path: "../plugin/flutter_kit_performance"
+      relative: true
+    source: path
+    version: "0.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
