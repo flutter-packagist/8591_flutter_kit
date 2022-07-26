@@ -26,6 +26,8 @@ dependencies:
     path: ../plugin/flutter_kit_log/
   flutter_kit_performance:
     path: ../plugin/flutter_kit_performance/
+  flutter_kit_tools:
+    path: ../plugin/flutter_kit_tools/
 
 dev_dependencies:
   flutter_test:

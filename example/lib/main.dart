@@ -9,6 +9,7 @@ import 'package:flutter_kit_device/device_info/device_info_panel.dart';
 import 'package:flutter_kit_dio/core/pluggable.dart';
 import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_performance/flutter_kit_performance.dart';
+import 'package:flutter_kit_tools/color_picker/color_picker.dart';
 
 final Dio dio = Dio()..options = BaseOptions(connectTimeout: 10000);
 
@@ -16,9 +17,10 @@ void main() {
   PluginManager().registerAll([
     const CpuInfoPanel(),
     const DeviceInfoPanel(),
-    const CodeDisplayPanel(),
-    const MemoryPanel(),
-    const Performance(),
+    // const CodeDisplayPanel(),
+    // const MemoryPanel(),
+    // const Performance(),
+    const ColorPicker(),
     DioInspector(dio: dio),
     Console(),
   ]);
