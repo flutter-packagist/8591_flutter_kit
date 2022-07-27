@@ -17,9 +17,9 @@ void main() {
   PluginManager().registerAll([
     const CpuInfoPanel(),
     const DeviceInfoPanel(),
-    // const CodeDisplayPanel(),
-    // const MemoryPanel(),
-    // const Performance(),
+    const CodeDisplayPanel(),
+    const MemoryPanel(),
+    const Performance(),
     const ColorPicker(),
     DioInspector(dio: dio),
     Console(),

@@ -66,9 +66,7 @@ class MenuPageState extends State<MenuPage>
   @override
   Widget build(BuildContext context) {
     return ConsolePanel(
-      onClose: () {
-        widget.closeAction?.call();
-      },
+      onClose: widget.closeAction,
       child: _dataList.isEmpty
           ? const EmptyPlaceholder()
           : ColoredBox(

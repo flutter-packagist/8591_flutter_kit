@@ -283,7 +283,19 @@ class _ResponseCardState extends State<_ResponseCard> {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(width: 6),
-        Text('${_duration.inMilliseconds}ms'),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 5,
+            vertical: 1,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            color: _duration.inMilliseconds > 500
+                ? Colors.redAccent.shade100
+                : Colors.white,
+          ),
+          child: Text('${_duration.inMilliseconds}ms'),
+        ),
         const Spacer(),
         _detailButton(context),
       ],
