@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 
 String _binKey = 'BIN';
@@ -99,6 +100,7 @@ class RuntimeEnv {
   }
 
   static Map<String, String> env() {
+    if (kIsWeb) return {};
     final Map<String, String> map = Map.from(Platform.environment);
     map['PATH'] = path!;
     return map;

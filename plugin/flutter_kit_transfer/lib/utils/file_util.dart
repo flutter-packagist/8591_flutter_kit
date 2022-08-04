@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 
 import '../config/config.dart';
 import '../platform/runtime_environment.dart';
@@ -11,9 +12,9 @@ class FileUtil {
   FileUtil._();
 
   /// 解压Web资源包
-  Future<void> unpackWebResource() async {
+  static Future<void> unpackWebResource({String? resourcePath}) async {
     ByteData byteData = await rootBundle.load(
-      '${Config.flutterPackage}assets/web.zip',
+      resourcePath ?? 'packages/${Config.flutterPackage}/assets/web.zip',
     );
     final Uint8List list = byteData.buffer.asUint8List();
     // Decode the Zip file
@@ -31,5 +32,22 @@ class FileUtil {
             .create(recursive: true);
       }
     }
+  }
+
+  /// 获得一个可安全保存的文件路径，如果已经有一个存在了，会在文件名后面添加一个别名
+  static String getSafePath(String savePath) {
+    if (!File(savePath).existsSync()) {
+      return savePath;
+    }
+    String dirPath = dirname(savePath);
+    String fileNameWithoutExt = basenameWithoutExtension(savePath);
+    int count = 1;
+    String newPath =
+        '$dirPath/$fileNameWithoutExt($count)${extension(savePath)}';
+    while (File(newPath).existsSync()) {
+      count++;
+      newPath = '$dirPath/$fileNameWithoutExt($count)${extension(savePath)}';
+    }
+    return newPath;
   }
 }

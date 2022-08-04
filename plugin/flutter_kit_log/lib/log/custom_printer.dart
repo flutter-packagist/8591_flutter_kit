@@ -248,9 +248,9 @@ class CustomPrinter extends LogPrinter {
   AnsiColor _getErrorColor(Level level) {
     if (colors) {
       if (level == Level.wtf) {
-        return levelColors[Level.wtf]!.toBg();
+        return levelColors[Level.wtf]!;
       } else {
-        return levelColors[Level.error]!.toBg();
+        return levelColors[Level.error]!;
       }
     } else {
       return AnsiColor.none();

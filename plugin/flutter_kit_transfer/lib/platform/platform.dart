@@ -1,6 +1,7 @@
 import 'platform_web.dart' if (dart.library.io) 'platform_io.dart';
 
-// ignore: avoid_classes_with_only_static_members
+enum DevicePlatform { unknown, web, mobile, desktop }
+
 class GetPlatform {
   static bool get isWeb => GeneralPlatform.isWeb;
 
@@ -20,4 +21,15 @@ class GetPlatform {
 
   static bool get isDesktop =>
       GetPlatform.isMacOS || GetPlatform.isWindows || GetPlatform.isLinux;
+
+  static DevicePlatform get type {
+    if (isWeb) {
+      return DevicePlatform.web;
+    } else if (isAndroid || isIOS) {
+      return DevicePlatform.mobile;
+    } else if (isDesktop) {
+      return DevicePlatform.desktop;
+    }
+    return DevicePlatform.unknown;
+  }
 }

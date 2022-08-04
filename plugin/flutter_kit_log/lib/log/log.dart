@@ -6,6 +6,12 @@ import 'custom_printer.dart';
 
 var logger = Logger(
   filter: CustomFilter(),
+  printer: CustomPrinter(methodCount: 0, noBoxingByDefault: true),
+  output: CustomOutput(),
+);
+
+var loggerBox = Logger(
+  filter: CustomFilter(),
   printer: CustomPrinter(methodCount: 0),
   output: CustomOutput(),
 );
@@ -27,6 +33,18 @@ logW(dynamic message) => logger.w(message);
 logE(dynamic message) => logger.e(message);
 
 logN(dynamic message) => logger.wtf(message);
+
+logBoxV(dynamic message) => loggerBox.v(message);
+
+logBoxD(dynamic message) => loggerBox.d(message);
+
+logBoxI(dynamic message) => loggerBox.i(message);
+
+logBoxW(dynamic message) => loggerBox.w(message);
+
+logBoxE(dynamic message) => loggerBox.e(message);
+
+logBoxN(dynamic message) => loggerBox.wtf(message);
 
 logStackV(dynamic message, [dynamic error, StackTrace? stackTrace]) {
   loggerStack.v(message, error, stackTrace);

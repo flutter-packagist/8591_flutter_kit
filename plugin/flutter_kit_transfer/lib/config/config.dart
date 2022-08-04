@@ -14,5 +14,5 @@ class Config {
   static int chatPortRangeEnd = 12010;
 
   // flutter package名，因为这个会影响assets的路径
-  static String flutterPackage = '';
+  static String flutterPackage = 'flutter_kit_transfer';
 }

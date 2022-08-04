@@ -6,6 +6,7 @@ import 'package:flutter_kit_log/flutter_kit_log.dart';
 import '../constants/extensions.dart';
 import '../core/instances.dart';
 
+const JsonDecoder _decoder = JsonDecoder();
 const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
 
 int get _timestamp => DateTime.now().millisecondsSinceEpoch;
@@ -32,7 +33,7 @@ class DioLogInterceptor extends Interceptor {
     response.requestOptions.extra[dioExtraEndTime] = _timestamp;
     response.requestOptions.extra[dioExtraExpand] = false;
     InspectorInstance.httpContainer.addRequest(response);
-    logN(getPrintLog(response));
+    logBoxN(getPrintLog(response));
     handler.next(response);
   }
 
@@ -43,7 +44,7 @@ class DioLogInterceptor extends Interceptor {
     err.response!.requestOptions.extra[dioExtraEndTime] = _timestamp;
     err.response!.requestOptions.extra[dioExtraExpand] = false;
     InspectorInstance.httpContainer.addRequest(err.response!);
-    logE(getPrintLog(err.response!));
+    logBoxE(getPrintLog(err.response!));
     handler.next(err);
   }
 
@@ -59,7 +60,13 @@ class DioLogInterceptor extends Interceptor {
     if (request.headers.isNotEmpty) {
       sb.write("请求头部：\n");
       request.headers.forEach((key, value) {
-        value.forEach((e) => sb.writeln('$key: $e'));
+        if (value is List) {
+          for (var e in value) {
+            sb.writeln('$key: $e');
+          }
+        } else {
+          sb.writeln('$key: $value');
+        }
       });
       sb.write("\n");
     }
@@ -76,7 +83,9 @@ class DioLogInterceptor extends Interceptor {
     if (!response.headers.isEmpty) {
       sb.write("响应头部：\n");
       response.headers.forEach((key, value) {
-        value.forEach((e) => sb.writeln('$key: $e'));
+        for (var e in value) {
+          sb.writeln('$key: $e');
+        }
       });
       sb.write("\n");
     }
@@ -84,7 +93,8 @@ class DioLogInterceptor extends Interceptor {
       sb.write("响应内容：\n");
       String responseData = "";
       try {
-        responseData = _encoder.convert(response.data);
+        dynamic dataMap = _decoder.convert(response.data);
+        responseData = _encoder.convert(dataMap);
       } on FormatException catch (_) {
         responseData = response.data.toString();
       }

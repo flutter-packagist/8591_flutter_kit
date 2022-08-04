@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_kit_log/log/log_data.dart';
 import 'package:logger/logger.dart';
@@ -18,6 +19,7 @@ class CustomOutput extends LogOutput {
 
   @override
   void init() async {
+    if (kIsWeb) return;
     Directory appDocDir = await getApplicationDocumentsDirectory();
     DateTime dateTime = DateTime.now();
     String date = "${dateTime.year}-${dateTime.month}-${dateTime.day}";
@@ -48,13 +50,13 @@ class CustomOutput extends LogOutput {
     var lines = event.lines.map((line) {
       return line
           .replaceAll("[38;5;12m", "")
-          .replaceAll("[38;5;196m", "")
+          .replaceAll("[38;5;197m", "")
           .replaceAll("[38;5;35m", "")
           .replaceAll("[38;5;208m", "")
           .replaceAll("[38;5;244m", "")
           .replaceAll("[38;5;250m", "")
           .replaceAll("[48;5;12m", "")
-          .replaceAll("[48;5;196m", "")
+          .replaceAll("[48;5;197m", "")
           .replaceAll("[48;5;35m", "")
           .replaceAll("[48;5;208m", "")
           .replaceAll("[48;5;244m", "")
