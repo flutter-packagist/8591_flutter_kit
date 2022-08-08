@@ -63,21 +63,6 @@ class ChatServer {
     return port;
   }
 
-  // 用来处理token请求的响应，提供筛选IP地址的能力
-  Future<void> checkToken(int port) async {
-    // 用来为其他设备检测网络互通的方案
-    // 其他设备会通过消息中的IP地址对 `/check_token` 发起 get 请求，如果有响应说明互通
-    app.get('/check_token', (Request request) {
-      return Response.ok('success', headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Allow-Methods': '*',
-        'Access-Control-Allow-Credentials': 'true',
-      });
-    });
-    await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
-  }
-
   Future<void> sendJoinEvent(
     String url,
     List<String> address,

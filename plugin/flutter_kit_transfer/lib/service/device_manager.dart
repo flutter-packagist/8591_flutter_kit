@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 
 import '../platform/platform.dart';
@@ -21,6 +22,7 @@ class DeviceManager {
     required String uri,
     required int port,
   }) {
+    logW("_connectedDevice 111 : ${_connectedDevice.map((e) => e.uri).toList()}");
     List<String> idList = _connectedDevice.map((e) => e.id).toList();
     if (!idList.contains(id)) {
       _connectedDevice.add(Device(
@@ -30,6 +32,7 @@ class DeviceManager {
         uri: uri,
         port: port,
       ));
+      logW("_connectedDevice 222 : ${_connectedDevice.map((e) => e.uri).toList()}");
     }
   }
 

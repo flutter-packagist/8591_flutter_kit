@@ -83,6 +83,7 @@ Future<String> getUrlByAddressAndPort(
 }
 
 extension IpString on String {
-  bool get isIPv4 => RegExp(r'((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})(\\.((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})){3}')
+  bool get isIPv4 => RegExp(
+          r'((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}')
       .hasMatch(this);
 }

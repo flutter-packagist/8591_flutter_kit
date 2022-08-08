@@ -20,14 +20,19 @@ dependencies:
   # 网络请求
   dio: ^4.0.6
   # 文件选择器
+  file_picker: ^5.0.1
   file_selector: ^0.9.0
   # toast弹窗
   fluttertoast: ^8.0.9
+  # http解析
+  http_parser: ^4.0.1
   # 获取文件对应的 mime_type
   mime: ^1.0.2
   # 获取常用文件路径
   path: ^1.8.1
   path_provider: ^2.0.11
+  # 权限管理
+  permission_handler: ^10.0.0
   # 状态管理
   provider: ^6.0.3
   # 动态响应布局
@@ -37,6 +42,8 @@ dependencies:
   shelf_proxy: ^1.0.2
   shelf_router: ^1.1.3
   shelf_static: ^1.1.1
+  # 打开链接
+  url_launcher: ^6.1.5
 
   flutter_kit_dio:
     path: ../flutter_kit_dio/
@@ -55,3 +62,9 @@ flutter:
     - assets/icon/all.png
     - assets/icon/browser.png
     - assets/icon/computer.png
+    - assets/icon/doc.png
+    - assets/icon/mp3.png
+    - assets/icon/other.png
+    - assets/icon/pdf.png
+    - assets/icon/video.png
+    - assets/icon/zip.png

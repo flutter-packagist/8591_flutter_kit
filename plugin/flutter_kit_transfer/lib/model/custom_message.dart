@@ -2,7 +2,7 @@ import 'package:flutter_kit_transfer/model/safe_convert.dart';
 
 import 'base_message.dart';
 
-enum MsgType { join, notify, text }
+enum MsgType { join, notify, text, file }
 
 class JoinMessage extends BaseMessage {
   List<String> address = [];
@@ -74,6 +74,43 @@ class TextMessage extends BaseMessage {
   Map<String, dynamic> toJson() {
     final data = super.toJson();
     data['content'] = content;
+    return data;
+  }
+}
+
+class FileMessage extends BaseMessage {
+  String fileName = '';
+  String filePath = '';
+  String fileSize = '';
+  List<String> address = [];
+  String url = "";
+  int port = -1;
+
+  FileMessage({
+    required this.fileName,
+    required this.filePath,
+    required this.fileSize,
+    required this.address,
+    required this.port,
+    required String fromDevice,
+  }) : super(msgType: MsgType.file.index, deviceName: fromDevice);
+
+  FileMessage.fromJson(Map<String, dynamic>? json) : super.fromJson(json) {
+    fileName = asString(json, 'fileName');
+    filePath = asString(json, 'filePath');
+    fileSize = asString(json, 'fileSize');
+    address = asList(json, 'address').map((e) => safeString(e)).toList();
+    port = asInt(json, 'port');
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    final data = super.toJson();
+    data['fileName'] = fileName;
+    data['filePath'] = filePath;
+    data['fileSize'] = fileSize;
+    data['address'] = address;
+    data['port'] = port;
     return data;
   }
 }

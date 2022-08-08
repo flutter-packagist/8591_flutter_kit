@@ -18,21 +18,25 @@ class MessageFactory {
         return NotifyMessage.fromJson(json);
       case MsgType.text:
         return TextMessage.fromJson(json);
+      case MsgType.file:
+        return FileMessage.fromJson(json);
     }
   }
 
-  static Widget? getMessageItem(BaseMessage message, bool sendByUser) {
+  static Widget? getMessageItem(BaseMessage message, bool sendBySelf) {
     Widget? child;
 
     if (message is TextMessage) {
-      child = TextMessageItem(message: message, sendByUser: sendByUser);
+      child = TextMessageItem(message: message, sendBySelf: sendBySelf);
+    } else if (message is FileMessage) {
+      child = FileMessageItem(message: message, sendBySelf: sendBySelf);
     }
 
     if (child != null) {
       Color deviceColor =
           Device.getColor(DevicePlatform.values[message.platform]);
       return Align(
-        alignment: sendByUser ? Alignment.centerRight : Alignment.centerLeft,
+        alignment: sendBySelf ? Alignment.centerRight : Alignment.centerLeft,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 10.w,
@@ -41,7 +45,7 @@ class MessageFactory {
           child: Column(children: [
             Row(
               mainAxisAlignment:
-                  sendByUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  sendBySelf ? MainAxisAlignment.end : MainAxisAlignment.start,
               children: [
                 Container(
                   decoration: BoxDecoration(
