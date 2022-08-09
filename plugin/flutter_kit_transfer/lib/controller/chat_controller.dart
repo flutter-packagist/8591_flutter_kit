@@ -173,7 +173,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
 
   // Web端加入聊天室
   void joinChatRoomWeb() {
-    String url = "http://192.168.3.6:12000/";
+    String url = "";
     if (!kReleaseMode) {
       url = "http://localhost:12000/";
     }
@@ -182,11 +182,11 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
       id: InitServer().deviceId,
       name: InitServer().deviceName,
       platform: DevicePlatform.web,
-      uri: 'http://${uri.host}',
+      uri: uri.host.isEmpty ? '' : '${uri.scheme}://${uri.host}',
       port: uri.port,
     );
 
-    sendJoinEvent('http://${uri.host}:${uri.port}');
+    sendJoinEvent(url);
     notifyListeners();
 
     Timer.periodic(const Duration(milliseconds: 3000), (timer) async {

@@ -1,0 +1,6 @@
+package com.addcn.transfer.example
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_kit_transfer/platform/platform.dart';
 import 'package:path/path.dart';
 
 import '../config/config.dart';
@@ -16,6 +17,7 @@ class FileUtil {
 
   /// 解压Web资源包
   static Future<void> unpackWebResource({String? resourcePath}) async {
+    if (GetPlatform.isWeb) return;
     ByteData byteData = await rootBundle.load(
       resourcePath ?? 'packages/${Config.flutterPackage}/assets/web.zip',
     );

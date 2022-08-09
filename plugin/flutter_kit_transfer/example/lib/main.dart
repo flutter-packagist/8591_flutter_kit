@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_kit_log/log/log.dart';
+import 'package:flutter_kit_transfer/platform/platform.dart';
 import 'package:flutter_kit_transfer/widget/responsive_entry.dart';
 
 import 'app_service.dart';
@@ -20,6 +21,7 @@ void main() {
 }
 
 void setupSystemChrome() {
+  if (GetPlatform.isWeb) return;
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
@@ -28,9 +30,9 @@ void setupSystemChrome() {
     systemNavigationBarColor: Colors.black,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  // ]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
