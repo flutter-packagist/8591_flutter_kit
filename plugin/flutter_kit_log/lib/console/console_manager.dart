@@ -27,12 +27,13 @@ class ConsoleManager {
       _logStreamController = StreamController.broadcast();
       var transformer =
           StreamTransformer<dynamic, Tuple2<DateTime, LogData>>.fromHandlers(
-              handleData: (log, sink) {
-        final now = DateTime.now();
-        if (log is LogData) {
-          sink.add(Tuple2(now, log));
-        }
-      });
+        handleData: (log, sink) {
+          final now = DateTime.now();
+          if (log is LogData) {
+            sink.add(Tuple2(now, log));
+          }
+        },
+      );
 
       _logStreamController!.stream.transform(transformer).listen((value) {
         _logData.addFirst(value);
@@ -63,7 +64,7 @@ class ConsoleManager {
   static clearLog() {
     logData.clear();
     _logStreamController
-        ?.add(LogData(0, Level.verbose, const TextSpan(text: "Welcome!"), ""));
+        ?.add(LogData(0, Level.verbose, "Welcome!", ""));
   }
 
   @visibleForTesting

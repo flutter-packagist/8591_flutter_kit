@@ -4,22 +4,25 @@ import 'custom_filter.dart';
 import 'custom_output.dart';
 import 'custom_printer.dart';
 
+var logFilter = CustomFilter();
+var logOutput = CustomOutput();
+
 var logger = Logger(
-  filter: CustomFilter(),
+  filter: logFilter,
   printer: CustomPrinter(methodCount: 0, noBoxingByDefault: true),
-  output: CustomOutput(),
+  output: logOutput,
 );
 
 var loggerBox = Logger(
-  filter: CustomFilter(),
+  filter: logFilter,
   printer: CustomPrinter(methodCount: 0),
-  output: CustomOutput(),
+  output: logOutput,
 );
 
 var loggerStack = Logger(
-  filter: CustomFilter(),
+  filter: logFilter,
   printer: CustomPrinter(methodCount: 5),
-  output: CustomOutput(),
+  output: logOutput,
 );
 
 logV(dynamic message) => logger.v(message);

@@ -6,6 +6,7 @@ import 'package:flutter_kit_log/log/log_data.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
+import 'ansi_parser.dart';
 import 'console_manager.dart';
 import 'date_time_style.dart';
 import 'icon.dart' as icon;
@@ -44,6 +45,7 @@ class Console extends StatefulWidget implements PluggableWithStream {
 
 class ConsoleState extends State<Console>
     with WidgetsBindingObserver, StoreMixin {
+  final AnsiParser parser = AnsiParser();
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   List<Tuple2<DateTime, LogData>> _logList = <Tuple2<DateTime, LogData>>[];
@@ -161,7 +163,7 @@ class ConsoleState extends State<Console>
       home: ConsolePanel(
         actions: [
           scrollToBottomButton(context),
-          changeDateTimeStyleButton(context),
+          // changeDateTimeStyleButton(context),
           clearAllButton(context),
         ],
         child: ColoredBox(
@@ -249,9 +251,10 @@ class ConsoleState extends State<Console>
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
-        width: 1600,
+        width: 1400,
         child: ListView.builder(
           shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(8),
           controller: _controller,
           itemCount: _logList.length,
@@ -268,7 +271,10 @@ class ConsoleState extends State<Console>
               text: TextSpan(children: [
                 if (_dateTimeString(index).isNotEmpty)
                   TextSpan(text: "${_dateTimeString(index)}\n"),
-                logEntry.item2.span,
+                TextSpan(
+                  children: parser.parse(logEntry.item2.text),
+                  style: const TextStyle(height: 1.7),
+                ),
               ]),
             );
           },

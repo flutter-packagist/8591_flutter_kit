@@ -22,6 +22,8 @@ dependencies:
     path: ../plugin/flutter_kit_device/
   flutter_kit_dio:
     path: ../plugin/flutter_kit_dio/
+  flutter_kit_transfer:
+    path: ../plugin/flutter_kit_transfer/
   flutter_kit_log:
     path: ../plugin/flutter_kit_log/
   flutter_kit_performance:
