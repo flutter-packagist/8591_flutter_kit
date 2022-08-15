@@ -171,9 +171,12 @@ class CpuInfoCell extends StatelessWidget {
           cpuInfoItem.title,
           style: const TextStyle(color: Colors.black, fontSize: 16),
         ),
-        trailing: Text(
-          cpuInfoItem.trailing,
-          style: const TextStyle(color: Colors.grey, fontSize: 16),
+        trailing: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 210),
+          child: Text(
+            cpuInfoItem.trailing,
+            style: const TextStyle(color: Colors.grey, fontSize: 16),
+          ),
         ),
       );
     }
@@ -183,9 +186,12 @@ class CpuInfoCell extends StatelessWidget {
         cpuInfoItem.title,
         style: const TextStyle(color: Colors.black, fontSize: 16),
       ),
-      trailing: Text(
-        cpuInfoItem.trailing,
-        style: const TextStyle(color: Colors.grey, fontSize: 16),
+      trailing: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 210),
+        child: Text(
+          cpuInfoItem.trailing,
+          style: const TextStyle(color: Colors.grey, fontSize: 16),
+        ),
       ),
       children: cpuInfoItem.child!
           .map((cpuInfo) => ColoredBox(
@@ -195,9 +201,12 @@ class CpuInfoCell extends StatelessWidget {
                     cpuInfo.title,
                     style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
-                  trailing: Text(
-                    cpuInfo.trailing,
-                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                  trailing: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 210),
+                    child: Text(
+                      cpuInfo.trailing,
+                      style: const TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
                   ),
                 ),
               ))
