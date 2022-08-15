@@ -131,7 +131,6 @@ class ConsoleState extends State<Console>
         .toList();
     Future.delayed(const Duration(milliseconds: 200), () {
       _scrollToBottom();
-      focusNode.unfocus();
     });
   }
 
@@ -248,36 +247,39 @@ class ConsoleState extends State<Console>
   }
 
   Widget consoleListView() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: 1400,
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(8),
-          controller: _controller,
-          itemCount: _logList.length,
-          itemBuilder: (context, index) {
-            var logEntry = _logList[index];
-            return RichText(
-              key: Key(logEntry.item2.id.toString()),
-              strutStyle: const StrutStyle(
-                fontFamily: 'Courier',
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                height: 1.3,
-              ),
-              text: TextSpan(children: [
-                if (_dateTimeString(index).isNotEmpty)
-                  TextSpan(text: "${_dateTimeString(index)}\n"),
-                TextSpan(
-                  children: parser.parse(logEntry.item2.text),
-                  style: const TextStyle(height: 1.7),
+    return Listener(
+      onPointerDown: (e) => focusNode.unfocus(),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: 1400,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(8),
+            controller: _controller,
+            itemCount: _logList.length,
+            itemBuilder: (context, index) {
+              var logEntry = _logList[index];
+              return RichText(
+                key: Key(logEntry.item2.id.toString()),
+                strutStyle: const StrutStyle(
+                  fontFamily: 'Courier',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  height: 1.3,
                 ),
-              ]),
-            );
-          },
+                text: TextSpan(children: [
+                  if (_dateTimeString(index).isNotEmpty)
+                    TextSpan(text: "${_dateTimeString(index)}\n"),
+                  TextSpan(
+                    children: parser.parse(logEntry.item2.text),
+                    style: const TextStyle(height: 1.7),
+                  ),
+                ]),
+              );
+            },
+          ),
         ),
       ),
     );
