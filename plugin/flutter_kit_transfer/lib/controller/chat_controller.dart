@@ -13,6 +13,7 @@ import 'package:flutter_kit_transfer/service/init_server.dart';
 import 'package:flutter_kit_transfer/utils/print_util.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
+import 'package:flutter_kit_transfer/widget/qrcode_dialog.dart';
 import 'package:path/path.dart';
 import 'package:shelf/shelf.dart' as shelf;
 
@@ -29,6 +30,7 @@ import '../utils/file_util.dart';
 import '../utils/scroll_util.dart';
 import '../utils/socket_util.dart';
 import '../utils/unique_util.dart';
+import '../widget/bubble_dialog.dart';
 
 class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
   // 当前连接状态
@@ -251,15 +253,6 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 
-  void sendJoinEvent(String url) async {
-    ChatServer().sendJoinEvent(
-      url,
-      addressList,
-      shelfBindPort,
-      messageBindPort,
-    );
-  }
-
   /// 获取绑定的端口
   Future<void> getSuccessBindPort() async {
     if (!GetPlatform.isWeb) {
@@ -303,6 +296,15 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
             .animate(animationController);
     animationController.reset();
     animationController.forward();
+  }
+
+  void sendJoinEvent(String url) {
+    ChatServer().sendJoinEvent(
+      url,
+      addressList,
+      shelfBindPort,
+      messageBindPort,
+    );
   }
 
   // 将消息加入到消息队列中，并post发送到 /message 接口
@@ -435,6 +437,48 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
     Future.delayed(const Duration(milliseconds: 100), () {
       // todo
     });
+  }
+
+  void onQrcodeIconTap(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return QrcodeDialog(hostList: addressList, port: messageBindPort);
+      },
+    );
+  }
+
+  void onMoreIconTap(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: true,
+      barrierLabel: '',
+      transitionBuilder: (context, a1, a2, widget) {
+        final curvedValue = Curves.easeIn.transform(a1.value);
+        return Transform(
+          transform: Matrix4.translationValues(0.0, curvedValue * 20, 0.0),
+          child: Opacity(
+            opacity: a1.value,
+            child: Container(
+              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 40.w,
+                right: 10.w,
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: BubbleDialog(sendJoinEvent: sendJoinEvent),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, animation1, animation2) {
+        return const Center();
+      },
+    );
   }
 
   @override

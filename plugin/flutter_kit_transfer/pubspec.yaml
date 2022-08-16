@@ -35,6 +35,9 @@ dependencies:
   permission_handler: ^10.0.0
   # 状态管理
   provider: ^6.0.3
+  # 二维码
+  qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.0.0
   # 动态响应布局
   responsive_framework: ^0.2.0
   # 文件部署

@@ -133,6 +133,21 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
             );
           },
         ),
+        const Expanded(child: SizedBox()),
+        Offstage(
+          offstage: GetPlatform.isWeb,
+          child: IconButton(
+            onPressed: () => chatNotifier.onQrcodeIconTap(context),
+            icon: Icon(Icons.qr_code, size: 20.w, color: Colors.black),
+          ),
+        ),
+        Offstage(
+          offstage: GetPlatform.isWeb,
+          child: IconButton(
+            onPressed: () => chatNotifier.onMoreIconTap(context),
+            icon: Icon(Icons.more_vert, size: 20.w, color: Colors.black),
+          ),
+        ),
       ]),
     );
   }
