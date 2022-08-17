@@ -157,7 +157,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
   // 初始化聊天列表
   Future<void> initChatList() async {
     // 清除聊天消息列表
-    chatWidgetList.clear();
+    // chatWidgetList.clear();
     // 设置连接状态
     connectState.value = true;
 

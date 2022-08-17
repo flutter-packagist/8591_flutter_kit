@@ -419,8 +419,8 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         child: Row(children: [
           SizedBox(
-            width: 80.w,
-            height: 80.w,
+            width: 90.w,
+            height: 90.w,
             child: InkWell(
               borderRadius: BorderRadius.circular(10.w),
               onTap: chatNotifier.onMenuChooserSystemFileManager,
@@ -430,11 +430,11 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.image,
-                      size: 36.w,
-                      color: Theme.of(context).primaryColor,
+                      Icons.file_copy,
+                      size: 30.w,
+                      color: Colors.black,
                     ),
-                    SizedBox(height: 4.w),
+                    SizedBox(height: 6.w),
                     Text(
                       '系统管理器',
                       style: TextStyle(
