@@ -24,6 +24,8 @@ class ChatServer {
 
   final Router app = Router();
 
+  HttpServer? server;
+
   // 跨域资源共享
   final corsHeader = {
     'Access-Control-Allow-Origin': '*',
@@ -40,6 +42,7 @@ class ChatServer {
     required Function(Request, Map<String, Object>) receiveMessage,
     required Function(Request, Map<String, Object>) readMessage,
   }) async {
+
     app.post('/message', (Request request) {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       return receiveMessage(request, corsHeader);
@@ -58,9 +61,13 @@ class ChatServer {
       Config.chatPortRangeStart,
       Config.chatPortRangeEnd,
     );
-    await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
+    server = await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
     logD('当前可使用的端口号：$port');
     return port;
+  }
+
+  Future<void> stop() async {
+    await server?.close(force: true);
   }
 
   Future<void> sendJoinEvent(

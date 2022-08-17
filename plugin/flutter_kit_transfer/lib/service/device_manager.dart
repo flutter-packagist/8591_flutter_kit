@@ -22,8 +22,6 @@ class DeviceManager {
     required String uri,
     required int port,
   }) {
-    logW(
-        "_connectedDevice 111 : ${_connectedDevice.map((e) => e.uri).toList()}");
     List<String> idList = _connectedDevice.map((e) => e.id).toList();
     if (!idList.contains(id)) {
       _connectedDevice.add(Device(
@@ -33,9 +31,8 @@ class DeviceManager {
         uri: uri,
         port: port,
       ));
-      logW(
-          "_connectedDevice 222 : ${_connectedDevice.map((e) => e.uri).toList()}");
     }
+    logW("connectedDevice: ${_connectedDevice.toList()}");
   }
 
   void onClose(String id) {
@@ -48,9 +45,11 @@ class DeviceManager {
       return;
     }
     Set<String> urls = {};
-    urls.addAll(_connectedDevice.map((e) => "${e.uri}:${e.port}"));
+    urls.addAll(_connectedDevice
+        .where((e) => e.uri.isNotEmpty)
+        .map((e) => "${e.uri}:${e.port}/"));
     for (String url in urls) {
-      httpInstance.post("$url/message", data: data);
+      httpInstance.post("${url}message", data: data);
     }
   }
 }

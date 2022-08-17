@@ -8,7 +8,7 @@ const String localHost = 'localhost';
 const int localPort = 12000;
 
 //目标域名
-const String targetUrl = 'http://192.168.10.13:12000';
+const String targetUrl = 'http://192.168.3.6:12000';
 
 Future main() async {
   var server = await shelf_io.serve(

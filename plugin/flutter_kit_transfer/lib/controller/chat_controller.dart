@@ -118,6 +118,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
         return shelf.Response.ok('success', headers: headers);
       },
       readMessage: (request, headers) {
+        logW("readMessage: ${messageQueue.length}");
         if (messageQueue.isNotEmpty) {
           return shelf.Response.ok(
             jsonEncode(messageQueue.removeAt(0)),
@@ -144,7 +145,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
 
   // 服务器接收到消息，进行处理并加入缓存
   void receiveMessage(Map<String, dynamic> data) {
-    messageQueue.add(data);
+    messageCache.add(data);
     if (data['msgType'] == 'exit') {
       DeviceManager().onClose(data['deviceId']);
       notifyListeners();
@@ -311,7 +312,9 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
   void sendMessage(BaseMessage message) {
     message.platform = GetPlatform.type.index;
     message.deviceId = InitServer().deviceId;
+    logW("sendMessage: $message");
     messageQueue.add(message.toJson());
+    logW("messageQueue: ${messageQueue.length}");
     DeviceManager().sendData(message.toJson());
   }
 
@@ -492,9 +495,14 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 
-  void disposeNotifier() {
+  @override
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     animationController.dispose();
     menuAnimationController.dispose();
+    InitServer().stopSendBroadcast();
+    ChatServer().stop();
+    FileServer().stop();
+    super.dispose();
   }
 }

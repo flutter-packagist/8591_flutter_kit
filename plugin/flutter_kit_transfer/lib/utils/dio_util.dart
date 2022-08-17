@@ -16,7 +16,7 @@ class DioUtil {
   static Dio getInstance() {
     if (_instance == null) {
       _instance = Dio();
-      _instance!.interceptors.add(MyDioLogInterceptor());
+      _instance!.interceptors.add(DioLogInterceptor());
     }
     return _instance!;
   }

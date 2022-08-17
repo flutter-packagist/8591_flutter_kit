@@ -23,6 +23,8 @@ class FileServer {
 
   final Router app = Router();
 
+  final List<HttpServer> serverList = [];
+
   // 跨域资源共享
   final corsHeader = {
     'Access-Control-Allow-Origin': '*',
@@ -144,7 +146,9 @@ class FileServer {
         'Access-Control-Allow-Credentials': 'true',
       });
     });
-    await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
+    var server =
+        await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
+    serverList.add(server);
   }
 
   /// 用shelf部署指定路径的单个文件
@@ -156,7 +160,15 @@ class FileServer {
     String url = toUri(filePath).toString();
     final handler = createFileHandler(path, url: url);
     app.mount('/$url', handler);
-    await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
+    var server =
+        await io.serve(app, InternetAddress.anyIPv4, port, shared: true);
+    serverList.add(server);
     logI("文件部署成功->链接: $url");
+  }
+
+  Future<void> stop() async {
+    for (var server in serverList) {
+      await server.close(force: true);
+    }
   }
 }
