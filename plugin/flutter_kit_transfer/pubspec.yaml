@@ -1,7 +1,8 @@
 name: flutter_kit_transfer
 description: A new Flutter project.
 version: 0.0.1
-homepage:
+homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_transfer
+publish_to: http://192.168.8.75:4000/
 
 environment:
   sdk: ">=2.17.3 <3.0.0"
@@ -49,11 +50,20 @@ dependencies:
   url_launcher: ^6.1.5
 
   flutter_kit:
-    path: ../../
-  flutter_kit_dio:
-    path: ../flutter_kit_dio/
+    version: ^0.0.2
+    hosted:
+      name: flutter_kit
+      url: http://192.168.8.75:4000/
   flutter_kit_log:
-    path: ../flutter_kit_log/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_log
+      url: http://192.168.8.75:4000/
+  flutter_kit_dio:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_dio
+      url: http://192.168.8.75:4000/
 
 dev_dependencies:
   flutter_test:

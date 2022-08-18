@@ -47,14 +47,47 @@ Flutter应用内调试工具（当前基于Flutter版本：3.0.x）
 
 ```yaml
 dev_dependencies:
-  flutter_kit: ^1.0.0
-  flutter_kit_code: ^1.0.0
-  flutter_kit_device: ^1.0.0
-  flutter_kit_dio: ^1.0.0
-  flutter_kit_transfer: ^1.0.0
-  flutter_kit_log: ^1.0.0
-  flutter_kit_performance: ^1.0.0
-  flutter_kit_tools: ^1.0.0
+
+  flutter_kit:
+    version: ^0.0.2
+    hosted:
+      name: flutter_kit
+      url: http://192.168.8.75:4000/
+  flutter_kit_code:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_code
+      url: http://192.168.8.75:4000/
+  flutter_kit_device:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_device
+      url: http://192.168.8.75:4000/
+  flutter_kit_dio:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_dio
+      url: http://192.168.8.75:4000/
+  flutter_kit_transfer:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_transfer
+      url: http://192.168.8.75:4000/
+  flutter_kit_log:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_log
+      url: http://192.168.8.75:4000/
+  flutter_kit_performance:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_performance
+      url: http://192.168.8.75:4000/
+  flutter_kit_tools:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_tools
+      url: http://192.168.8.75:4000/
 ```
 
 2. 执行 `flutter pub get`
@@ -104,7 +137,11 @@ void main() {
 
 ```yaml
 dependencies:
-  flutter_ume: 1.0.0
+  flutter_kit:
+    version: ^0.0.2
+    hosted:
+      name: flutter_kit
+      url: http://192.168.8.75:4000/
 ```
 
 3. 创建插件配置，实现 `Pluggable` 虚类

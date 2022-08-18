@@ -16,3 +16,10 @@
 + 响应内容
 
 另外对于内容部分，提供了搜索文本高亮的功能，能帮助我们快速定位我们想要的内容。
+
+<table border="1" width="100%">
+    <tr>
+        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/flutter_kit_dio2.png" width="80%" alt="请求列表" /></br>请求列表</td>
+        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/flutter_kit_dio1.png" width="80%" alt="请求详情" /></br>请求详情</td>
+    </tr>
+</table>

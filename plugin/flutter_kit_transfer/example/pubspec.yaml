@@ -14,8 +14,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_kit_transfer:
     path: ../
-  flutter_kit_log:
-    path: ../../flutter_kit_log/
 
 dev_dependencies:
   flutter_test:

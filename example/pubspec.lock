@@ -219,58 +219,58 @@ packages:
   flutter_kit:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: flutter_kit
+      url: "http://192.168.8.75:4000"
+    source: hosted
+    version: "0.0.2"
   flutter_kit_code:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_code"
-      relative: true
-    source: path
+      name: flutter_kit_code
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_device:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_device"
-      relative: true
-    source: path
+      name: flutter_kit_device
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_dio:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_dio"
-      relative: true
-    source: path
+      name: flutter_kit_dio
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_log:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_log"
-      relative: true
-    source: path
+      name: flutter_kit_log
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_performance:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_performance"
-      relative: true
-    source: path
+      name: flutter_kit_performance
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_tools:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_tools"
-      relative: true
-    source: path
+      name: flutter_kit_tools
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_kit_transfer:
     dependency: "direct main"
     description:
-      path: "../plugin/flutter_kit_transfer"
-      relative: true
-    source: path
+      name: flutter_kit_transfer
+      url: "http://192.168.8.75:4000"
+    source: hosted
     version: "0.0.1"
   flutter_lints:
     dependency: "direct dev"

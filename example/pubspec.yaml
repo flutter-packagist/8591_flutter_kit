@@ -14,22 +14,47 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
+
   flutter_kit:
-    path: ../
+    version: ^0.0.2
+    hosted:
+      name: flutter_kit
+      url: http://192.168.8.75:4000/
   flutter_kit_code:
-    path: ../plugin/flutter_kit_code/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_code
+      url: http://192.168.8.75:4000/
   flutter_kit_device:
-    path: ../plugin/flutter_kit_device/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_device
+      url: http://192.168.8.75:4000/
   flutter_kit_dio:
-    path: ../plugin/flutter_kit_dio/
-  flutter_kit_transfer:
-    path: ../plugin/flutter_kit_transfer/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_dio
+      url: http://192.168.8.75:4000/
   flutter_kit_log:
-    path: ../plugin/flutter_kit_log/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_log
+      url: http://192.168.8.75:4000/
   flutter_kit_performance:
-    path: ../plugin/flutter_kit_performance/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_performance
+      url: http://192.168.8.75:4000/
   flutter_kit_tools:
-    path: ../plugin/flutter_kit_tools/
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_tools
+      url: http://192.168.8.75:4000/
+  flutter_kit_transfer:
+    version: ^0.0.1
+    hosted:
+      name: flutter_kit_transfer
+      url: http://192.168.8.75:4000/
 
 dev_dependencies:
   flutter_test:
