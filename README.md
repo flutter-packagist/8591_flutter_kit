@@ -96,7 +96,7 @@ dev_dependencies:
 3. 引入包
 
 ```dart
-import 'package:flutter_ume/flutter_ume.dart'; // flutter_kit 基础包
+import 'package:flutter_kit/flutter_kit.dart'; // flutter_kit 基础包
 import 'package:flutter_kit_code/flutter_kit_code.dart'; // 代码查看
 import 'package:flutter_kit_device/flutter_kit_device.dart'; // 设备信息插件包
 import 'package:flutter_kit_dio/flutter_kit_dio.dart'; // Dio 网络请求调试工具
@@ -110,19 +110,22 @@ import 'package:flutter_kit_tools/flutter_kit_tools.dart'; // 通用工具
 
 ```dart
 void main() {
-  PluginManager().registerAll([
-    const CpuInfoPanel(),
-    const DeviceInfoPanel(),
-    const CodeDisplayPanel(),
-    const MemoryPanel(),
-    const Performance(),
-    const ColorPicker(),
-    DioInspector(dio: dio),
-    Console(),
-    const TransferPanel(packageName: "com.example.example"),
-    const SettingPanel(),
-    const HtmlPanel(),
-  ]);
+  PluginManager()
+    ..registerAll([
+      DioInspector(dio: dio),
+      const Console(),
+      const CpuInfoPanel(),
+      const DeviceInfoPanel(),
+      const ColorPicker(),
+      const TransferPanel(packageName: "com.example.example"),
+      const SettingPanel(),
+      const HtmlPanel(),
+    ])
+    ..registerDebugOnly([
+      const CodeDisplayPanel(),
+      const MemoryPanel(),
+      const Performance(),
+    ]);
   runApp(const KitWidget(enable: true, child: MyApp()));
 }
 ```
