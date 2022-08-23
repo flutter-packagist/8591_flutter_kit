@@ -1,6 +1,6 @@
 name: flutter_kit
 description: Debug tools for Flutter.
-version: 0.0.2
+version: 0.0.3
 homepage: https://code.addcn.com/flutter/flutter_kit
 publish_to: http://192.168.8.75:4000/
 
