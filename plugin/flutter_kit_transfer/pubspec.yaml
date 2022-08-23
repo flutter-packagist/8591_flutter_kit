@@ -1,6 +1,6 @@
 name: flutter_kit_transfer
-description: A new Flutter project.
-version: 0.0.1
+description: A plugin for file transfer
+version: 0.0.2
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_transfer
 publish_to: http://192.168.8.75:4000/
 
@@ -50,17 +50,17 @@ dependencies:
   url_launcher: ^6.1.5
 
   flutter_kit:
-    version: ^0.0.2
+    version: ^0.0.3
     hosted:
       name: flutter_kit
       url: http://192.168.8.75:4000/
   flutter_kit_log:
-    version: ^0.0.1
+    version: ^0.0.2
     hosted:
       name: flutter_kit_log
       url: http://192.168.8.75:4000/
   flutter_kit_dio:
-    version: ^0.0.1
+    version: ^0.0.2
     hosted:
       name: flutter_kit_dio
       url: http://192.168.8.75:4000/

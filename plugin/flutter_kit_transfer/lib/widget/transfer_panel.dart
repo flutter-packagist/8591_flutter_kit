@@ -35,4 +35,7 @@ class TransferPanel extends StatelessWidget implements Pluggable {
     await InitServer().init(packageName: packageName);
     await InitServer().initLazy();
   }
+
+  @override
+  bool get keepState => false;
 }
