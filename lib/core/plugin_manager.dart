@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'pluggable.dart';
 
 class PluginManager {
@@ -25,6 +27,14 @@ class PluginManager {
 
   /// Register multiple [plugins]
   void registerAll(List<Pluggable> plugins) {
+    for (final plugin in plugins) {
+      register(plugin);
+    }
+  }
+
+  /// Register multiple [plugins]
+  void registerDebugOnly(List<Pluggable> plugins) {
+    if (kReleaseMode) return;
     for (final plugin in plugins) {
       register(plugin);
     }

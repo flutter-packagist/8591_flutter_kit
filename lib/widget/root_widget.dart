@@ -19,6 +19,7 @@ const defaultLocalizationsDelegates = [
   GlobalCupertinoLocalizations.delegate,
 ];
 
+final ContentController contentController = ContentController();
 final GlobalKey rootKey = GlobalKey();
 final GlobalKey<OverlayState> overlayKey = GlobalKey<OverlayState>();
 
@@ -131,21 +132,21 @@ class _KitWidgetState extends State<KitWidget> {
   }
 
   void _injectOverlay() {
+    if (!widget.enable) return;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (widget.enable) {
-        _overlayEntry = OverlayEntry(
-          builder: (_) => Material(
-            type: MaterialType.transparency,
-            child: _ContentPage(
-              refreshChildLayout: () {
-                _replaceChild();
-                setState(() {});
-              },
-            ),
+      _overlayEntry = OverlayEntry(
+        builder: (_) => Material(
+          type: MaterialType.transparency,
+          child: _ContentPage(
+            controller: contentController,
+            refreshChildLayout: () {
+              _replaceChild();
+              setState(() {});
+            },
           ),
-        );
-        overlayKey.currentState?.insert(_overlayEntry);
-      }
+        ),
+      );
+      overlayKey.currentState?.insert(_overlayEntry);
     });
   }
 
@@ -156,8 +157,13 @@ class _KitWidgetState extends State<KitWidget> {
 }
 
 class _ContentPage extends StatefulWidget {
-  const _ContentPage({Key? key, this.refreshChildLayout}) : super(key: key);
+  const _ContentPage({
+    Key? key,
+    this.controller,
+    this.refreshChildLayout,
+  }) : super(key: key);
 
+  final ContentController? controller;
   final VoidCallback? refreshChildLayout;
 
   @override
@@ -200,24 +206,29 @@ class __ContentPageState extends State<_ContentPage> {
   }
 
   void onTap() {
+    bool keepState = false;
     if (_currentSelected != null) {
-      PluginManager().deactivatePluggable(_currentSelected!);
-      if (widget.refreshChildLayout != null) {
-        widget.refreshChildLayout!();
+      keepState = _currentSelected!.keepState;
+      if (!keepState) {
+        PluginManager().deactivatePluggable(_currentSelected!);
+        if (widget.refreshChildLayout != null) {
+          widget.refreshChildLayout!();
+        }
+        _currentSelected = null;
+        _currentWidget = _empty;
+        setState(() {});
+        return;
       }
-      _currentSelected = null;
-      _currentWidget = _empty;
-      setState(() {});
-      return;
     }
     _showedMenu = !_showedMenu;
-    _updatePanelWidget();
+    _updatePanelWidget(keepState: keepState);
   }
 
-  void _updatePanelWidget() {
-    setState(() {
-      _currentWidget = _showedMenu ? _menuPage : _empty;
-    });
+  void _updatePanelWidget({bool keepState = false}) {
+    Widget? content = _menuPage;
+    if (keepState) content = _currentSelected?.buildWidget(context);
+    _currentWidget = _showedMenu ? content : _empty;
+    setState(() {});
   }
 
   Future<void> onMenuTap(pluginData) async {
@@ -250,6 +261,18 @@ class __ContentPageState extends State<_ContentPage> {
     setState(() {
       _showedMenu = false;
     });
+  }
+
+  void closeCurrentPlugin() {
+    if (_currentSelected != null) {
+      PluginManager().deactivatePluggable(_currentSelected!);
+      if (widget.refreshChildLayout != null) {
+        widget.refreshChildLayout!();
+      }
+      _currentSelected = null;
+      _currentWidget = _menuPage;
+      setState(() {});
+    }
   }
 
   Widget _logoWidget() {
@@ -342,4 +365,32 @@ class __ContentPageState extends State<_ContentPage> {
       ),
     );
   }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.controller != null) {
+      widget.controller!.bindState(this);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.dispose();
+    super.dispose();
+  }
+}
+
+class ContentController {
+  __ContentPageState? __contentPageState;
+
+  void bindState(__ContentPageState state) {
+    __contentPageState = state;
+  }
+
+  void dispose() {
+    __contentPageState = null;
+  }
+
+  __ContentPageState? get state => __contentPageState;
 }

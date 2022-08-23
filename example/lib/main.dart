@@ -9,26 +9,28 @@ import 'package:flutter_kit_device/device_info/device_info_panel.dart';
 import 'package:flutter_kit_dio/core/pluggable.dart';
 import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_performance/flutter_kit_performance.dart';
-import 'package:flutter_kit_tools/color_picker/color_picker.dart';
 import 'package:flutter_kit_tools/flutter_kit_tools.dart';
 import 'package:flutter_kit_transfer/widget/transfer_panel.dart';
 
 final Dio dio = Dio()..options = BaseOptions(connectTimeout: 10000);
 
 void main() {
-  PluginManager().registerAll([
-    const CpuInfoPanel(),
-    const DeviceInfoPanel(),
-    const CodeDisplayPanel(),
-    const MemoryPanel(),
-    const Performance(),
-    const ColorPicker(),
-    DioInspector(dio: dio),
-    Console(),
-    const TransferPanel(packageName: "com.example.example"),
-    const SettingPanel(),
-    const HtmlPanel(),
-  ]);
+  PluginManager()
+    ..registerAll([
+      DioInspector(dio: dio),
+      const Console(),
+      const CpuInfoPanel(),
+      const DeviceInfoPanel(),
+      const ColorPicker(),
+      const TransferPanel(packageName: "com.example.example"),
+      const SettingPanel(),
+      const HtmlPanel(),
+    ])
+    ..registerDebugOnly([
+      const CodeDisplayPanel(),
+      const MemoryPanel(),
+      const Performance(),
+    ]);
   runApp(const KitWidget(enable: true, child: MyApp()));
   setupSystemChrome();
 }
@@ -86,6 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
             btnNetworkRequest(),
             const SizedBox(height: 20),
             btnLogPrint(),
+            const SizedBox(height: 20),
+            btnNetworkHtml(),
           ],
         ),
       ),
@@ -147,7 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     logW("警告信息，Release模式下会输出");
                     break;
                   case 4:
-                    logE("错误信息，Release模式下会输出");
+                    logE("错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，"
+                        "Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出");
                     break;
                   case 5:
                     logStackV("输出时会打印当前函数调用堆栈");
@@ -159,7 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     logStackI({"key1": 1, "key2": "测试map输出"});
                     break;
                   case 8:
-                    logStackW('Info message Info message Info message Info message Info message '
+                    logStackW(
+                        'Info message Info message Info message Info message Info message '
                         'Info message Info message Info message Info message Info message Info message '
                         'Info message Info message Info message Info message Info message Info message '
                         'Info message Info message Info message Info message Info message Info message '
@@ -198,7 +204,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         'Info message Info message Info message Info message Info message ');
                     break;
                   case 9:
-                    logStackE("错误信息，Release模式下会输出", "空指针异常", StackTrace.current);
+                    logStackE(
+                        "错误信息，Release模式下会输出", "空指针异常", StackTrace.current);
                     break;
                 }
               },
@@ -207,6 +214,26 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: const Text('日志打印测试'),
+    );
+  }
+
+  Widget btnNetworkHtml() {
+    return TextButton(
+      onPressed: () async {
+        Response<String> data = await dio.get(
+          // 'https://www.jiemodui.com/N/132803.html',
+          'https://sspai.com/post/75079',
+          options: Options(
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Macintosh; '
+                  'Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                  ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
+            },
+          ),
+        );
+        logBoxN(data);
+      },
+      child: const Text('html获取'),
     );
   }
 }

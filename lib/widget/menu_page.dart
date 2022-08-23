@@ -4,6 +4,7 @@ import 'package:flutter_kit/core/pluggable_message_service.dart';
 import 'package:flutter_kit/core/plugin_manager.dart';
 import 'package:flutter_kit/util/icon_cache.dart';
 import 'package:flutter_kit/util/store_manager.dart';
+import 'package:flutter_kit/widget/root_widget.dart';
 
 import 'draggable_widget.dart';
 
@@ -172,7 +173,9 @@ class ConsolePanel extends StatelessWidget {
 
   Widget leading() {
     return RawMaterialButton(
-      onPressed: onClose,
+      onPressed: onClose ?? () {
+        contentController.state?.closeCurrentPlugin();
+      },
       elevation: 0,
       shape: const CircleBorder(),
       padding: EdgeInsets.zero,

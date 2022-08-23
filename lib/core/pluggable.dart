@@ -10,6 +10,8 @@ abstract class Pluggable {
   Widget? buildWidget(BuildContext? context);
 
   ImageProvider get iconImageProvider;
+
+  bool get keepState;
 }
 
 typedef StreamFilter = bool Function(dynamic);
