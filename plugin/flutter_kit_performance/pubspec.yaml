@@ -1,6 +1,6 @@
 name: flutter_kit_performance
-description: A new Flutter project.
-version: 0.0.1
+description: A plugin for flutter performance
+version: 0.0.2
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_performance
 publish_to: http://192.168.8.75:4000/
 
@@ -14,7 +14,7 @@ dependencies:
 
   vm_service: ^9.0.0
   flutter_kit:
-    version: ^0.0.2
+    version: ^0.0.3
     hosted:
       name: flutter_kit
       url: http://192.168.8.75:4000/

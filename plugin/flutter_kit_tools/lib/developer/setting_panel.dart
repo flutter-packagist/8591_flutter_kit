@@ -25,6 +25,9 @@ class SettingPanel extends StatefulWidget implements Pluggable {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => true;
 }
 
 class SettingPanelState extends State<SettingPanel> {

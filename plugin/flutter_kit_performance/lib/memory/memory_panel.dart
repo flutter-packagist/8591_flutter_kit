@@ -29,6 +29,9 @@ class MemoryPanel extends StatelessWidget implements Pluggable {
 
   @override
   void onTrigger() {}
+
+  @override
+  bool get keepState => false;
 }
 
 class _DetailModel {

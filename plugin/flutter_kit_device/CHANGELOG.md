@@ -1,3 +1,7 @@
+## 0.0.2
+
+* keepState 为 true，当前插件通过悬浮按钮关闭时，再次点击悬浮按钮直接进入当前插件
+
 ## 0.0.1
 
-* TODO: Describe initial release.
+* 查看设备信息和cpu信息

@@ -26,6 +26,9 @@ class CodeDisplayPanel extends StatefulWidget implements Pluggable {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => true;
 }
 
 class CodeDisplayPanelState extends State<CodeDisplayPanel>

@@ -30,6 +30,9 @@ class DeviceInfoPanel extends StatefulWidget implements Pluggable {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => true;
 }
 
 class DeviceInfoPanelState extends State<DeviceInfoPanel> {
@@ -110,7 +113,7 @@ class DeviceInfoPanelState extends State<DeviceInfoPanel> {
       'tags': build.tags,
       'type': build.type,
       'isPhysicalDevice': build.isPhysicalDevice,
-      'androidId': build.androidId
+      'androidId': build.id,
     };
   }
 

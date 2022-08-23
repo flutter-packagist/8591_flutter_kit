@@ -31,6 +31,9 @@ class CpuInfoPanel extends StatefulWidget implements Pluggable {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => true;
 }
 
 class CpuInfoPanelState extends State<CpuInfoPanel> {

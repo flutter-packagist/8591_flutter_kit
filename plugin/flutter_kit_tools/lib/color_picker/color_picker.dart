@@ -32,6 +32,9 @@ class ColorPicker extends StatefulWidget implements PluggableWithNestedWidget {
   Widget buildNestedWidget(Widget child) {
     return EyeDrop(child: child);
   }
+
+  @override
+  bool get keepState => false;
 }
 
 class ColorPickerState extends State<ColorPicker> {

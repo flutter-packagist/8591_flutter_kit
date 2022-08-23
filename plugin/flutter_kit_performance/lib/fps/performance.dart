@@ -32,4 +32,7 @@ class Performance extends StatelessWidget implements Pluggable {
 
   @override
   void onTrigger() {}
+
+  @override
+  bool get keepState => false;
 }

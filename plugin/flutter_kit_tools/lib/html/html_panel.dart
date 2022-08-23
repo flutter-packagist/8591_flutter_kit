@@ -26,6 +26,9 @@ class HtmlPanel extends StatefulWidget implements Pluggable {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => false;
 }
 
 class HtmlPanelState extends State<HtmlPanel> {

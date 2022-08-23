@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
+import 'package:flutter_kit/util/constants.dart';
+import 'package:flutter_kit/widget/floating_widget.dart';
 import 'package:flutter_kit_log/log/log_data.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
@@ -14,9 +16,7 @@ import 'icon.dart' as icon;
 const dateTimeStyleKey = "console_panel_datetime_style";
 
 class Console extends StatefulWidget implements PluggableWithStream {
-  Console({Key? key}) : super(key: key) {
-    ConsoleManager.redirectDebugPrint();
-  }
+  const Console({Key? key}) : super(key: key);
 
   @override
   ConsoleState createState() => ConsoleState();
@@ -31,7 +31,9 @@ class Console extends StatefulWidget implements PluggableWithStream {
   String get displayName => '控制台';
 
   @override
-  void onTrigger() {}
+  void onTrigger() {
+    ConsoleManager.redirectDebugPrint();
+  }
 
   @override
   Stream get stream => ConsoleManager.streamController!.stream;
@@ -41,6 +43,9 @@ class Console extends StatefulWidget implements PluggableWithStream {
 
   @override
   ImageProvider<Object> get iconImageProvider => MemoryImage(icon.iconBytes);
+
+  @override
+  bool get keepState => true;
 }
 
 class ConsoleState extends State<Console>
@@ -53,6 +58,7 @@ class ConsoleState extends State<Console>
   StreamSubscription? _subscription;
   ScrollController? _controller;
   DateTimeStyle? _dateTimeStyle;
+  double consoleHeight = 120;
   RegExp? _filterExp;
 
   @override
@@ -60,7 +66,7 @@ class ConsoleState extends State<Console>
     _subscription?.cancel();
     _subscription = null;
     _controller = null;
-    _dateTimeStyle = DateTimeStyle.time;
+    _dateTimeStyle = DateTimeStyle.none;
     super.dispose();
   }
 
@@ -68,14 +74,20 @@ class ConsoleState extends State<Console>
   void initState() {
     super.initState();
     _dateTimeStyle = DateTimeStyle.none;
-    fetchWithKey(dateTimeStyleKey).then((value) async {
-      if (value != null && value is int) {
-        _dateTimeStyle = styleById(value);
-      } else {
-        _dateTimeStyle = DateTimeStyle.datetime;
-        await storeWithKey(dateTimeStyleKey, idByStyle(_dateTimeStyle!));
+    // fetchWithKey(dateTimeStyleKey).then((value) async {
+    //   if (value != null && value is int) {
+    //     _dateTimeStyle = styleById(value);
+    //   } else {
+    //     _dateTimeStyle = DateTimeStyle.datetime;
+    //     await storeWithKey(dateTimeStyleKey, idByStyle(_dateTimeStyle!));
+    //   }
+    //   setState(() {});
+    // });
+    fetchWithKey('consoleHeight').then((value) async {
+      if (value != null && value is double) {
+        consoleHeight = value;
+        setState(() {});
       }
-      setState(() {});
     });
     _controller = ScrollController();
     _logList = ConsoleManager.logData.toList().reversed.toList();
@@ -158,20 +170,51 @@ class ConsoleState extends State<Console>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ConsolePanel(
-        actions: [
-          scrollToBottomButton(context),
-          // changeDateTimeStyleButton(context),
-          clearAllButton(context),
-        ],
-        child: ColoredBox(
+    return FloatingWidget(
+      minimalHeight: consoleHeight,
+      actions: [
+        changeConsoleHeight(context),
+        scrollToBottomButton(context),
+        // changeDateTimeStyleButton(context),
+        clearAllButton(context),
+      ],
+      child: MaterialApp(
+        home: ColoredBox(
           color: Colors.black,
           child: Column(children: [
             Expanded(child: consoleListView()),
             filterTextField(),
           ]),
         ),
+      ),
+    );
+  }
+
+  Widget changeConsoleHeight(BuildContext context) {
+    return TextButton(
+      onPressed: () async {
+        consoleHeight = consoleHeight + 100;
+        if (consoleHeight > windowSize.height * 0.8) {
+          consoleHeight = 120;
+        }
+        await storeWithKey('consoleHeight', consoleHeight);
+        setState(() {});
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const <Widget>[
+          Icon(
+            Icons.change_circle_outlined,
+            size: 16,
+            color: Colors.black,
+          ),
+          SizedBox(width: 4),
+          Text(
+            '大小切换',
+            style: TextStyle(color: Colors.black, fontSize: 14),
+          ),
+          SizedBox(width: 8),
+        ],
       ),
     );
   }
@@ -270,8 +313,8 @@ class ConsoleState extends State<Console>
                   height: 1.3,
                 ),
                 text: TextSpan(children: [
-                  if (_dateTimeString(index).isNotEmpty)
-                    TextSpan(text: "${_dateTimeString(index)}\n"),
+                  // if (_dateTimeString(index).isNotEmpty)
+                  //   TextSpan(text: "${_dateTimeString(index)}\n"),
                   TextSpan(
                     children: parser.parse(logEntry.item2.text),
                     style: const TextStyle(height: 1.7),
