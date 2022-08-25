@@ -1,6 +1,6 @@
 name: flutter_kit_dio
 description: A plugin to print log for dio network request
-version: 0.0.2
+version: 0.0.3
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_dio
 publish_to: http://192.168.8.75:4000/
 
@@ -19,7 +19,7 @@ dependencies:
       name: flutter_kit
       url: http://192.168.8.75:4000/
   flutter_kit_log:
-    version: ^0.0.2
+    version: ^0.0.3
     hosted:
       name: flutter_kit_log
       url: http://192.168.8.75:4000/

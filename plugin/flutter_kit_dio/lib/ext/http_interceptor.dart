@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_kit_log/flutter_kit_log.dart';
 
-import '../constants/extensions.dart';
 import '../core/instances.dart';
+import 'extensions.dart';
 
 const JsonDecoder _decoder = JsonDecoder();
 const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
@@ -93,8 +93,13 @@ class DioLogInterceptor extends Interceptor {
       sb.write("响应内容：\n");
       String responseData = "";
       try {
-        dynamic dataMap = _decoder.convert(response.data);
-        responseData = _encoder.convert(dataMap);
+        if (response.data is String) {
+          dynamic dataMap = _decoder.convert(response.data);
+          responseData = _encoder.convert(dataMap);
+        } else {
+          dynamic prettyString = _encoder.convert(response.data);
+          responseData = prettyString;
+        }
       } on FormatException catch (_) {
         responseData = response.data.toString();
       }

@@ -72,8 +72,12 @@ dev_dependencies:
 dependency_overrides:
   flutter_kit:
     path: ../
+  flutter_kit_dio:
+    path: ../plugin/flutter_kit_dio/
   flutter_kit_log:
     path: ../plugin/flutter_kit_log/
+  flutter_kit_transfer:
+    path: ../plugin/flutter_kit_transfer/
 
 flutter:
   uses-material-design: true

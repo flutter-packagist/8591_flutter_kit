@@ -7,8 +7,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
+import 'package:flutter_kit_dio/ext/extensions.dart';
 
-import '../constants/extensions.dart';
 import '../core/instances.dart';
 import '../core/pluggable.dart';
 
