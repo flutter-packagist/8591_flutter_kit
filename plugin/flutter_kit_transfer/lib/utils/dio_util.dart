@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_kit_dio/constants/extensions.dart';
 import 'package:flutter_kit_dio/core/instances.dart';
-import 'package:flutter_kit_dio/models/http_interceptor.dart';
+import 'package:flutter_kit_dio/ext/extensions.dart';
+import 'package:flutter_kit_dio/ext/http_interceptor.dart';
 import 'package:flutter_kit_log/flutter_kit_log.dart';
 
 Dio httpInstance = DioUtil.getInstance();
