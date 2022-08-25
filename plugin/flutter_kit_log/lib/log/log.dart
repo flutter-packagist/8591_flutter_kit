@@ -4,67 +4,104 @@ import 'custom_filter.dart';
 import 'custom_output.dart';
 import 'custom_printer.dart';
 
-var logFilter = CustomFilter();
-var logOutput = CustomOutput();
+class LogWrapper {
+  LogWrapper._();
 
-var logger = Logger(
-  filter: logFilter,
-  printer: CustomPrinter(methodCount: 0, noBoxingByDefault: true),
-  output: logOutput,
-);
+  static LogWrapper? _instance;
 
-var loggerBox = Logger(
-  filter: logFilter,
-  printer: CustomPrinter(methodCount: 0),
-  output: logOutput,
-);
+  factory LogWrapper() => _instance ??= LogWrapper._();
 
-var loggerStack = Logger(
-  filter: logFilter,
-  printer: CustomPrinter(methodCount: 5),
-  output: logOutput,
-);
+  LogFilter? _logFilter;
+  LogOutput? _logOutput;
+  Logger? _logger;
+  Logger? _loggerBox;
+  Logger? _loggerStack;
 
-logV(dynamic message) => logger.v(message);
+  set logFilter(LogFilter logFilter) {
+    _logFilter = logFilter;
+  }
 
-logD(dynamic message) => logger.d(message);
+  set logOutput(LogOutput logOutput) {
+    _logOutput = logOutput;
+  }
 
-logI(dynamic message) => logger.i(message);
+  set logger(Logger logger) {
+    _logger = logger;
+  }
 
-logW(dynamic message) => logger.w(message);
+  set loggerBox(Logger logger) {
+    _loggerBox = logger;
+  }
 
-logE(dynamic message) => logger.e(message);
+  set loggerStack(Logger logger) {
+    _loggerStack = logger;
+  }
 
-logN(dynamic message) => logger.wtf(message);
+  Logger get logger {
+    return _logger ??= Logger(
+      filter: _logFilter ?? CustomFilter(),
+      printer: CustomPrinter(methodCount: 0, noBoxingByDefault: true),
+      output: _logOutput ?? CustomOutput(),
+    );
+  }
 
-logBoxV(dynamic message) => loggerBox.v(message);
+  Logger get loggerBox {
+    return _loggerBox ??= Logger(
+      filter: _logFilter ?? CustomFilter(),
+      printer: CustomPrinter(methodCount: 0),
+      output: _logOutput ?? CustomOutput(),
+    );
+  }
 
-logBoxD(dynamic message) => loggerBox.d(message);
+  Logger get loggerStack {
+    return _loggerStack ??= Logger(
+      filter: _logFilter ?? CustomFilter(),
+      printer: CustomPrinter(methodCount: 5),
+      output: _logOutput ?? CustomOutput(),
+    );
+  }
+}
 
-logBoxI(dynamic message) => loggerBox.i(message);
+logV(dynamic message) => LogWrapper().logger.v(message);
 
-logBoxW(dynamic message) => loggerBox.w(message);
+logD(dynamic message) => LogWrapper().logger.d(message);
 
-logBoxE(dynamic message) => loggerBox.e(message);
+logI(dynamic message) => LogWrapper().logger.i(message);
 
-logBoxN(dynamic message) => loggerBox.wtf(message);
+logW(dynamic message) => LogWrapper().logger.w(message);
+
+logE(dynamic message) => LogWrapper().logger.e(message);
+
+logN(dynamic message) => LogWrapper().logger.wtf(message);
+
+logBoxV(dynamic message) => LogWrapper().loggerBox.v(message);
+
+logBoxD(dynamic message) => LogWrapper().loggerBox.d(message);
+
+logBoxI(dynamic message) => LogWrapper().loggerBox.i(message);
+
+logBoxW(dynamic message) => LogWrapper().loggerBox.w(message);
+
+logBoxE(dynamic message) => LogWrapper().loggerBox.e(message);
+
+logBoxN(dynamic message) => LogWrapper().loggerBox.wtf(message);
 
 logStackV(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-  loggerStack.v(message, error, stackTrace);
+  LogWrapper().loggerStack.v(message, error, stackTrace);
 }
 
 logStackD(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-  loggerStack.d(message, error, stackTrace);
+  LogWrapper().loggerStack.d(message, error, stackTrace);
 }
 
 logStackI(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-  loggerStack.i(message, error, stackTrace);
+  LogWrapper().loggerStack.i(message, error, stackTrace);
 }
 
 logStackW(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-  loggerStack.w(message, error, stackTrace);
+  LogWrapper().loggerStack.w(message, error, stackTrace);
 }
 
 logStackE(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-  loggerStack.e(message, error, stackTrace);
+  LogWrapper().loggerStack.e(message, error, stackTrace);
 }
