@@ -349,7 +349,7 @@ class ConsoleState extends State<Console>
             controller: textEditingController,
             onChanged: (value) {
               if (value.isNotEmpty) {
-                _filterExp = RegExp(value);
+                _filterExp = RegExp(value, caseSensitive: false);
               } else {
                 _filterExp = null;
               }

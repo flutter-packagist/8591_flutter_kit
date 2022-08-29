@@ -101,8 +101,35 @@ class _MyHomePageState extends State<MyHomePage> {
       onPressed: () {
         Future.wait<void>(
           List<Future<void>>.generate(
-            10,
+            2,
             (int i) {
+              if (i == 0) {
+                return dio.get(
+                  'http://api.debug.100.com.tw/api/configs?config_type%5B%5D=decoration_stage&config_type%5B%5D=style'
+                  // '&config_type%5B%5D=space&config_type%5B%5D=size&config_type%5B%5D=budget&config_type%5B%5D=kind&config_type%5B%5D=room'
+                  // '&config_type%5B%5D=hall&config_type%5B%5D=bath&config_type%5B%5D=region&config_type%5B%5D=element&config_type%5B%5D=img_colors'
+                  // '&config_type%5B%5D=service_region&config_type%5B%5D=work_show_mode&config_type%5B%5D=show_start_page'
+                  '&config_type%5B%5D=show_instruction_page&config_type%5B%5D=show_work_detail_message_form&config_type%5B%5D=ai_service',
+                  options: Options(
+                    headers: {
+                      'User-Agent':
+                          'version/5.8.8 version_code/232 clients/Android imei/x095009b-x13d-x82b-x66b-xadf1d0d51d4 model/pixel-3-xl system/12 framework/flutter image/webp',
+                      'Accept': 'application/vnd.100design.v2+json; image/webp',
+                    },
+                  ),
+                );
+              } else if (i == 1) {
+                return dio.get(
+                  'http://api.debug.100.com.tw/api/works',
+                  options: Options(
+                    headers: {
+                      'User-Agent':
+                          'version/5.8.8 version_code/232 clients/Android imei/x095009b-x13d-x82b-x66b-xadf1d0d51d4 model/pixel-3-xl system/12 framework/flutter image/webp',
+                      'Accept': 'application/vnd.100design.v2+json; image/webp',
+                    },
+                  ),
+                );
+              }
               if (i % 2 == 0) {
                 return Future<void>.delayed(
                   Duration(seconds: i),
@@ -151,7 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     logW("警告信息，Release模式下会输出");
                     break;
                   case 4:
-                    logE("错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，"
+                    logE(
+                        "错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，"
                         "Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出 错误信息，Release模式下会输出");
                     break;
                   case 5:

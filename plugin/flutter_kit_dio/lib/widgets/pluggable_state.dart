@@ -3,6 +3,7 @@
 /// [Date] 2021/8/6 11:25
 ///
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '../core/instances.dart';
 import '../core/pluggable.dart';
 
 const JsonEncoder _encoder = JsonEncoder.withIndent('  ');
+const JsonDecoder _decoder = JsonDecoder();
 
 class DioPluggableState extends State<DioInspector> {
   @override
@@ -208,35 +210,27 @@ class _ResponseCardState extends State<_ResponseCard> {
   /// The [Uri] that the [_request] requested.
   Uri get _requestUri => _request.uri;
 
-  /// Header for the [_request].
-  String? get _requestHeaderBuilder {
-    if (_request.headers.isEmpty) return null;
-    var stringBuffer = StringBuffer();
-    _request.headers.forEach((key, value) {
-      value.forEach((e) => stringBuffer.writeln('$key: $e'));
-    });
-    return stringBuffer.toString();
-  }
-
   /// Data for the [_request].
-  String? get _requestDataBuilder {
+  dynamic get _requestDataBuilder {
     if (_request.data == null) return null;
     try {
-      return _encoder.convert(_request.data);
+      String data = _encoder.convert(_request.data);
+      return _decoder.convert(data);
     } on FormatException catch (_) {
-      return _request.data;
+      return _request.data.toString();
     }
   }
 
   /// Data for the [_response].
-  String get _responseDataBuilder {
+  dynamic get _responseDataBuilder {
     if (_response.data == null && _statusCode == 0) {
-      return "链接解析失败";
+      return null;
     }
     try {
-      return _encoder.convert(_response.data);
+      String data = _encoder.convert(_response.data);
+      return _decoder.convert(data);
     } on FormatException catch (_) {
-      return _response.data;
+      return _response.data.toString();
     }
   }
 
@@ -369,20 +363,20 @@ class _ResponseCardState extends State<_ResponseCard> {
                 content: '\n$_requestDataBuilder',
                 searchContent: value,
               ),
-            if (_requestHeaderBuilder != null)
-              _TagText(
-                tag: '请求头部',
-                content: '\n$_requestHeaderBuilder',
+            if (_request.headers.isNotEmpty)
+              _DataTable(
+                title: '请求头部',
+                dataMap: _request.headers,
                 searchContent: value,
               ),
-            _TagText(
-              tag: '响应内容',
-              content: '\n$_responseDataBuilder',
+            _DataTree(
+              title: '响应内容',
+              dataMap: _responseDataBuilder,
               searchContent: value,
             ),
-            _TagText(
-              tag: '响应头部',
-              content: '\n${_response.headers}',
+            _DataTable(
+              title: '响应头部',
+              dataMap: _response.headers.map,
               searchContent: value,
             ),
           ],
@@ -405,10 +399,435 @@ class _ResponseCardState extends State<_ResponseCard> {
           children: <Widget>[
             _infoContent(context),
             const SizedBox(height: 10),
-            _TagText(tag: 'Uri', content: '$_requestUri'),
+            _TagText(
+              tag: 'Uri',
+              content: Uri.decodeFull(_requestUri.toString()),
+            ),
             _detailedContent(context),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DataTree extends StatefulWidget {
+  final String title;
+  final dynamic dataMap;
+  final String searchContent;
+
+  const _DataTree({
+    Key? key,
+    required this.title,
+    required this.dataMap,
+    required this.searchContent,
+  }) : super(key: key);
+
+  @override
+  State<_DataTree> createState() => _DataTreeState();
+}
+
+class _DataTreeState extends State<_DataTree> {
+  final ValueNotifier<bool> isExpanded = ValueNotifier<bool>(true);
+
+  double get screenWidth => MediaQuery.of(context).size.width;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: isExpanded,
+      builder: (_, bool value, __) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title(value),
+            const SizedBox(height: 8),
+            content(value),
+            const SizedBox(height: 14),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget title(bool isExpand) {
+    return GestureDetector(
+      onTap: () {
+        isExpanded.value = !isExpanded.value;
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            widget.title,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          Icon(
+            isExpand ? Icons.arrow_drop_down : Icons.arrow_right,
+            color: Colors.black,
+            size: 26,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget content(bool isExpand) {
+    if (!isExpand) {
+      return const SizedBox.shrink();
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        color: Colors.grey.shade100,
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width - 36,
+          maxWidth: MediaQuery.of(context).size.width * 2,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: _JsonTree(valueData: widget.dataMap, level: 1, lastItem: true),
+      ),
+    );
+  }
+}
+
+class _JsonTree extends StatefulWidget {
+  final String? keyData;
+  final dynamic valueData;
+  final int level;
+  final bool lastItem;
+
+  const _JsonTree({
+    Key? key,
+    this.keyData,
+    this.valueData,
+    this.level = 0,
+    this.lastItem = false,
+  }) : super(key: key);
+
+  @override
+  State<_JsonTree> createState() => _JsonTreeState();
+}
+
+class _JsonTreeState extends State<_JsonTree> {
+  final ValueNotifier<bool> isExpanded = ValueNotifier<bool>(true);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: isExpanded,
+      builder: (_, bool value, __) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: parseJson(value),
+        );
+      },
+    );
+  }
+
+  List<Widget> parseJson(bool isExpand) {
+    final List<Widget> widgetList = [];
+    if (widget.valueData is Map) {
+      // 左括号
+      widgetList.add(leftParenthesis(
+        "{",
+        widget.level - 1,
+        isExpand,
+        keyData: widget.keyData,
+      ));
+      // 内容
+      if (isExpand) {
+        int index = 0;
+        widget.valueData.forEach((key, value) {
+          index++;
+          widgetList.add(_JsonTree(
+            keyData: key,
+            valueData: value,
+            level: widget.level + 1,
+            lastItem: index == widget.valueData.length,
+          ));
+        });
+      }
+      // 右括号
+      widgetList.add(rightParenthesis(
+        "}${widget.lastItem ? "" : ","}",
+        widget.level - 1,
+      ));
+    } else if (widget.valueData is List) {
+      // 左括号
+      widgetList.add(leftParenthesis(
+        "[",
+        widget.level - 1,
+        isExpand,
+        keyData: widget.keyData,
+      ));
+      // 内容
+      if (isExpand) {
+        var listData = (widget.valueData as List);
+        for (var i = 0; i < listData.length; i++) {
+          widgetList.add(_JsonTree(
+            valueData: listData[i],
+            level: widget.level + 1,
+            lastItem: i == listData.length - 1,
+          ));
+        }
+      }
+      // 右括号
+      widgetList.add(rightParenthesis(
+        "]${widget.lastItem ? "" : ","}",
+        widget.level - 1,
+      ));
+      // 逗号
+    } else if (widget.valueData is String) {
+      widgetList.add(
+        SelectableText.rich(
+          TextSpan(children: [
+            WidgetSpan(child: SizedBox(width: 20.0 * widget.level)),
+            TextSpan(
+              text: "\"${widget.keyData.toString()}\": ",
+              style: const TextStyle(
+                color: Colors.deepOrangeAccent,
+                fontSize: 16,
+              ),
+            ),
+            TextSpan(text: "\"${widget.valueData.toString()}\""),
+            TextSpan(text: widget.lastItem ? "" : ","),
+          ]),
+          style: const TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 16,
+          ),
+        ),
+      );
+    } else if (widget.valueData is num) {
+      widgetList.add(
+        SelectableText.rich(
+          TextSpan(children: [
+            WidgetSpan(child: SizedBox(width: 20.0 * widget.level)),
+            TextSpan(
+              text: "\"${widget.keyData.toString()}\": ",
+              style: const TextStyle(
+                color: Colors.deepOrangeAccent,
+                fontSize: 16,
+              ),
+            ),
+            TextSpan(text: widget.valueData.toString()),
+            TextSpan(text: widget.lastItem ? "" : ","),
+          ]),
+          style: const TextStyle(
+            color: Colors.green,
+            fontSize: 16,
+          ),
+        ),
+      );
+    }
+
+    return widgetList;
+  }
+
+  Widget leftParenthesis(String symbol, int level, bool isExpand,
+      {String? keyData}) {
+    if (level < 0) level = 0;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(width: 20.0 * level),
+        GestureDetector(
+          onTap: () {
+            isExpanded.value = !isExpanded.value;
+          },
+          child: SizedBox(
+            width: 20,
+            child: Transform.rotate(
+              angle: isExpand ? pi / 2 : 0,
+              child: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.grey,
+                size: 14,
+              ),
+            ),
+          ),
+        ),
+        SelectableText.rich(
+          TextSpan(children: [
+            if (keyData != null)
+              TextSpan(
+                text: "\"$keyData\": ",
+                style: const TextStyle(
+                  color: Colors.deepOrangeAccent,
+                  fontSize: 16,
+                ),
+              ),
+            TextSpan(text: symbol),
+          ]),
+          style: const TextStyle(color: Colors.black, fontSize: 16),
+        ),
+        Offstage(
+          offstage: isExpand,
+          child: ColoredBox(
+            color: Colors.grey.shade400,
+            child: const Text(
+              "...",
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget rightParenthesis(String symbol, int level) {
+    if (level < 0) level = 0;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(width: 20.0 * (level + 1)),
+        SelectableText.rich(
+          TextSpan(text: symbol),
+          style: const TextStyle(color: Colors.black, fontSize: 16),
+        ),
+      ],
+    );
+  }
+}
+
+class _DataTable extends StatefulWidget {
+  final String title;
+  final Map<String, dynamic> dataMap;
+  final String searchContent;
+
+  const _DataTable({
+    Key? key,
+    required this.title,
+    required this.dataMap,
+    required this.searchContent,
+  }) : super(key: key);
+
+  @override
+  State<_DataTable> createState() => _DataTableState();
+}
+
+class _DataTableState extends State<_DataTable> {
+  final ValueNotifier<bool> isExpanded = ValueNotifier<bool>(true);
+  final List<TableRow> rowList = [];
+
+  @override
+  Widget build(BuildContext context) {
+    initTableRow();
+    return ValueListenableBuilder<bool>(
+      valueListenable: isExpanded,
+      builder: (_, bool value, __) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            title(value),
+            const SizedBox(height: 8),
+            content(value),
+            const SizedBox(height: 14),
+          ],
+        );
+      },
+    );
+  }
+
+  void initTableRow() {
+    rowList.clear();
+    for (int i = 0; i < widget.dataMap.length; i++) {
+      var mapEntries = widget.dataMap.entries.toList();
+      String itemKey = mapEntries[i].key.toString();
+      String itemValue = mapEntries[i].value.toString();
+      rowList.add(TableRow(
+        decoration: BoxDecoration(
+          color: (i % 2 == 0) ? Colors.grey.shade100 : Colors.grey.shade300,
+        ),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width / 2,
+            ),
+            child: SelectableText.rich(
+              TextSpan(
+                children: searchText(
+                  itemKey,
+                  searchContent: widget.searchContent,
+                ),
+              ),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.white54,
+            padding: const EdgeInsets.all(12),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.9,
+            ),
+            child: SelectableText.rich(
+              TextSpan(
+                children: searchText(
+                  itemValue,
+                  searchContent: widget.searchContent,
+                ),
+              ),
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ));
+    }
+  }
+
+  Widget title(bool isExpand) {
+    return GestureDetector(
+      onTap: () {
+        isExpanded.value = !isExpanded.value;
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            widget.title,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          Icon(
+            isExpand ? Icons.arrow_drop_down : Icons.arrow_right,
+            color: Colors.black,
+            size: 26,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget content(bool isExpand) {
+    if (!isExpand) {
+      return const SizedBox.shrink();
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Table(
+        defaultColumnWidth: const IntrinsicColumnWidth(),
+        children: rowList,
       ),
     );
   }
@@ -460,10 +879,6 @@ class _TagText extends StatelessWidget {
       child: text,
     );
   }
-}
-
-extension _StringExtension on String {
-  String get notBreak => Characters(this).toList().join('\u{200B}');
 }
 
 extension _DateTimeExtension on DateTime {
