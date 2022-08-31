@@ -309,38 +309,52 @@ class _ResponseCardState extends State<_ResponseCard> {
             Container(
               height: 40,
               margin: const EdgeInsets.symmetric(vertical: 10),
-              child: TextField(
-                minLines: 1,
-                maxLines: 1,
-                style: const TextStyle(color: Colors.black, fontSize: 14),
-                cursorWidth: 1.5,
-                cursorColor: Colors.blue,
-                controller: _textEditingController,
-                textInputAction: TextInputAction.search,
-                decoration: InputDecoration(
-                  prefix: const Padding(padding: EdgeInsets.only(left: 18)),
-                  suffix: const Padding(padding: EdgeInsets.only(left: 18)),
-                  hintText: "请输入搜索文本",
-                  hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-                  contentPadding: EdgeInsets.zero,
-                  filled: true,
-                  fillColor: const Color(0xFFF6F6F6),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(color: Colors.white),
+              child: DefaultTextEditingShortcuts(
+                child: TextField(
+                  minLines: 1,
+                  maxLines: 1,
+                  style: const TextStyle(color: Colors.black, fontSize: 14),
+                  cursorWidth: 1.5,
+                  cursorColor: Colors.blue,
+                  controller: _textEditingController,
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    prefix: const Padding(padding: EdgeInsets.only(left: 18)),
+                    suffix: const Padding(padding: EdgeInsets.only(left: 18)),
+                    hintText: "请输入搜索文本",
+                    hintStyle:
+                        const TextStyle(color: Colors.grey, fontSize: 14),
+                    contentPadding: EdgeInsets.zero,
+                    filled: true,
+                    fillColor: const Color(0xFFF6F6F6),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        _textEditingController.clear();
+                      },
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.grey,
+                      ),
+                      iconSize: 20,
+                      splashRadius: 20,
+                    ),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
+                  onSubmitted: (value) {
+                    _searchText.value = value;
+                  },
                 ),
-                onSubmitted: (value) {
-                  _searchText.value = value;
-                },
               ),
             ),
             _detailedText(),
@@ -491,7 +505,12 @@ class _DataTreeState extends State<_DataTree> {
           maxWidth: MediaQuery.of(context).size.width * 2,
         ),
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: _JsonTree(valueData: widget.dataMap, level: 1, lastItem: true),
+        child: _JsonTree(
+          valueData: widget.dataMap,
+          level: 1,
+          lastItem: true,
+          searchContent: widget.searchContent,
+        ),
       ),
     );
   }
@@ -502,6 +521,7 @@ class _JsonTree extends StatefulWidget {
   final dynamic valueData;
   final int level;
   final bool lastItem;
+  final String searchContent;
 
   const _JsonTree({
     Key? key,
@@ -509,6 +529,7 @@ class _JsonTree extends StatefulWidget {
     this.valueData,
     this.level = 0,
     this.lastItem = false,
+    this.searchContent = "",
   }) : super(key: key);
 
   @override
@@ -552,6 +573,7 @@ class _JsonTreeState extends State<_JsonTree> {
             valueData: value,
             level: widget.level + 1,
             lastItem: index == widget.valueData.length,
+            searchContent: widget.searchContent,
           ));
         });
       }
@@ -576,6 +598,7 @@ class _JsonTreeState extends State<_JsonTree> {
             valueData: listData[i],
             level: widget.level + 1,
             lastItem: i == listData.length - 1,
+            searchContent: widget.searchContent,
           ));
         }
       }
@@ -589,15 +612,21 @@ class _JsonTreeState extends State<_JsonTree> {
       widgetList.add(
         SelectableText.rich(
           TextSpan(children: [
-            WidgetSpan(child: SizedBox(width: 20.0 * widget.level)),
+            WidgetSpan(child: SizedBox(width: 20.0 * widget.level, height: 1)),
             TextSpan(
-              text: "\"${widget.keyData.toString()}\": ",
-              style: const TextStyle(
-                color: Colors.deepOrangeAccent,
-                fontSize: 16,
+              children: searchText(
+                "\"${widget.keyData.toString()}\": ",
+                searchContent: widget.searchContent,
+                fontColor: Colors.deepOrangeAccent,
               ),
             ),
-            TextSpan(text: "\"${widget.valueData.toString()}\""),
+            TextSpan(
+              children: searchText(
+                "\"${widget.valueData.toString()}\"",
+                searchContent: widget.searchContent,
+                fontColor: Colors.blueAccent,
+              ),
+            ),
             TextSpan(text: widget.lastItem ? "" : ","),
           ]),
           style: const TextStyle(
@@ -610,15 +639,21 @@ class _JsonTreeState extends State<_JsonTree> {
       widgetList.add(
         SelectableText.rich(
           TextSpan(children: [
-            WidgetSpan(child: SizedBox(width: 20.0 * widget.level)),
+            WidgetSpan(child: SizedBox(width: 20.0 * widget.level, height: 1)),
             TextSpan(
-              text: "\"${widget.keyData.toString()}\": ",
-              style: const TextStyle(
-                color: Colors.deepOrangeAccent,
-                fontSize: 16,
+              children: searchText(
+                "\"${widget.keyData.toString()}\": ",
+                searchContent: widget.searchContent,
+                fontColor: Colors.deepOrangeAccent,
               ),
             ),
-            TextSpan(text: widget.valueData.toString()),
+            TextSpan(
+              children: searchText(
+                widget.valueData.toString(),
+                searchContent: widget.searchContent,
+                fontColor: Colors.green,
+              ),
+            ),
             TextSpan(text: widget.lastItem ? "" : ","),
           ]),
           style: const TextStyle(
@@ -640,19 +675,22 @@ class _JsonTreeState extends State<_JsonTree> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(width: 20.0 * level),
-        GestureDetector(
-          onTap: () {
-            isExpanded.value = !isExpanded.value;
-          },
-          child: SizedBox(
-            width: 20,
-            child: Transform.rotate(
-              angle: isExpand ? pi / 2 : 0,
-              child: const Icon(
+        SizedBox(
+          width: 20,
+          height: 20,
+          child: Transform.rotate(
+            angle: isExpand ? pi / 2 : 0,
+            child: IconButton(
+              onPressed: () {
+                isExpanded.value = !isExpanded.value;
+              },
+              icon: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,
                 size: 14,
               ),
+              padding: EdgeInsets.zero,
+              splashRadius: 10,
             ),
           ),
         ),
@@ -915,7 +953,7 @@ List<TextSpan> searchText(
   String prefixContent = '',
   double fontSize = 16,
   Color fontColor = Colors.black,
-  Color selectedFontColor = Colors.blue,
+  Color selectedFontColor = Colors.purpleAccent,
 }) {
   List<TextSpan> textSpanList = [];
 
@@ -978,6 +1016,8 @@ List<TextSpan> searchText(
       style: TextStyle(
         fontSize: fontSize,
         color: map['isHighlight'] ? selectedFontColor : fontColor,
+        backgroundColor:
+            map['isHighlight'] ? Colors.grey.shade400 : Colors.transparent,
       ),
     ));
   }
