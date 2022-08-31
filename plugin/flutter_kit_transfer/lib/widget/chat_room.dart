@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';

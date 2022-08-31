@@ -121,15 +121,6 @@ class HtmlPanelState extends State<HtmlPanel> {
     );
   }
 
-  Widget get listHint {
-    return ListView.builder(
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return Center();
-      },
-    );
-  }
-
   void onSearchTap() async {
     var webController = await webViewController.future;
     await webController.loadUrl(textEditingController.text);

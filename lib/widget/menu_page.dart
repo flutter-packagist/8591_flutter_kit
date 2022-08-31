@@ -104,7 +104,6 @@ class MenuCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color lineColor = Colors.grey.withOpacity(0.25);
     return LayoutBuilder(builder: (_, constraints) {
       return Material(
         color: Colors.white,

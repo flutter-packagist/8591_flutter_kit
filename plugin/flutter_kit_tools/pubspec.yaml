@@ -18,7 +18,7 @@ dependencies:
   webview_flutter: ^3.0.4
 
   flutter_kit:
-    version: ^0.0.3
+    version: ">=0.0.1 <0.1.0"
     hosted:
       name: flutter_kit
       url: http://192.168.8.75:4000/

@@ -23,7 +23,7 @@ class _ResponsiveEntryState extends State<ResponsiveEntry> {
   Widget build(BuildContext context) {
     return ResponsiveWrapper.builder(
       Builder(builder: (context) {
-        return ChatRoom();
+        return const ChatRoom();
       }),
       minWidth: 480,
       defaultScale: false,
