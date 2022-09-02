@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:logger/logger.dart';
 
@@ -238,7 +239,7 @@ class CustomPrinter extends LogPrinter {
   }
 
   AnsiColor _getLevelColor(Level level) {
-    if (colors) {
+    if (colors && !Platform.isIOS) {
       return levelColors[level]!;
     } else {
       return AnsiColor.none();
@@ -246,7 +247,7 @@ class CustomPrinter extends LogPrinter {
   }
 
   AnsiColor _getErrorColor(Level level) {
-    if (colors) {
+    if (colors && !Platform.isIOS) {
       if (level == Level.wtf) {
         return levelColors[Level.wtf]!;
       } else {

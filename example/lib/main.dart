@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -248,18 +250,19 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget btnNetworkHtml() {
     return TextButton(
       onPressed: () async {
-        Response<String> data = await dio.get(
-          // 'https://www.jiemodui.com/N/132803.html',
-          'https://sspai.com/post/75079',
-          options: Options(
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Macintosh; '
-                  'Intel Mac OS X 10_15_7) AppleWebKit/537.36'
-                  ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
-            },
-          ),
-        );
-        logBoxN(data);
+
+        // Response<String> data = await dio.get(
+        //   // 'https://www.jiemodui.com/N/132803.html',
+        //   'https://sspai.com/post/75079',
+        //   options: Options(
+        //     headers: {
+        //       'User-Agent': 'Mozilla/5.0 (Macintosh; '
+        //           'Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+        //           ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36',
+        //     },
+        //   ),
+        // );
+        // logBoxN(data);
       },
       child: const Text('html获取'),
     );
