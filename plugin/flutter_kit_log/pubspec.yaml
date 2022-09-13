@@ -1,6 +1,6 @@
 name: flutter_kit_log
 description: A plugin for pretty log
-version: 0.0.5
+version: 0.0.6
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_log
 publish_to: http://192.168.8.75:4000/
 

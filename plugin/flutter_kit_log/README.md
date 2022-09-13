@@ -75,8 +75,8 @@ APP内提供log等级筛选和关键字过滤的功能。
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log1.png?raw=true" width="80%" alt="无过滤列表" /></br>无过滤列表</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log2.jpg?raw=true" width="80%" alt="输出级别过滤" /></br>输出级别过滤</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log3.jpg?raw=true" width="80%" alt="关键字过滤" /></br>关键字过滤</td>
+        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log1.png?raw=true" width="80%" alt="无过滤列表" /><br>无过滤列表</td>
+        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log2.jpg?raw=true" width="80%" alt="输出级别过滤" /><br>输出级别过滤</td>
+        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log3.jpg?raw=true" width="80%" alt="关键字过滤" /><br>关键字过滤</td>
     </tr>
 </table>
