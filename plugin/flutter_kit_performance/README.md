@@ -8,7 +8,7 @@
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot5.png" width="80%" alt="内存信息" /></br>内存信息</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot6.png" width="80%" alt="性能浮层" /></br>性能浮层</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot5.png" width="80%" alt="内存信息" /><br>内存信息</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot6.png" width="80%" alt="性能浮层" /><br>性能浮层</td>
     </tr>
 </table>

@@ -19,7 +19,7 @@
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/flutter_kit_dio2.png" width="80%" alt="请求列表" /></br>请求列表</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/flutter_kit_dio1.png" width="80%" alt="请求详情" /></br>请求详情</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_dio2.png" width="80%" alt="请求列表" /><br>请求列表</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_dio1.png" width="80%" alt="请求详情" /><br>请求详情</td>
     </tr>
 </table>

@@ -18,7 +18,7 @@ logW("警告信息，Release模式下会输出");
 logE("错误信息，Release模式下会输出");
 ```
 
-<img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log4.jpg?raw=true" width="40%" />
+<img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log4.jpg" width="40%" />
 
 #### 2. 打印格式2
 
@@ -32,7 +32,7 @@ logBoxW("警告信息，Release模式下会输出");
 logBoxE("错误信息，Release模式下会输出");
 ```
 
-<img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log5.jpg?raw=true" width="60%" />
+<img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log5.jpg" width="60%" />
 
 #### 3. 打印格式3
 
@@ -46,7 +46,7 @@ logStackW("警告信息，Release模式下会输出");
 logStackE("错误信息，Release模式下会输出");
 ```
 
-<img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log6.jpg?raw=true" width="90%" />
+<img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log6.jpg" width="90%" />
 
 ### 日志打印自定义
 
@@ -75,8 +75,8 @@ APP内提供log等级筛选和关键字过滤的功能。
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log1.png?raw=true" width="80%" alt="无过滤列表" /><br>无过滤列表</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log2.jpg?raw=true" width="80%" alt="输出级别过滤" /><br>输出级别过滤</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/blob/main/flutter_kit_log3.jpg?raw=true" width="80%" alt="关键字过滤" /><br>关键字过滤</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log1.png" width="80%" alt="无过滤列表" /><br>无过滤列表</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log2.png" width="80%" alt="输出级别过滤" /><br>输出级别过滤</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/flutter_kit_log3.png" width="80%" alt="关键字过滤" /><br>关键字过滤</td>
     </tr>
 </table>

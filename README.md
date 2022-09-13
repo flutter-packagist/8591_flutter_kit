@@ -16,9 +16,9 @@ Flutter应用内调试工具（当前基于Flutter版本：3.0.x）
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot4.png" width="80%" alt="代码查看" /></br>代码查看</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot5.png" width="80%" alt="内存信息" /></br>内存信息</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot6.png" width="80%" alt="性能浮层" /></br>性能浮层</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot4.png" width="80%" alt="代码查看" /><br>代码查看</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot5.png" width="80%" alt="内存信息" /><br>内存信息</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot6.png" width="80%" alt="性能浮层" /><br>性能浮层</td>
     </tr>
 </table>
 
@@ -26,18 +26,18 @@ Flutter应用内调试工具（当前基于Flutter版本：3.0.x）
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot1.png" width="80%" alt="系统设置" /></br>系统设置</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot2.png" width="80%" alt="CPU 信息" /></br>CPU 信息</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot3.png" width="80%" alt="设备信息" /></br>设备信息</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot1.png" width="80%" alt="系统设置" /><br>系统设置</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot2.png" width="80%" alt="CPU 信息" /><br>CPU 信息</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot3.png" width="80%" alt="设备信息" /><br>设备信息</td>
     </tr>
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot7.png" width="80%" alt="dio网络请求" /></br>dio网络请求</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot8.png" width="80%" alt="日志打印" /></br>日志打印</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot9.png" width="80%" alt="颜色提取" /></br>颜色提取</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot7.png" width="80%" alt="dio网络请求" /><br>dio网络请求</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot8.png" width="80%" alt="日志打印" /><br>日志打印</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot9.png" width="80%" alt="颜色提取" /><br>颜色提取</td>
     </tr>
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot10.png" width="80%" alt="局域网数据传输" /></br>局域网数据传输</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot11.png" width="80%" alt="应用内H5入口" /></br>应用内H5入口</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot10.png" width="80%" alt="局域网数据传输" /><br>局域网数据传输</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot11.png" width="80%" alt="应用内H5入口" /><br>应用内H5入口</td>
     </tr>
 </table>
 

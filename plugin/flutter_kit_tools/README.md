@@ -9,8 +9,8 @@
 
 <table border="1" width="100%">
     <tr>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot9.png" width="80%" alt="颜色提取" /></br>颜色提取</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot1.png" width="80%" alt="系统设置" /></br>系统设置</td>
-        <td width="33.33%" align="center"><img src="https://github.com/windows7lake/screenshot/raw/main/Screenshot11.png" width="80%" alt="应用内H5入口" /></br>应用内H5入口</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot10.png" width="80%" alt="颜色提取" /><br>颜色提取</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot1.png" width="80%" alt="系统设置" /><br>系统设置</td>
+        <td width="33.33%" align="center"><img src="https://raw.githubusercontent.com/windows7lake/screenshot/main/Screenshot11.png" width="80%" alt="应用内H5入口" /><br>应用内H5入口</td>
     </tr>
 </table>
