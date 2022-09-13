@@ -1,3 +1,7 @@
+## 0.0.4
+
+* 修复web.zip解压后多出web目录，导致index.html映射失败
+
 ## 0.0.3
 
 * 更新依赖项的版本：flutter_kit_log、flutter_kit_dio
