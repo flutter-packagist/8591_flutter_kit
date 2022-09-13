@@ -25,7 +25,7 @@ class CustomOutput extends LogOutput {
     String path = '${appDocDir.path}${Platform.pathSeparator}log'
         '${Platform.pathSeparator}$date.txt';
     File file = File(path);
-    if (!file.existsSync()) file.create(recursive: true);
+    if (!file.existsSync()) await file.create(recursive: true);
     _sink = file.openWrite(mode: FileMode.append, encoding: utf8);
     completer.complete();
   }
