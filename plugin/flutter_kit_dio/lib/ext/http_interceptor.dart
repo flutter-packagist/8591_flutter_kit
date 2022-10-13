@@ -74,8 +74,13 @@ class DioLogInterceptor extends Interceptor {
       sb.write("请求参数：\n");
       String requestData = "";
       try {
-        requestData = _encoder.convert(request.data);
-      } on FormatException catch (_) {
+        if (request.data is FormData) {
+          requestData = "${(request.data as FormData).fields.join(",")}"
+              "\n${(request.data as FormData).files.join(",")}";
+        } else {
+          requestData = _encoder.convert(request.data);
+        }
+      } on Exception catch (_) {
         requestData = request.data.toString();
       }
       sb.write("$requestData\n");
