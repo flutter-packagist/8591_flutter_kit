@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import desktop_drop
-import device_info_plus_macos
+import device_info_plus
 import file_selector_macos
 import path_provider_macos
 import shared_preferences_macos

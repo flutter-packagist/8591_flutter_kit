@@ -1,6 +1,6 @@
 name: flutter_kit_transfer
 description: A plugin for file transfer
-version: 0.0.4
+version: 0.0.5
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_transfer
 publish_to: http://192.168.8.75:4000/
 
@@ -17,7 +17,7 @@ dependencies:
   # 桌面文件拖拽到窗口上传
   desktop_drop: ^0.3.3
   # 设备信息获取
-  device_info_plus: ^4.0.1
+  device_info_plus: ^8.0.0
   # 网络请求
   dio: ^4.0.6
   # 文件选择器
@@ -26,14 +26,14 @@ dependencies:
   # toast弹窗
   fluttertoast: ^8.0.9
   # http解析
-  http_parser: ^4.0.1
+  http_parser: ^4.0.2
   # 获取文件对应的 mime_type
   mime: ^1.0.2
   # 获取常用文件路径
-  path: ^1.8.1
+  path: ^1.8.2
   path_provider: ^2.0.11
   # 权限管理
-  permission_handler: ^10.0.0
+  permission_handler: ^10.2.0
   # 状态管理
   provider: ^6.0.3
   # 二维码
