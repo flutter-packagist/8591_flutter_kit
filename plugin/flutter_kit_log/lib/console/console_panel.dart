@@ -146,27 +146,27 @@ class ConsoleState extends State<Console>
     });
   }
 
-  String _dateTimeString(int logIndex) {
-    var logList = _logList.reversed.toList()[_logList.length - logIndex - 1];
-    String result = '';
-    switch (_dateTimeStyle) {
-      case DateTimeStyle.datetime:
-        result = logList.item1.toString().padRight(26, '0');
-        break;
-      case DateTimeStyle.time:
-        result = logList.item1.toString().padRight(26, '0').substring(11);
-        break;
-      case DateTimeStyle.timestamp:
-        result = logList.item1.millisecondsSinceEpoch.toString();
-        break;
-      case DateTimeStyle.none:
-        result = '';
-        break;
-      default:
-        break;
-    }
-    return result;
-  }
+  // String _dateTimeString(int logIndex) {
+  //   var logList = _logList.reversed.toList()[_logList.length - logIndex - 1];
+  //   String result = '';
+  //   switch (_dateTimeStyle) {
+  //     case DateTimeStyle.datetime:
+  //       result = logList.item1.toString().padRight(26, '0');
+  //       break;
+  //     case DateTimeStyle.time:
+  //       result = logList.item1.toString().padRight(26, '0').substring(11);
+  //       break;
+  //     case DateTimeStyle.timestamp:
+  //       result = logList.item1.millisecondsSinceEpoch.toString();
+  //       break;
+  //     case DateTimeStyle.none:
+  //       result = '';
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   return result;
+  // }
 
   @override
   Widget build(BuildContext context) {
