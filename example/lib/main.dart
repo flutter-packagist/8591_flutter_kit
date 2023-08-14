@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +11,10 @@ import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_performance/flutter_kit_performance.dart';
 import 'package:flutter_kit_tools/flutter_kit_tools.dart';
 import 'package:flutter_kit_transfer/widget/transfer_panel.dart';
+import 'package:log_wrapper/log/log.dart';
 
-final Dio dio = Dio()..options = BaseOptions(connectTimeout: 10000);
+final Dio dio = Dio()
+  ..options = BaseOptions(connectTimeout: const Duration(seconds: 10));
 
 void main() {
   PluginManager()
@@ -250,7 +250,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget btnNetworkHtml() {
     return TextButton(
       onPressed: () async {
-
         // Response<String> data = await dio.get(
         //   // 'https://www.jiemodui.com/N/132803.html',
         //   'https://sspai.com/post/75079',
