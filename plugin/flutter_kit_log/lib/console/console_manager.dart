@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
+import 'package:log_wrapper/log/log_data.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
-
-import '../log/log_data.dart';
 
 const int maxLine = 1000;
 
@@ -56,14 +55,14 @@ class ConsoleManager {
   }
 
   static addLog(LogData logData) {
-    if (logData.level == Level.wtf) return;
+    if (logData.level == Level.fatal) return;
     _logStreamController?.add(logData);
   }
 
   static clearLog() {
     logData.clear();
     _logStreamController
-        ?.add(LogData(0, Level.verbose, "Welcome!", ""));
+        ?.add(LogData(0, Level.trace, "Welcome!", ""));
   }
 
   @visibleForTesting

@@ -1,4 +1,4 @@
-import 'package:flutter_kit_log/log/log.dart';
+import 'package:log_wrapper/log/log.dart';
 
 void main() {
   DateTime dateTime = DateTime.now();

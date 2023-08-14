@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
 import 'package:flutter_kit/util/constants.dart';
 import 'package:flutter_kit/widget/floating_widget.dart';
-import 'package:flutter_kit_log/log/log_data.dart';
+import 'package:log_wrapper/log/log_data.dart';
 import 'package:logger/logger.dart';
 import 'package:tuple/tuple.dart';
 
@@ -54,7 +54,7 @@ class ConsoleState extends State<Console>
   final TextEditingController textEditingController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   List<Tuple2<DateTime, LogData>> _logList = <Tuple2<DateTime, LogData>>[];
-  Level _filterLevel = Level.verbose;
+  Level _filterLevel = Level.trace;
   StreamSubscription? _subscription;
   ScrollController? _controller;
   DateTimeStyle? _dateTimeStyle;
@@ -200,9 +200,9 @@ class ConsoleState extends State<Console>
         await storeWithKey('consoleHeight', consoleHeight);
         setState(() {});
       },
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.change_circle_outlined,
             size: 16,
@@ -222,9 +222,9 @@ class ConsoleState extends State<Console>
   Widget scrollToBottomButton(BuildContext context) {
     return TextButton(
       onPressed: () => _scrollToBottom(),
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.arrow_circle_down,
             size: 16,
@@ -248,9 +248,9 @@ class ConsoleState extends State<Console>
         await storeWithKey(dateTimeStyleKey, idByStyle(_dateTimeStyle!));
         setState(() {});
       },
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.change_circle_outlined,
             size: 16,
@@ -268,11 +268,11 @@ class ConsoleState extends State<Console>
   }
 
   Widget clearAllButton(BuildContext context) {
-    return TextButton(
+    return const TextButton(
       onPressed: ConsoleManager.clearLog,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.cleaning_services,
             size: 14,
@@ -393,7 +393,7 @@ class ConsoleState extends State<Console>
       initialValue: _filterLevel,
       itemBuilder: (context) => const [
         PopupMenuItem(
-          value: Level.verbose,
+          value: Level.trace,
           child: Text("VERBOSE", style: textStyle),
         ),
         PopupMenuItem(
@@ -413,7 +413,7 @@ class ConsoleState extends State<Console>
           child: Text("ERROR", style: textStyle),
         ),
         PopupMenuItem(
-          value: Level.wtf,
+          value: Level.fatal,
           child: Text("NETWORK", style: textStyle),
         )
       ],
@@ -427,7 +427,7 @@ class ConsoleState extends State<Console>
         ),
       ),
       onSelected: (Level? level) {
-        _filterLevel = level ?? Level.verbose;
+        _filterLevel = level ?? Level.trace;
         setState(() {});
         _refreshConsole();
       },
