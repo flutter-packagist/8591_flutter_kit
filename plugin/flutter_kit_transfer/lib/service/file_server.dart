@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
+import 'package:log_wrapper/log/log.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 import 'package:shelf/shelf.dart';

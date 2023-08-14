@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
+import 'package:log_wrapper/log/log.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrcodeDialog extends StatelessWidget {
@@ -39,7 +39,7 @@ class QrcodeDialog extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(10.w),
-                          child: QrImage(
+                          child: QrImageView(
                             data: url,
                             version: QrVersions.auto,
                             size: 280.w,

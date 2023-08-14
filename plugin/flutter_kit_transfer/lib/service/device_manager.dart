@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
+import 'package:log_wrapper/log/log.dart';
 
 import '../platform/platform.dart';
 

@@ -23,10 +23,10 @@ class UniqueUtil {
       return deviceInfo.computerName;
     } else if (GetPlatform.isAndroid) {
       var deviceInfo = await deviceInfoPlugin.androidInfo;
-      return deviceInfo.model ?? "";
+      return deviceInfo.model;
     } else if (GetPlatform.isIOS) {
       var deviceInfo = await deviceInfoPlugin.iosInfo;
-      return deviceInfo.name ?? "";
+      return deviceInfo.name;
     }
     return 'unknown';
   }

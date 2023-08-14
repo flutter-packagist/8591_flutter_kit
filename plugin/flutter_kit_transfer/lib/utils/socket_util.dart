@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
+import 'package:log_wrapper/log/log.dart';
 
 import 'dio_util.dart';
 

@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/widgets.dart';
 import 'package:flutter_kit_transfer/platform/platform.dart';
 
 class ScreenAdapter {
@@ -12,7 +11,9 @@ class ScreenAdapter {
   double scale = 1.0;
 
   static void init(double width) {
-    Size dpSize = window.physicalSize / window.devicePixelRatio;
+    Size dpSize = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize /
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
     if (dpSize == Size.zero) {
       return;
     }

@@ -21,16 +21,13 @@ class _ResponsiveEntryState extends State<ResponsiveEntry> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWrapper.builder(
-      Builder(builder: (context) {
-        return const ChatRoom();
-      }),
-      minWidth: 480,
-      defaultScale: false,
+    return ResponsiveBreakpoints.builder(
+     child: const ChatRoom(),
       breakpoints: const [
-        ResponsiveBreakpoint.resize(300, name: MOBILE),
-        ResponsiveBreakpoint.autoScale(600, name: TABLET),
-        ResponsiveBreakpoint.resize(600, name: DESKTOP),
+        Breakpoint(start: 0, end: 450, name: MOBILE),
+        Breakpoint(start: 451, end: 800, name: TABLET),
+        Breakpoint(start: 801, end: 1920, name: DESKTOP),
+        Breakpoint(start: 1921, end: double.infinity, name: '4K'),
       ],
     );
   }

@@ -112,6 +112,7 @@ void main() {
       dynamic e;
       ServiceWrapper().evaluate('', '').catchError((error) {
         e = error;
+        return error;
       }).whenComplete(() => expect(e, isException));
     });
   });

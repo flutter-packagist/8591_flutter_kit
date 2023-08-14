@@ -8,12 +8,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/service/init_server.dart';
 import 'package:flutter_kit_transfer/utils/print_util.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
 import 'package:flutter_kit_transfer/widget/qrcode_dialog.dart';
+import 'package:log_wrapper/log/log.dart';
 import 'package:path/path.dart';
 import 'package:shelf/shelf.dart' as shelf;
 

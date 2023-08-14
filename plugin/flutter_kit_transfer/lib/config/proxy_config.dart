@@ -1,3 +1,4 @@
+import 'package:log_wrapper/log/log.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_proxy/shelf_proxy.dart';
 
@@ -19,5 +20,5 @@ Future main() async {
   // 添加上跨域的这几个header
   server.defaultResponseHeaders.add('Access-Control-Allow-Origin', '*');
   server.defaultResponseHeaders.add('Access-Control-Allow-Credentials', true);
-  print('Serving at http://${server.address.host}:${server.port}');
+  logD('Serving at http://${server.address.host}:${server.port}');
 }

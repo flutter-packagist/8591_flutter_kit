@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' hide Response;
-import 'package:flutter_kit_log/flutter_kit_log.dart';
 import 'package:flutter_kit_transfer/platform/platform.dart';
+import 'package:log_wrapper/log/log.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
@@ -90,7 +90,7 @@ class ChatServer {
     message.platform = GetPlatform.type.index;
     try {
       await httpInstance.post("$url/message", data: message.toJson());
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       logStackE('发送加入消息失败', e, StackTrace.current);
     }
   }

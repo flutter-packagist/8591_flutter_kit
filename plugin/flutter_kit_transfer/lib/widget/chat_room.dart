@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../config/config.dart';
 import '../controller/chat_controller.dart';
@@ -44,7 +44,7 @@ class _ChatRoomState extends State<ChatRoom> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    isMobile = ResponsiveWrapper.of(context).isMobile;
+    isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,

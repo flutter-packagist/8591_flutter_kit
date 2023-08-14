@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_kit_dio/core/instances.dart';
-import 'package:flutter_kit_dio/ext/extensions.dart';
-import 'package:flutter_kit_dio/ext/http_interceptor.dart';
-import 'package:flutter_kit_log/flutter_kit_log.dart';
+import 'package:flutter_kit_dio/ext/log_interceptor.dart';
+import 'package:log_wrapper/log/log.dart';
+
+const String dioExtraEndTime = 'dio_end_time';
+const String dioExtraExpand = 'dio_expand';
 
 Dio httpInstance = DioUtil.getInstance();
 
