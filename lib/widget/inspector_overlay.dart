@@ -318,7 +318,8 @@ class _InspectorOverlayRenderState {
   }
 
   @override
-  int get hashCode => hashValues(overlayRect, selected, hashList(candidates));
+  int get hashCode =>
+      Object.hash(overlayRect, selected, Object.hashAll(candidates));
 }
 
 class _TransformedRect {
@@ -337,5 +338,5 @@ class _TransformedRect {
   }
 
   @override
-  int get hashCode => hashValues(rect, transform);
+  int get hashCode => Object.hash(rect, transform);
 }

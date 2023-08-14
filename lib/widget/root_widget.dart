@@ -55,8 +55,9 @@ class _KitWidgetState extends State<KitWidget> {
     _replaceChild();
     _injectOverlay();
 
-    _onMetricsChanged = WidgetsBinding.instance.window.onMetricsChanged;
-    WidgetsBinding.instance.window.onMetricsChanged = () {
+    _onMetricsChanged =
+        WidgetsBinding.instance.platformDispatcher.onMetricsChanged;
+    WidgetsBinding.instance.platformDispatcher.onMetricsChanged = () {
       if (_onMetricsChanged != null) {
         _onMetricsChanged!();
         _replaceChild();
@@ -68,7 +69,8 @@ class _KitWidgetState extends State<KitWidget> {
   @override
   void dispose() {
     if (_onMetricsChanged != null) {
-      WidgetsBinding.instance.window.onMetricsChanged = _onMetricsChanged;
+      WidgetsBinding.instance.platformDispatcher.onMetricsChanged =
+          _onMetricsChanged;
     }
     super.dispose();
   }
@@ -120,7 +122,8 @@ class _KitWidgetState extends State<KitWidget> {
       children: <Widget>[
         RepaintBoundary(key: rootKey, child: child),
         MediaQuery(
-          data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+          data: MediaQueryData.fromView(
+              WidgetsBinding.instance.platformDispatcher.views.first),
           child: Localizations(
             locale: supportedLocales?.first ?? const Locale('en', 'US'),
             delegates: delegates.toList(),

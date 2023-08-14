@@ -22,6 +22,8 @@ const Color kHighlightedRenderObjectBorderColor =
 
 const Color kTipTextColor = Color(0xFFFFFFFF);
 
-final double ratio = WidgetsBinding.instance.window.devicePixelRatio;
+final double ratio =
+    WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
 
-final Size windowSize = WidgetsBinding.instance.window.physicalSize / ratio;
+final Size windowSize =
+    WidgetsBinding.instance.platformDispatcher.views.first.physicalSize / ratio;
