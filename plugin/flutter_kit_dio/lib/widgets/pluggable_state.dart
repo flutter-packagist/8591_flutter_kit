@@ -54,9 +54,9 @@ class DioPluggableState extends State<DioInspector> {
         }
         setState(() {});
       },
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.compress,
             size: 14,
@@ -76,9 +76,9 @@ class DioPluggableState extends State<DioInspector> {
   Widget _clearAllButton(BuildContext context) {
     return TextButton(
       onPressed: InspectorInstance.httpContainer.clearRequests,
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Icon(
             Icons.cleaning_services,
             size: 14,
@@ -238,9 +238,9 @@ class _ResponseCardState extends State<_ResponseCard> {
     return TextButton(
       onPressed: _switchExpand,
       style: _buttonStyle(context),
-      child: Row(
+      child: const Row(
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           Icon(Icons.search, size: 16, color: Colors.white),
           Text(
             '详情',
@@ -936,7 +936,7 @@ ButtonStyle _buttonStyle(
       borderRadius: BorderRadius.circular(999999),
     ),
     backgroundColor: Theme.of(context).primaryColor,
-    primary: Colors.white,
+    disabledForegroundColor: Colors.white,
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
   );
 }

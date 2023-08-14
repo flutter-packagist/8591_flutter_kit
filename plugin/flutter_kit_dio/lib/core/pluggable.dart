@@ -2,7 +2,7 @@ import 'package:dio/dio.dart' show Dio;
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/flutter_kit.dart';
 
-import '../ext/http_interceptor.dart';
+import '../ext/log_interceptor.dart';
 import '../widgets/icon.dart' as icon;
 import '../widgets/pluggable_state.dart';
 
