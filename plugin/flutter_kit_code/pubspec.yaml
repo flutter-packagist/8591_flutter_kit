@@ -1,19 +1,19 @@
 name: flutter_kit_code
 description: A plugin for flutter code viewer.
-version: 0.0.2
+version: 0.1.0
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_code
 publish_to: http://192.168.8.75:4000/
 
 environment:
-  sdk: ">=2.17.3 <3.0.0"
+  sdk: ">=2.17.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  string_scanner: ^1.1.0
-  vm_service: ^9.0.0
+  string_scanner: ^1.2.0
+  vm_service: ^11.9.0
 
   flutter_kit:
     version: ">=0.0.1 <0.1.0"
@@ -24,6 +24,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.2
 
 flutter:

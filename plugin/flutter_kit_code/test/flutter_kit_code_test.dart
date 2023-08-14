@@ -1,4 +1,6 @@
 
+// ignore_for_file: avoid_print
+
 void main() {
   String url = "libraries/@100029200/scripts/dart:convert/codec.dart/0";
   int index = url.indexOf("scripts/");

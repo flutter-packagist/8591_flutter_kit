@@ -22,7 +22,6 @@ void main() {
       final id = await CodeSearchService().getScriptIdWithFileName(fileName);
       expect(id, isNotNull);
       final sourceCode = await CodeSearchService().getSourceCodeWithScriptId(id!);
-      print("sourceCode: \n$sourceCode");
       expect(sourceCode, isNotNull);
     });
     test('getSourceCodeWithKeyword', () async {
@@ -31,7 +30,6 @@ void main() {
       final id = ids.keys.elementAt(0);
       expect(id, isNotNull);
       final sourceCode = await CodeSearchService().getSourceCodeWithScriptId(id!);
-      print("sourceCode: \n$sourceCode");
       expect(sourceCode, isNotNull);
     });
   });
