@@ -230,7 +230,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
             );
           }
 
-          // sendJoinEvent('$url:${message.messagePort}');
+          sendJoinEvent('$url:${message.messagePort}');
           notifyListeners();
           return;
         }
