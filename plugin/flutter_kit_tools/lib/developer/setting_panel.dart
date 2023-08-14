@@ -45,51 +45,59 @@ class SettingPanelState extends State<SettingPanel> {
   }
 
   Widget get listView {
-    return ListView(children: const [
-      IconTextButton(
+    return ListView(children: [
+      const IconTextButton(
         onPressed: AppSettings.openAppSettings,
         title: "APP设置",
         icon: Icons.apps,
       ),
       IconTextButton(
-        onPressed: AppSettings.openDeviceSettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.device),
         title: "关于手机",
         icon: Icons.perm_device_info,
         content: "Android手机：快速点击当前系统版本号（不是Android版本）5次进入开发者模式",
       ),
       IconTextButton(
-        onPressed: AppSettings.openDevelopmentSettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.developer),
         title: "开发者选项",
         content: "Android手机：如果开发者选项未开启，请先前往\"关于手机\"选项中开启",
         icon: Icons.developer_mode,
       ),
       IconTextButton(
-        onPressed: AppSettings.openNotificationSettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.notification),
         title: "通知栏管理",
         icon: Icons.notifications,
       ),
       IconTextButton(
-        onPressed: AppSettings.openSoundSettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.sound),
         title: "声音设置",
         icon: Icons.volume_up,
       ),
       IconTextButton(
-        onPressed: AppSettings.openDisplaySettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.display),
         title: "屏幕调整",
         icon: Icons.display_settings,
       ),
       IconTextButton(
-        onPressed: AppSettings.openWIFISettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.wifi),
         title: "WIFI设置",
         icon: Icons.wifi,
       ),
       IconTextButton(
-        onPressed: AppSettings.openLocationSettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.location),
         title: "GPS设置",
         icon: Icons.location_on,
       ),
       IconTextButton(
-        onPressed: AppSettings.openSecuritySettings,
+        onPressed: () =>
+            AppSettings.openAppSettings(type: AppSettingsType.security),
         title: "安全性",
         icon: Icons.security,
       ),

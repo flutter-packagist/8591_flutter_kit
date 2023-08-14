@@ -89,9 +89,9 @@ class ColorPickerState extends State<ColorPicker> {
               child: GestureDetector(
                 onTap: () {
                   debugPrint(_color?.hexARGB.toString());
-                  String? copyData = "";
+                  String copyData = "";
                   if (colorState == 0) {
-                    copyData = _color?.hexARGB.toString();
+                    copyData = _color?.hexARGB.toString() ?? "";
                   } else if (colorState == 1) {
                     copyData = "${_color?.alpha} ${_color?.red} "
                         "${_color?.green} ${_color?.blue}";

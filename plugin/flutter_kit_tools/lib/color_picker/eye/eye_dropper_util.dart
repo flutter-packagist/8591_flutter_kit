@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 
-Size get screenSize => ui.window.physicalSize / ui.window.devicePixelRatio;
+Size get screenSize =>
+    WidgetsBinding.instance.platformDispatcher.views.first.physicalSize /
+    WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
 
 extension Screen on MediaQueryData {
   bool get isPhone => size.shortestSide < 600;
@@ -49,11 +51,11 @@ extension Utils on Color {
   List<Color> getShades(int stepCount, {bool skipFirst = true}) =>
       List.generate(
         stepCount,
-            (index) {
+        (index) {
           return hsl
               .withLightness(1 -
-              ((index + (skipFirst ? 1 : 0)) /
-                  (stepCount - (skipFirst ? -1 : 1))))
+                  ((index + (skipFirst ? 1 : 0)) /
+                      (stepCount - (skipFirst ? -1 : 1))))
               .toColor();
         },
       );
@@ -67,39 +69,39 @@ extension Helper on List<Color> {
 List<Color> getHueGradientColors({double? saturation, int steps = 36}) =>
     List.generate(steps, (value) => value)
         .map<Color>((v) {
-      final hsl = HSLColor.fromAHSL(1, v * (360 / steps), 0.67, 0.50);
-      final rgb = hsl.toColor();
-      return rgb.withOpacity(1);
-    })
+          final hsl = HSLColor.fromAHSL(1, v * (360 / steps), 0.67, 0.50);
+          final rgb = hsl.toColor();
+          return rgb.withOpacity(1);
+        })
         .map((c) => saturation != null ? c.withSaturation(saturation) : c)
         .toList();
 
 const samplingGridSize = 9;
 
 List<Color> getPixelColors(
-    img.Image image,
-    Offset offset, {
-      int size = samplingGridSize,
-    }) =>
+  img.Image image,
+  Offset offset, {
+  int size = samplingGridSize,
+}) =>
     List.generate(
       size * size,
-          (index) => getPixelColor(
+      (index) => getPixelColor(
         image,
         offset + _offsetFromIndex(index, samplingGridSize),
       ),
     );
 
 Color getPixelColor(img.Image image, Offset offset) => (offset.dx >= 0 &&
-    offset.dy >= 0 &&
-    offset.dx < image.width &&
-    offset.dy < image.height)
-    ? abgr2Color(image.getPixel(offset.dx.toInt(), offset.dy.toInt()))
+        offset.dy >= 0 &&
+        offset.dx < image.width &&
+        offset.dy < image.height)
+    ? abgr2Color(image.getPixelIndex(offset.dx.toInt(), offset.dy.toInt()))
     : const Color(0x00000000);
 
 ui.Offset _offsetFromIndex(int index, int numColumns) => Offset(
-  (index % numColumns).toDouble(),
-  ((index ~/ numColumns) % numColumns).toDouble(),
-);
+      (index % numColumns).toDouble(),
+      ((index ~/ numColumns) % numColumns).toDouble(),
+    );
 
 Color abgr2Color(int value) {
   final a = (value >> 24) & 0xFF;
@@ -111,14 +113,15 @@ Color abgr2Color(int value) {
 }
 
 Future<img.Image?> repaintBoundaryToImage(
-    RenderRepaintBoundary renderer,
-    ) async {
+  RenderRepaintBoundary renderer,
+) async {
   try {
     final rawImage = await renderer.toImage(pixelRatio: 1);
     final byteData =
-    await rawImage.toByteData(format: ui.ImageByteFormat.rawRgba);
-    final pngBytes = byteData!.buffer.asUint8List();
-    return img.Image.fromBytes(rawImage.width, rawImage.height, pngBytes);
+        await rawImage.toByteData(format: ui.ImageByteFormat.rawRgba);
+    final pngBytes = byteData!.buffer;
+    return img.Image.fromBytes(
+        width: rawImage.width, height: rawImage.height, bytes: pngBytes);
   } catch (err) {
     return null;
   }

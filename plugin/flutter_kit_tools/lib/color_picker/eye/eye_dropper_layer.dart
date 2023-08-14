@@ -115,7 +115,7 @@ class EyeDrop extends InheritedWidget {
       ),
     );
     // ignore: use_build_context_synchronously
-    Overlay.of(context)?.insert(data.eyeOverlayEntry!);
+    Overlay.of(context).insert(data.eyeOverlayEntry!);
   }
 
   @override
