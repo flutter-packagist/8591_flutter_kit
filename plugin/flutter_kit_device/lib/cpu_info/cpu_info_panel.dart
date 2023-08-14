@@ -66,7 +66,7 @@ class CpuInfoPanelState extends State<CpuInfoPanel> {
     deviceInfo.addAll([
       CpuInfoItem(
         title: 'Kernel name',
-        trailing: SysInfo.kernelArchitecture,
+        trailing: SysInfo.kernelArchitecture.name,
       ),
       CpuInfoItem(
         title: 'Kernel version',
@@ -74,7 +74,7 @@ class CpuInfoPanelState extends State<CpuInfoPanel> {
       ),
       CpuInfoItem(
         title: 'Kernel architecture',
-        trailing: SysInfo.kernelArchitecture,
+        trailing: SysInfo.kernelArchitecture.name,
       ),
       CpuInfoItem(
         title: 'Kernel Bitness',
