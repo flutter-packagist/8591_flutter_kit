@@ -1,8 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/core/pluggable.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'icon.dart' as icon;
 
@@ -32,19 +32,40 @@ class HtmlPanel extends StatefulWidget implements Pluggable {
 }
 
 class HtmlPanelState extends State<HtmlPanel> {
-  final Completer<WebViewController> webViewController =
-      Completer<WebViewController>();
+  late WebViewController webViewController;
   final TextEditingController textEditingController =
       TextEditingController(text: "");
+
+  @override
+  void initState() {
+    super.initState();
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    webViewController = WebViewController.fromPlatformCreationParams(params)
+      ..setJavaScriptMode(JavaScriptMode.unrestricted);
+    if (webViewController.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (webViewController.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    } else if (webViewController.platform is WebKitWebViewController) {
+      (webViewController.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        var webController = await webViewController.future;
-        bool isCanBack = await webController.canGoBack();
+        bool isCanBack = await webViewController.canGoBack();
         if (isCanBack) {
-          await webController.goBack();
+          await webViewController.goBack();
           return false;
         } else {
           return true;
@@ -110,19 +131,13 @@ class HtmlPanelState extends State<HtmlPanel> {
   }
 
   Widget get webView {
-    return WebView(
-      initialUrl: "",
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (WebViewController controller) {
-        webViewController.complete(controller);
-      },
-      gestureNavigationEnabled: true,
-      debuggingEnabled: true,
+    return WebViewWidget(
+      controller: webViewController,
     );
   }
 
   void onSearchTap() async {
-    var webController = await webViewController.future;
-    await webController.loadUrl(textEditingController.text);
+    Uri uri = Uri.parse(textEditingController.text);
+    await webViewController.loadRequest(uri);
   }
 }
