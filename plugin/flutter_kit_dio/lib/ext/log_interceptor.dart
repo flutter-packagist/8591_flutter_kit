@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_kit_dio/core/instances.dart';
 import 'package:log_wrapper/log/log.dart';
 
 /// ==============================================================
@@ -61,6 +62,7 @@ class DioLogInterceptor extends Interceptor {
       ResponseInterceptorHandler handler,) {
     response.requestOptions.extra[dioExtraEndTime] = _timestamp;
     response.requestOptions.extra[dioExtraExpand] = false;
+    InspectorInstance.httpContainer.addRequest(response);
     logBoxN(getResponseLog(response));
     handler.next(response);
   }
@@ -71,6 +73,7 @@ class DioLogInterceptor extends Interceptor {
     var response = Response<dynamic>(requestOptions: err.requestOptions);
     response.requestOptions.extra[dioExtraEndTime] = _timestamp;
     response.requestOptions.extra[dioExtraExpand] = false;
+    InspectorInstance.httpContainer.addRequest(response);
     logBoxE(getResponseLog(response));
     logBoxE(err);
     handler.next(err);
