@@ -13,10 +13,13 @@ import 'package:flutter_kit_tools/flutter_kit_tools.dart';
 import 'package:flutter_kit_transfer/widget/transfer_panel.dart';
 import 'package:log_wrapper/log/log.dart';
 
+import 'local_log_output.dart';
+
 final Dio dio = Dio()
   ..options = BaseOptions(connectTimeout: const Duration(seconds: 10));
 
 void main() {
+  LogWrapper().logOutput = LocalLogOutput();
   PluginManager()
     ..registerAll([
       DioInspector(dio: dio),
@@ -160,6 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget btnLogPrint() {
     return TextButton(
       onPressed: () {
+        logN("冗余信息，Release模式下不输出");
+        return;
         Future.wait<void>(
           List<Future<void>>.generate(
             10,
