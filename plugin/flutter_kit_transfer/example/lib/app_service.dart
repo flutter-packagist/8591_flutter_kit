@@ -12,10 +12,10 @@ class AppService {
   }
 
   Future<void> init() async {
-    InitServer().init(packageName: AppConfig.packageName);
+    await InitServer().init(packageName: AppConfig.packageName);
   }
 
   Future<void> initLazy() async {
-    InitServer().initLazy();
+    await InitServer().initLazy();
   }
 }
