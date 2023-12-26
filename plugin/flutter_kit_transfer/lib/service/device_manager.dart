@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
-import 'package:log_wrapper/log/log.dart';
 
 import '../platform/platform.dart';
+import '../utils/log_util.dart';
 
 class DeviceManager {
   DeviceManager._();
@@ -32,7 +32,7 @@ class DeviceManager {
         port: port,
       ));
     }
-    logW("connectedDevice: ${_connectedDevice.toList()}");
+    logD("connectedDevice: ${_connectedDevice.toList()}");
   }
 
   void onClose(String id) {

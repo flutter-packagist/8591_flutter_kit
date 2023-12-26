@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' hide Response;
 import 'package:flutter_kit_transfer/platform/platform.dart';
-import 'package:log_wrapper/log/log.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
@@ -12,6 +11,7 @@ import '../config/config.dart';
 import '../model/custom_message.dart';
 import '../platform/runtime_environment.dart';
 import '../utils/dio_util.dart';
+import '../utils/log_util.dart';
 import '../utils/socket_util.dart';
 import 'init_server.dart';
 
@@ -42,7 +42,6 @@ class ChatServer {
     required Function(Request, Map<String, Object>) receiveMessage,
     required Function(Request, Map<String, Object>) readMessage,
   }) async {
-
     app.post('/message', (Request request) {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       return receiveMessage(request, corsHeader);
@@ -91,7 +90,7 @@ class ChatServer {
     try {
       await httpInstance.post("$url/message", data: message.toJson());
     } on DioException catch (e) {
-      logStackE('发送加入消息失败', e, StackTrace.current);
+      logE('发送加入消息失败：${e.message}');
     }
   }
 }

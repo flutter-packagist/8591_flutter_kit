@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:log_wrapper/log/log.dart';
 
 import 'dio_util.dart';
+import 'log_util.dart';
 
 /// 寻找未被占用的端口
 Future<int> getSafePort(int rangeStart, int rangeEnd) async {
@@ -42,7 +42,7 @@ Future<List<String>> localAddress() async {
 
 /// 发起http get请求，用来校验网络是否互通；如果不通，会返回null
 Future<String?> checkToken(String url) async {
-  logI('访问 $url/check_token 以检测网络是否互通');
+  logD('访问 $url/check_token 以检测网络是否互通');
   Completer lock = Completer();
   CancelToken cancelToken = CancelToken();
   Response response;
@@ -59,7 +59,7 @@ Future<String?> checkToken(String url) async {
     if (!lock.isCompleted) {
       lock.complete(response.data);
     }
-    logI('$url/check_token 响应 ${response.data}');
+    logD('$url/check_token 响应 ${response.data}');
   } catch (e) {
     if (!lock.isCompleted) {
       lock.complete(null);

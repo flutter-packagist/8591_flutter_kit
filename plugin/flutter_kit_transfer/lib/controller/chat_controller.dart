@@ -13,7 +13,6 @@ import 'package:flutter_kit_transfer/utils/print_util.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
 import 'package:flutter_kit_transfer/widget/qrcode_dialog.dart';
-import 'package:log_wrapper/log/log.dart';
 import 'package:path/path.dart';
 import 'package:shelf/shelf.dart' as shelf;
 
@@ -27,6 +26,7 @@ import '../service/device_manager.dart';
 import '../service/file_server.dart';
 import '../utils/dio_util.dart';
 import '../utils/file_util.dart';
+import '../utils/log_util.dart';
 import '../utils/scroll_util.dart';
 import '../utils/socket_util.dart';
 import '../utils/unique_util.dart';
@@ -104,7 +104,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
   // 刷新本地ip地址列表
   Future<void> refreshLocalAddress() async {
     addressList = await localAddress();
-    logI("本地地址列表：$addressList");
+    logD("本地地址列表：$addressList");
   }
 
   // 创建聊天房间
@@ -118,7 +118,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
         return shelf.Response.ok('success', headers: headers);
       },
       readMessage: (request, headers) {
-        logW("readMessage: ${messageQueue.length}");
+        logD("readMessage: ${messageQueue.length}");
         if (messageQueue.isNotEmpty) {
           return shelf.Response.ok(
             jsonEncode(messageQueue.removeAt(0)),
@@ -128,7 +128,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
         return shelf.Response.ok('{}', headers: headers);
       },
     );
-    logI('消息服务器端口 : $messageBindPort');
+    logD('消息服务器端口 : $messageBindPort');
 
     StringBuffer udpData = StringBuffer();
     udpData.write(await UniqueUtil.getDeviceId());
@@ -200,7 +200,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
         BaseMessage message = MessageFactory.fromJson(data);
         dispatchMessage(message, chatWidgetList);
       } catch (e) {
-        logStackE("解析消息失败: ${response.data}", e, StackTrace.current);
+        logE("解析消息失败: ${response.data}");
       }
     });
   }
@@ -267,8 +267,8 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
         Config.filePortRangeEnd,
       );
       FileServer().start(fileServerPort);
-      logI('shelf will server with $shelfBindPort port');
-      logI('file server started with $fileServerPort port');
+      logD('shelf will server with $shelfBindPort port');
+      logD('file server started with $fileServerPort port');
     }
   }
 
@@ -312,9 +312,9 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
   void sendMessage(BaseMessage message) {
     message.platform = GetPlatform.type.index;
     message.deviceId = InitServer().deviceId;
-    logW("sendMessage: $message");
+    logD("sendMessage: $message");
     messageQueue.add(message.toJson());
-    logW("messageQueue: ${messageQueue.length}");
+    logD("messageQueue: ${messageQueue.length}");
     DeviceManager().sendData(message.toJson());
   }
 
@@ -374,7 +374,7 @@ class ChatNotifier extends ChangeNotifier with WidgetsBindingObserver {
       port: shelfBindPort,
       fromDevice: InitServer().deviceName,
     );
-    logI("文件信息: ${prettyJsonMap(fileMessage.toJson())}");
+    logD("文件信息: ${prettyJsonMap(fileMessage.toJson())}");
     sendMessage(fileMessage);
     Widget? messageItem = MessageFactory.getMessageItem(fileMessage, true);
     if (messageItem != null) chatWidgetList.add(messageItem);
