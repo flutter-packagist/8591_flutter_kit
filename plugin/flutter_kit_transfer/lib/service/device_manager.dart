@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 
@@ -11,7 +12,15 @@ class DeviceManager {
 
   factory DeviceManager() => _instance;
 
-  final List<Device> _connectedDevice = [];
+  final List<Device> _connectedDevice = [
+    Device(
+      id: "00000000000000000",
+      name: "unknown",
+      platform: DevicePlatform.unknown,
+      uri: "",
+      port: 0,
+    ),
+  ];
 
   List<Device> get connectedDevice => _connectedDevice;
 
@@ -41,7 +50,11 @@ class DeviceManager {
 
   void sendData(Map<String, dynamic> data) {
     if (GetPlatform.isWeb) {
-      httpInstance.post("message", data: data);
+      String url = "";
+      if (!kReleaseMode) {
+        url = "http://192.168.3.18:12000/";
+      }
+      httpInstance.post("${url}message", data: data);
       return;
     }
     Set<String> urls = {};

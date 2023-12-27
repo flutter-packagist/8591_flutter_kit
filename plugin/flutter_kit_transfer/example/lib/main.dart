@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_kit_transfer/entry/responsive_entry.dart';
 import 'package:flutter_kit_transfer/platform/platform.dart';
-import 'package:flutter_kit_transfer/widget/responsive_entry.dart';
 import 'package:log_wrapper/log/log.dart';
 
 import 'app_service.dart';

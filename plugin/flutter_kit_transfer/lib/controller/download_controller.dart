@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_kit_transfer/platform/platform.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 import 'package:flutter_kit_transfer/utils/file_util.dart';
 import 'package:flutter_kit_transfer/utils/string_util.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class DownloadNotifier extends ChangeNotifier {
+class DownloadController extends GetxController {
   // key是url，value是进度
   Map<String, DownloadInfo> progressMap = {};
 
@@ -41,7 +40,7 @@ class DownloadNotifier extends ChangeNotifier {
       onReceiveProgress: (count, total) {
         downloadInfo.count = count;
         downloadInfo.progress = count / total;
-        notifyListeners();
+        update();
       },
     );
   }

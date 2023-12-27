@@ -22,9 +22,9 @@ class ChatServer {
 
   factory ChatServer() => _instance;
 
-  final Router app = Router();
+  late Router app;
 
-  HttpServer? server;
+  late HttpServer server;
 
   // 跨域资源共享
   final corsHeader = {
@@ -42,6 +42,7 @@ class ChatServer {
     required Function(Request, Map<String, Object>) receiveMessage,
     required Function(Request, Map<String, Object>) readMessage,
   }) async {
+    app = Router();
     app.post('/message', (Request request) {
       corsHeader[HttpHeaders.contentTypeHeader] = ContentType.text.toString();
       return receiveMessage(request, corsHeader);
@@ -66,7 +67,7 @@ class ChatServer {
   }
 
   Future<void> stop() async {
-    await server?.close(force: true);
+    await server.close(force: true);
   }
 
   Future<void> sendJoinEvent(
@@ -88,7 +89,7 @@ class ChatServer {
     message.deviceName = InitServer().deviceName;
     message.platform = GetPlatform.type.index;
     try {
-      await httpInstance.post("$url/message", data: message.toJson());
+      await httpInstance.post("${url}message", data: message.toJson());
     } on DioException catch (e) {
       logE('发送加入消息失败：${e.message}');
     }

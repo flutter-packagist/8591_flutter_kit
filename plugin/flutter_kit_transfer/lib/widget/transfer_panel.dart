@@ -3,7 +3,7 @@ import 'package:flutter_kit/core/pluggable.dart';
 
 import '../service/init_server.dart';
 import 'icon.dart' as icon;
-import 'responsive_entry.dart';
+import '../entry/responsive_entry.dart';
 
 class TransferPanel extends StatelessWidget implements Pluggable {
   final String packageName;

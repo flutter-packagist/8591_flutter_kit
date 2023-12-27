@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kit_transfer/utils/toast_util.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'chat_room.dart';
+import 'chat_page.dart';
 
 class ResponsiveEntry extends StatefulWidget {
   const ResponsiveEntry({Key? key}) : super(key: key);
@@ -12,7 +12,6 @@ class ResponsiveEntry extends StatefulWidget {
 }
 
 class _ResponsiveEntryState extends State<ResponsiveEntry> {
-
   @override
   void initState() {
     initToast(context);
@@ -22,7 +21,7 @@ class _ResponsiveEntryState extends State<ResponsiveEntry> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBreakpoints.builder(
-     child: const ChatRoom(),
+      child: const ChatPage(),
       breakpoints: const [
         Breakpoint(start: 0, end: 450, name: MOBILE),
         Breakpoint(start: 451, end: 800, name: TABLET),

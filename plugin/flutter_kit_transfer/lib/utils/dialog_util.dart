@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_kit_transfer/utils/screen_util.dart';
 
 enum PageTransitionType {
   // 缩放动画
@@ -18,12 +19,15 @@ enum PageTransitionType {
   // 无动画
   none,
   // default 系统动画
-  sysDefault
+  sysDefault,
+  // menu 菜单动画
+  menu,
 }
 
 Future<T?> showAnimationDialog<T>(
   BuildContext context, {
   required Widget child,
+  Color? barrierColor,
   bool barrierDismissible = true,
   bool useRootNavigator = true,
   RouteSettings? routeSettings,
@@ -39,8 +43,8 @@ Future<T?> showAnimationDialog<T>(
     },
     barrierDismissible: barrierDismissible,
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: Colors.black54,
-    transitionDuration: const Duration(milliseconds: 300),
+    barrierColor: barrierColor ?? Colors.black54,
+    transitionDuration: const Duration(milliseconds: 200),
     transitionBuilder: (context, animation1, animation2, child) {
       return _buildDialogTransitions(
         context,
@@ -56,11 +60,12 @@ Future<T?> showAnimationDialog<T>(
 }
 
 Widget _buildDialogTransitions(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-    PageTransitionType type) {
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+  PageTransitionType type,
+) {
   if (type == PageTransitionType.fade) {
     // 渐变效果
     return FadeTransition(
@@ -122,6 +127,22 @@ Widget _buildDialogTransitions(
         curve: Curves.fastOutSlowIn,
       )),
       child: child,
+    );
+  } else if (type == PageTransitionType.menu) {
+    final curvedValue = Curves.easeIn.transform(animation.value);
+    return Transform(
+      transform: Matrix4.translationValues(0.0, curvedValue * 20, 0.0),
+      child: Opacity(
+        opacity: animation.value,
+        child: Container(
+          alignment: Alignment.topRight,
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + 40.w,
+            right: 10.w,
+          ),
+          child: child,
+        ),
+      ),
     );
   } else {
     return child;

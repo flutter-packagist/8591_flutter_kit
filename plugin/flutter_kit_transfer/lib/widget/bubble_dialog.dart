@@ -21,39 +21,42 @@ class BubbleDialog extends StatefulWidget {
 class _BubbleDialogState extends State<BubbleDialog> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100.w,
-      width: 150.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.w),
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          btn(
-            icon: Icons.qr_code_scanner,
-            text: "扫描二维码",
-            onTap: () async {
-              bool cameraCanUse = await checkCamera();
-              if (cameraCanUse) {
-                enterQrScanPage();
-              }
-            },
-          ),
-          btn(
-            icon: Icons.add_box_outlined,
-            text: "加入房间",
-            onTap: () {
-              Navigator.of(context).pop();
-              showDialog(
-                context: context,
-                builder: (_) =>
-                    JoinChatDialog(sendJoinEvent: widget.sendJoinEvent),
-              );
-            },
-          ),
-        ],
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        height: 100.w,
+        width: 150.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.w),
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            btn(
+              icon: Icons.qr_code_scanner,
+              text: "扫描二维码",
+              onTap: () async {
+                bool cameraCanUse = await checkCamera();
+                if (cameraCanUse) {
+                  enterQrScanPage();
+                }
+              },
+            ),
+            btn(
+              icon: Icons.add_box_outlined,
+              text: "加入房间",
+              onTap: () {
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (_) =>
+                      JoinChatDialog(sendJoinEvent: widget.sendJoinEvent),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
