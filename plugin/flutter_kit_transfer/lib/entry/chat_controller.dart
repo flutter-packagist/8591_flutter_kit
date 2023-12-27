@@ -201,14 +201,7 @@ extension SetData on ChatController {
     if (itemWidget != null && message.deviceId != InitServer().deviceId) {
       chatWidgetList.add(itemWidget);
       scrollController.scrollToEnd();
-      logW("dispatchMessage this: ${this.hashCode}");
-      logW("dispatchMessage update 111: ${chatWidgetList.length}");
-      try {
-        update();
-      } catch (e) {
-        logE("dispatchMessage update error: $e");
-      }
-      logW("dispatchMessage update 222");
+      update();
     }
   }
 
@@ -323,8 +316,6 @@ extension Action on ChatController {
   }
 
   void onMoreIconTap() {
-    update();
-    return;
     showAnimationDialog(
       context,
       barrierColor: Colors.transparent,
