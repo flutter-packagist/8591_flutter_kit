@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:log_wrapper/log/log.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../platform/platform.dart';
-import '../platform/runtime_environment.dart';
+import '../compatible/platform/platform.dart';
+import '../compatible/runtime_environment.dart';
 import '../utils/file_util.dart';
 import '../utils/socket_util.dart';
 import '../utils/unique_util.dart';

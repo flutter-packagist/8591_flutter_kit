@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_kit_transfer/config/config.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 
-import '../platform/platform.dart';
+import '../compatible/platform/platform.dart';
 import '../utils/log_util.dart';
 
 class DeviceManager {

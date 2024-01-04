@@ -16,11 +16,11 @@ import 'package:path/path.dart' hide context;
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:shelf/shelf.dart' as shelf;
 
+import '../compatible/platform/platform.dart';
 import '../config/config.dart';
 import '../model/base_message.dart';
 import '../model/custom_message.dart';
 import '../model/message_factory.dart';
-import '../platform/platform.dart';
 import '../service/chat_server.dart';
 import '../service/device_manager.dart';
 import '../service/file_server.dart';

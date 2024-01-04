@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart' hide Response;
-import 'package:flutter_kit_transfer/platform/platform.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_static/shelf_static.dart';
 
+import '../compatible/platform/platform.dart';
+import '../compatible/runtime_environment.dart';
 import '../config/config.dart';
 import '../model/custom_message.dart';
-import '../platform/runtime_environment.dart';
 import '../utils/dio_util.dart';
 import '../utils/log_util.dart';
 import '../utils/socket_util.dart';

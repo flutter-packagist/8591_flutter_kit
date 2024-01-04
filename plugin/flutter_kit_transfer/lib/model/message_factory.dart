@@ -4,7 +4,7 @@ import 'package:flutter_kit_transfer/model/custom_message.dart';
 import 'package:flutter_kit_transfer/model/safe_convert.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 
-import '../platform/platform.dart';
+import '../compatible/platform/platform.dart';
 import '../service/device_manager.dart';
 import '../widget/message_item.dart';
 

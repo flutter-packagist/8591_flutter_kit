@@ -1,6 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 
-import '../platform/platform.dart';
+import '../compatible/platform/platform.dart';
 
 /// 获取本机的设备名称
 class UniqueUtil {

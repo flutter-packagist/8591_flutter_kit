@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_transfer/platform/platform.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../compatible/platform/platform.dart';
 
 /// 扫码页面
 class QRScanView extends StatefulWidget {

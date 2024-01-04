@@ -3,12 +3,11 @@ import 'dart:math';
 
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_kit_transfer/platform/platform.dart';
-import 'package:flutter_kit_transfer/utils/log_util.dart';
 import 'package:path/path.dart';
 
+import '../compatible/platform/platform.dart';
+import '../compatible/runtime_environment.dart';
 import '../config/config.dart';
-import '../platform/runtime_environment.dart';
 
 enum FlashMemoryCell { bit, kb, mb, gb, tb }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_kit_transfer/platform/platform.dart';
+
+import '../compatible/platform/platform.dart';
 
 class ScreenAdapter {
   ScreenAdapter._();
