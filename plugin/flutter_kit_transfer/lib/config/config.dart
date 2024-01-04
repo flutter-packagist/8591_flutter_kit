@@ -15,4 +15,8 @@ class Config {
 
   // flutter package名，因为这个会影响assets的路径
   static String flutterPackage = 'flutter_kit_transfer';
+
+  // 本地调试用的ip
+  static String localDebugIp = 'http://192.168.3.18:12000/';
+  static String localFileDebugIp = 'http://192.168.3.18:13010/';
 }

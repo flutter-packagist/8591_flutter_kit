@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 import 'package:flutter_kit_transfer/utils/file_util.dart';
 import 'package:flutter_kit_transfer/utils/string_util.dart';
@@ -10,6 +11,25 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DownloadController extends GetxController {
+  Future<void> download(String url) async {
+    if (GetPlatform.isWeb) {
+      if (await canLaunchUrlString(url)) {
+        await launchUrlString('$url?download=true');
+        return;
+      }
+    } else {
+      await FileSaver.instance.saveAs(
+        name: url.getFileName,
+        filePath: url,
+        ext: url.getFileExt,
+        mimeType: url.getMimeType,
+        customMimeType: url.getCustomMimeType,
+      );
+      return;
+    }
+    showToast("当前操作系统不支持下载，请联系开发者");
+  }
+
   // key是url，value是进度
   Map<String, DownloadInfo> progressMap = {};
 
@@ -43,20 +63,6 @@ class DownloadController extends GetxController {
         update();
       },
     );
-  }
-
-  Future<void> download(String url) async {
-    if (GetPlatform.isWeb) {
-      if (await canLaunchUrlString(url)) {
-        await launchUrlString('$url?download=true');
-        return;
-      }
-    } else if (GetPlatform.isMobile) {
-
-    } else if (GetPlatform.isDesktop) {
-
-    }
-    showToast("当前操作系统不支持下载，请联系开发者");
   }
 
   Future<String> getMobileLocalPath() async {

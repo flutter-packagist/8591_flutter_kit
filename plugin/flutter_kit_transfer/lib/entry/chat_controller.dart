@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:flutter_kit_transfer/utils/scroll_util.dart';
-import 'package:get/get.dart' hide GetPlatform, Response;
+import 'package:get/get.dart'
+    hide GetPlatform, Response, FormData, MultipartFile;
 import 'package:path/path.dart' hide context;
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:shelf/shelf.dart' as shelf;
@@ -102,7 +103,7 @@ extension Private on ChatController {
     if (!GetPlatform.isWeb) {
       createChatRoom();
     } else {
-      initChatList();
+      joinChatRoomWeb();
     }
   }
 }
@@ -119,7 +120,6 @@ extension SetData on ChatController {
         return shelf.Response.ok('success', headers: headers);
       },
       readMessage: (request, headers) {
-        // logD("readMessage: ${model.messageQueue.length}");
         if (model.messageQueue.isNotEmpty) {
           return shelf.Response.ok(
             jsonEncode(model.messageQueue.removeAt(0)),
@@ -131,10 +131,10 @@ extension SetData on ChatController {
     );
     logD('消息服务器端口 : ${model.messageBindPort}');
 
+    // 将设备ID与聊天服务器成功创建的端口，通过UDP广播出去
     StringBuffer udpData = StringBuffer();
     udpData.write(await UniqueUtil.getDeviceId());
     udpData.write(',${model.messageBindPort}');
-    // 将设备ID与聊天服务器成功创建的端口UDP广播出去
     InitServer().startSendBroadcast(udpData.toString());
     // 保存本地的IP地址列表
     if (!GetPlatform.isWeb) {
@@ -193,7 +193,9 @@ extension SetData on ChatController {
         message.address,
         message.port,
       );
-      message.url = '$url:${message.port}';
+      if (GetPlatform.isWeb) {
+        message.url = '$url:${message.port}';
+      }
     }
 
     // 往聊天列表中添加一条消息
@@ -211,12 +213,6 @@ extension SetData on ChatController {
     // chatWidgetList.clear();
     // 设置连接状态
     model.connectState = true;
-
-    if (GetPlatform.isWeb) {
-      joinChatRoomWeb();
-      return;
-    }
-
     await Future.delayed(const Duration(milliseconds: 100));
     await getSuccessBindPort();
     if (!InitServer().initLock.isCompleted) {
@@ -228,7 +224,7 @@ extension SetData on ChatController {
   void joinChatRoomWeb() {
     String url = "";
     if (!kReleaseMode) {
-      url = "http://192.168.3.18:12000/";
+      url = Config.localDebugIp;
     }
     Uri uri = Uri.parse(url);
     DeviceManager().onConnect(
@@ -363,15 +359,13 @@ extension Action on ChatController {
     }
   }
 
-  void onMenuChooserSystemFileManager() {
-    menuAnimationController.reverse();
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (GetPlatform.isWeb) {
-        sendFileByBrowser();
-      } else {
-        sendFileByClient();
-      }
-    });
+  void onMenuChooserSystemFileManager() async {
+    await menuAnimationController.reverse();
+    if (GetPlatform.isWeb) {
+      sendFileByBrowser();
+    } else {
+      sendFileByClient();
+    }
   }
 }
 
@@ -412,12 +406,57 @@ extension Network on ChatController {
     DeviceManager().sendData(message.toJson());
   }
 
-  Future<void> sendFileByBrowser() async {}
+  Future<void> sendFileByBrowser() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(allowCompression: false, allowMultiple: true);
+
+    if (result != null) {
+      for (var file in result.files) {
+        sendFileWithBytes(file);
+      }
+    }
+  }
+
+  Future<void> sendFileWithBytes(PlatformFile file) async {
+    if (file.bytes == null) return;
+    String url = "";
+    if (!kReleaseMode) {
+      url = Config.localFileDebugIp;
+    }
+    // 定义文件消息
+    final FileMessage fileMessage = FileMessage(
+      filePath: file.name,
+      fileName: file.name,
+      fileSize: file.size.toString(),
+      fileBytes: file.bytes,
+      address: model.addressList,
+      port: model.shelfBindPort,
+      fromDevice: InitServer().deviceName,
+    );
+    fileMessage.platform = 1; // web
+    logD("文件信息: ${prettyJsonMap(fileMessage.toJson())}");
+    Widget? messageItem = MessageFactory.getMessageItem(fileMessage, true);
+    if (messageItem != null) chatWidgetList.add(messageItem);
+    scrollController.scrollToEnd();
+    update();
+    Response response = await httpInstance.post(
+      "${url}upload",
+      data: FormData.fromMap({
+        "filename": file.name,
+        "file": MultipartFile.fromBytes(file.bytes!),
+      }),
+      onSendProgress: (int sent, int total) {
+        logD('sent -> $sent, total -> $total');
+      },
+    );
+    fileMessage.filePath = response.data;
+    fileMessage.url = "";
+    sendMessage(fileMessage);
+  }
 
   Future<void> sendFileByClient() async {
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowCompression: false, allowMultiple: true);
-
     if (result != null) {
       List<File> files = result.paths
           .where((path) => path != null)
@@ -426,8 +465,6 @@ extension Network on ChatController {
       for (var file in files) {
         sendFileWithPath(file.path);
       }
-    } else {
-      // User canceled the picker
     }
   }
 
@@ -460,20 +497,19 @@ extension Network on ChatController {
 
   /// 获取绑定的端口
   Future<void> getSuccessBindPort() async {
-    if (!GetPlatform.isWeb) {
-      model.shelfBindPort = await getSafePort(
-        Config.shelfPortRangeStart,
-        Config.shelfPortRangeEnd,
-      );
-      FileServer().checkToken(model.shelfBindPort);
-      model.fileServerPort = await getSafePort(
-        Config.filePortRangeStart,
-        Config.filePortRangeEnd,
-      );
-      FileServer().start(model.fileServerPort);
-      logD('shelf will server with ${model.shelfBindPort} port');
-      logD('file server started with ${model.fileServerPort} port');
-    }
+    if (GetPlatform.isWeb) return;
+    model.shelfBindPort = await getSafePort(
+      Config.shelfPortRangeStart,
+      Config.shelfPortRangeEnd,
+    );
+    FileServer().checkToken(model.shelfBindPort);
+    model.fileServerPort = await getSafePort(
+      Config.filePortRangeStart,
+      Config.filePortRangeEnd,
+    );
+    FileServer().start(model.fileServerPort);
+    logD('shelf will server with ${model.shelfBindPort} port');
+    logD('file server started with ${model.fileServerPort} port');
   }
 
   /// 刷新本地ip地址列表

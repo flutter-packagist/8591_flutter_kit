@@ -108,7 +108,7 @@ class FileMessageItem extends StatelessWidget {
       child: Column(children: [
         InkWell(
           child: Row(children: [
-            getIconBySuffix(url),
+            getIconBySuffix(url, message.fileBytes),
             SizedBox(width: 8.w),
             Expanded(
               child: Text(
@@ -121,7 +121,7 @@ class FileMessageItem extends StatelessWidget {
             ),
           ]),
         ),
-        if (!sendBySelf && !GetPlatform.isWeb) messageProgress,
+        // if (!sendBySelf && !GetPlatform.isWeb) messageProgress,
       ]),
     );
   }
@@ -184,7 +184,9 @@ class FileMessageItem extends StatelessWidget {
   Widget get messageBtn {
     return Column(children: [
       InkWell(
-        onTap: () => controller.download(url),
+        onTap: () {
+          controller.download(GetPlatform.isWeb ? url : message.filePath);
+        },
         borderRadius: BorderRadius.circular(8.w),
         child: Padding(
           padding: EdgeInsets.all(6.w),

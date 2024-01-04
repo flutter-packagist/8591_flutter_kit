@@ -1,14 +1,13 @@
-import 'dart:io';
+import 'dart:io';import 'dart:convert' show utf8;
 
-import 'package:file_selector/file_selector.dart';
 import 'package:log_wrapper/log/log.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
 
-import '../platform/platform.dart';
 import '../utils/file_util.dart';
 import 'static_handler.dart';
 
@@ -35,11 +34,8 @@ class FileServer {
 
   /// 一个接收文件的服务端
   Future<void> start(int port) async {
-    var server = await HttpServer.bind(
-      '0.0.0.0',
-      port,
-      shared: true,
-    );
+    var server =
+        await HttpServer.bind(InternetAddress.anyIPv4, port, shared: true);
     server.listen((request) async {
       request.response
         ..headers.add('Access-Control-Allow-Origin', '*')
@@ -49,7 +45,7 @@ class FileServer {
         ..statusCode = HttpStatus.ok;
       if (request.uri.path == '/check_token') {
         request.response.write('web token access');
-      } else if (request.uri.path != '/file') {
+      } else if (request.uri.path == '/form') {
         request.response
           ..headers.contentType = ContentType.html
           ..write('''<!DOCTYPE html>
@@ -70,36 +66,8 @@ class FileServer {
     </form>
 </body>
 </html>''');
-      } else if (request.uri.path == '/file') {
-        logD(request.headers);
-        List<int> dateBytes = [];
-        final fileName = request.headers.value('filename');
-        if (fileName != null) {
-          String? downPath = '/sdcard/SpeedShare';
-          if (GetPlatform.isDesktop) {
-            downPath = await getDirectoryPath();
-            if (downPath == null) {
-              request.response.close();
-              return;
-            }
-          }
-          RandomAccessFile randomAccessFile =
-              await File(FileUtil.getSafePath('$downPath/$fileName'))
-                  .open(mode: FileMode.write);
-          await for (var data in request) {
-            dateBytes.addAll(data);
-            progressCall?.call(
-              dateBytes.length / request.headers.contentLength,
-              dateBytes.length,
-            );
-            await randomAccessFile.writeFrom(data);
-            logW(dateBytes.length / request.headers.contentLength);
-          }
-          randomAccessFile.close();
-          logI('success');
-        }
-      } else {
-        logW(request.headers);
+      } else if (request.uri.path == '/upload') {
+        logBoxD(request.headers);
         List<int> dateBytes = [];
         await for (var data in request) {
           dateBytes.addAll(data);
@@ -107,28 +75,35 @@ class FileServer {
             dateBytes.length / request.headers.contentLength,
             dateBytes.length,
           );
-          logI('dateBytes.length ${dateBytes.length} '
-              'request.headers.contentLength -> ${request.headers.contentLength}');
-          logW(dateBytes.length / request.headers.contentLength);
+          logD('progress: ${dateBytes.length / request.headers.contentLength}');
         }
         String boundary =
             request.headers.contentType?.parameters['boundary'] ?? '';
         final transformer = MimeMultipartTransformer(boundary);
         final bodyStream = Stream.fromIterable([dateBytes]);
         final parts = await transformer.bind(bodyStream).toList();
-        Directory('/sdcard/SpeedShare').createSync(recursive: true);
+        final dir = "${(await getTemporaryDirectory()).path}${separator}upload";
+        Directory(dir).createSync(recursive: true);
+        String fileName = DateTime.now().toIso8601String();
+        String filePath = "";
         for (var part in parts) {
-          logI(part.headers);
+          logD(part.headers);
           final contentDisposition = part.headers['content-disposition'] ?? '';
-          logI('contentDisposition -> $contentDisposition');
-          final fileName = RegExp(r'filename="([^"]*)"')
-              .firstMatch(contentDisposition)
-              ?.group(1);
           final content = await part.toList();
-          File(FileUtil.getSafePath('/sdcard/SpeedShare/$fileName'))
-              .writeAsBytesSync(content[0]);
+          if (contentDisposition.contains('"filename"')) {
+            fileName = utf8.decode(content[0]);
+            logD("fileName: $fileName");
+          } else if (contentDisposition.contains('"file"')) {
+            filePath = FileUtil.getSafePath('$dir$separator$fileName');
+            File(filePath).writeAsBytesSync(content[0]);
+            logD("filePath: $filePath");
+          }
         }
-        logI('success');
+        request.response.write(filePath);
+        logD('upload success');
+      } else {
+        request.response.write('route not found');
+        logD('route not found');
       }
       request.response.close();
     });

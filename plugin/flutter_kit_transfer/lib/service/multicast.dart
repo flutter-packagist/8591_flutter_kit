@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-const int _port = 4545;
+import '../utils/socket_util.dart';
+
+// 组播端口
+const int _port = 5354;
 // 组播地址
 final InternetAddress _mDnsAddressIPv4 = InternetAddress('224.0.0.251');
 
@@ -17,7 +20,7 @@ class Multicast {
 
   final ReceivePort _receivePort = ReceivePort();
   final List<MessageReceivedListener> _receivedListeners = [];
-  Isolate? isolate;
+  Isolate? _isolate;
   bool _isBroadcasting = false;
   bool _isReceiving = false;
 
@@ -27,7 +30,7 @@ class Multicast {
   }) async {
     if (_isBroadcasting) return;
     _isBroadcasting = true;
-    isolate = await Isolate.spawn(
+    _isolate = await Isolate.spawn(
       _multicastIsolate,
       IsolateArgs(
         _receivePort.sendPort,
@@ -41,7 +44,7 @@ class Multicast {
   void stopBroadcast() {
     if (!_isBroadcasting) return;
     _isBroadcasting = false;
-    isolate?.kill();
+    _isolate?.kill();
   }
 
   void addListener(MessageReceivedListener listener) {
@@ -101,7 +104,7 @@ Future<void> _sendBroadcast(
   Duration duration,
 ) async {
   RawDatagramSocket socket = await RawDatagramSocket.bind(
-      InternetAddress.anyIPv4, 0,
+      InternetAddress.anyIPv4, port,
       ttl: 255, reuseAddress: true);
   socket.broadcastEnabled = true;
   socket.readEventsEnabled = true;
@@ -146,21 +149,5 @@ extension Broadcast on RawDatagramSocket {
       InternetAddress address = InternetAddress('$addressPrefix.255');
       send(dataList, address, port);
     }
-  }
-
-  /// 遍历获取本地网卡IP
-  Future<List<String>> localAddress() async {
-    final List<String> addressList = [];
-    final List<NetworkInterface> interfaces = await NetworkInterface.list(
-        includeLoopback: false, type: InternetAddressType.IPv4);
-    // 遍历网卡及网卡IP
-    for (final NetworkInterface netInterface in interfaces) {
-      for (final InternetAddress netAddress in netInterface.addresses) {
-        if (netAddress.address.isIPv4) {
-          addressList.add(netAddress.address);
-        }
-      }
-    }
-    return addressList;
   }
 }

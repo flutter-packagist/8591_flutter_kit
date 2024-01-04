@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ import '../config/config.dart';
 import '../utils/screen_util.dart';
 import '../utils/string_util.dart';
 
-Widget getIconBySuffix(String path) {
+Widget getIconBySuffix(String path, Uint8List? bytes) {
   Widget? child;
   if (path.isVideo) {
     child = Image.asset(
@@ -44,28 +45,38 @@ Widget getIconBySuffix(String path) {
       package: Config.flutterPackage,
     );
   } else if (path.isImg) {
-    return Hero(
-      tag: path,
-      child: path.startsWith('http')
-          ? Image(
-              width: 36.w,
-              height: 36.w,
-              fit: BoxFit.cover,
-              image: ResizeImage(
-                NetworkImage(path),
-                width: 100,
-              ),
-            )
-          : Image(
-              width: 36.w,
-              height: 36.w,
-              fit: BoxFit.cover,
-              image: ResizeImage(
-                FileImage(File(path)),
-                width: 100,
-              ),
-            ),
-    );
+    if (path.startsWith('http')) {
+      child = Image(
+        width: 36.w,
+        height: 36.w,
+        fit: BoxFit.cover,
+        image: ResizeImage(
+          NetworkImage(path),
+          width: 100,
+        ),
+      );
+    } else if (bytes != null) {
+      child = Image(
+        width: 36.w,
+        height: 36.w,
+        fit: BoxFit.cover,
+        image: ResizeImage(
+          MemoryImage(bytes),
+          width: 100,
+        ),
+      );
+    } else {
+      child = Image(
+        width: 36.w,
+        height: 36.w,
+        fit: BoxFit.cover,
+        image: ResizeImage(
+          FileImage(File(path)),
+          width: 100,
+        ),
+      );
+    }
+    return Hero(tag: path, child: child);
   }
 
   child ??= Image.asset(

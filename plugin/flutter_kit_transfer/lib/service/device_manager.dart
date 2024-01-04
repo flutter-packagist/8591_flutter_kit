@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_kit_transfer/config/config.dart';
 import 'package:flutter_kit_transfer/utils/dio_util.dart';
 
 import '../platform/platform.dart';
@@ -52,7 +53,7 @@ class DeviceManager {
     if (GetPlatform.isWeb) {
       String url = "";
       if (!kReleaseMode) {
-        url = "http://192.168.3.18:12000/";
+        url = Config.localDebugIp;
       }
       httpInstance.post("${url}message", data: data);
       return;

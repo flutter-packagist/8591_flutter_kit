@@ -262,8 +262,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   }
 
   Widget get chatList {
-    logW("chatList refresh: ${controller.chatWidgetList.length}");
-    logW("chatList controller: ${controller.hashCode}");
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Material(
