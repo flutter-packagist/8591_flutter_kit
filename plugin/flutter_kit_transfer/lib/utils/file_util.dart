@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_kit_transfer/platform/platform.dart';
+import 'package:flutter_kit_transfer/utils/log_util.dart';
 import 'package:path/path.dart';
 
 import '../config/config.dart';
