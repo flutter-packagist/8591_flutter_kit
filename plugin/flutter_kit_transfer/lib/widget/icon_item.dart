@@ -54,6 +54,13 @@ Widget getIconBySuffix(String path, Uint8List? bytes) {
           NetworkImage(path),
           width: 100,
         ),
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 36.w,
+            height: 36.w,
+            color: Colors.grey.shade400,
+          );
+        },
       );
     } else if (bytes != null) {
       child = Image(
@@ -64,6 +71,13 @@ Widget getIconBySuffix(String path, Uint8List? bytes) {
           MemoryImage(bytes),
           width: 100,
         ),
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 36.w,
+            height: 36.w,
+            color: Colors.grey.shade400,
+          );
+        },
       );
     } else {
       child = Image(
@@ -74,6 +88,13 @@ Widget getIconBySuffix(String path, Uint8List? bytes) {
           FileImage(File(path)),
           width: 100,
         ),
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 36.w,
+            height: 36.w,
+            color: Colors.grey.shade400,
+          );
+        },
       );
     }
     return Hero(tag: path, child: child);

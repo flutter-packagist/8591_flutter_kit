@@ -1,4 +1,5 @@
-import 'dart:io';import 'dart:convert' show utf8;
+import 'dart:convert' show utf8;
+import 'dart:io';
 
 import 'package:log_wrapper/log/log.dart';
 import 'package:mime/mime.dart';
@@ -44,28 +45,7 @@ class FileServer {
         ..headers.add('Access-Control-Allow-Credentials', 'true')
         ..statusCode = HttpStatus.ok;
       if (request.uri.path == '/check_token') {
-        request.response.write('web token access');
-      } else if (request.uri.path == '/form') {
-        request.response
-          ..headers.contentType = ContentType.html
-          ..write('''<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <form method="post" action="/file_upload" enctype="multipart/form-data">
-        <input type="file" name="file_upload">
-        <br>
-        <button type="submit">UploadFile</button>
-    </form>
-</body>
-</html>''');
+        request.response.write('FileServer check_token');
       } else if (request.uri.path == '/upload') {
         logBoxD(request.headers);
         List<int> dateBytes = [];

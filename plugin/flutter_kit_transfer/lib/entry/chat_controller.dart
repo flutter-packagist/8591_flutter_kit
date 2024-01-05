@@ -421,13 +421,13 @@ extension Network on ChatController {
     if (file.bytes == null) return;
     String url = "";
     if (!kReleaseMode) {
-      url = Config.localFileDebugIp;
+      url = Config.localDebugIp;
     }
     // 定义文件消息
     final FileMessage fileMessage = FileMessage(
       filePath: file.name,
       fileName: file.name,
-      fileSize: file.size.toString(),
+      fileSize: FileUtil.getFileSize(file.size, FlashMemoryCell.kb) ?? "",
       fileBytes: file.bytes,
       address: model.addressList,
       port: model.shelfBindPort,
@@ -507,9 +507,9 @@ extension Network on ChatController {
       Config.filePortRangeStart,
       Config.filePortRangeEnd,
     );
-    FileServer().start(model.fileServerPort);
+    // FileServer().start(model.messageBindPort);
     logD('shelf will server with ${model.shelfBindPort} port');
-    logD('file server started with ${model.fileServerPort} port');
+    // logD('file server started with ${model.messageBindPort} port');
   }
 
   /// 刷新本地ip地址列表

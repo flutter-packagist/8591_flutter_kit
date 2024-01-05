@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart' hide Response;
+import 'package:mime/mime.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
@@ -11,6 +15,7 @@ import '../compatible/runtime_environment.dart';
 import '../config/config.dart';
 import '../model/custom_message.dart';
 import '../utils/dio_util.dart';
+import '../utils/file_util.dart';
 import '../utils/log_util.dart';
 import '../utils/socket_util.dart';
 import 'init_server.dart';
@@ -49,6 +54,39 @@ class ChatServer {
     });
     app.get('/message', (Request request) {
       return readMessage(request, corsHeader);
+    });
+    app.get('/upload', (Request request) {
+      return Response.ok("upload access", headers: corsHeader);
+    });
+    app.post('/upload', (Request request) async {
+      // 获取上传的数据流
+      logW("request: ${request.headers}");
+      String contentType = request.headers['content-type'] ?? '';
+      HeaderValue header = HeaderValue.parse(contentType);
+      String boundary = header.parameters['boundary'] ?? '';
+      final transformer = MimeMultipartTransformer(boundary);
+      final parts = await transformer.bind(request.read()).toList();
+      // 创建文件存储目录
+      final dir = "${(await getTemporaryDirectory()).path}${separator}upload";
+      Directory(dir).createSync(recursive: true);
+      // 读取上传数据参数
+      String fileName = DateTime.now().toIso8601String();
+      String filePath = "";
+      for (MimeMultipart part in parts) {
+        final contentDisposition = part.headers['content-disposition'] ?? '';
+        final content = await part.toList();
+        if (contentDisposition.contains('"filename"')) {
+          fileName = utf8.decode(content[0]);
+        } else if (contentDisposition.contains('"file"')) {
+          filePath = FileUtil.getSafePath('$dir$separator$fileName');
+          List<int> bytes = [];
+          for (var byte in content) {
+            bytes.addAll(byte);
+          }
+          await File(filePath).writeAsBytes(bytes);
+        }
+      }
+      return Response.ok(filePath, headers: corsHeader);
     });
     // 绑定index文件到根目录
     var handler = createStaticHandler(
