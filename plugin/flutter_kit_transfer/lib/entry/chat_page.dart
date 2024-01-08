@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_kit_transfer/utils/log_util.dart';
 import 'package:flutter_kit_transfer/utils/screen_util.dart';
 import 'package:get/get.dart';
 
