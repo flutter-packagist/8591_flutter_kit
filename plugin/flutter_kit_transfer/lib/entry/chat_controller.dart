@@ -238,7 +238,7 @@ extension SetData on ChatController {
     sendJoinEvent(url);
     update();
 
-    Timer.periodic(const Duration(milliseconds: 3000), (timer) async {
+    Timer.periodic(const Duration(milliseconds: 1000), (timer) async {
       String webUrl = '${url}message';
       Response response = await httpInstance.get(webUrl);
       try {

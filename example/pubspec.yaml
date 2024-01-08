@@ -74,6 +74,7 @@ dev_dependencies:
   flutter_lints: ^2.0.2
 
 dependency_overrides:
+  file_picker: 6.1.1
   flutter_kit:
     path: ../
   flutter_kit_dio:
