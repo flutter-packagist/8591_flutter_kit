@@ -1,6 +1,6 @@
 name: flutter_kit_tools
 description: A plugin for dev tools
-version: 0.1.1
+version: 0.1.2
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_tools
 publish_to: http://192.168.8.75:4000/
 
@@ -15,21 +15,9 @@ dependencies:
   app_settings: ^5.0.0
   fluttertoast: ^8.2.2
   image: ^4.0.17
-  webview_flutter:
-    version: ^4.2.0+2
-    hosted:
-      name: webview_flutter
-      url: http://192.168.8.75:4000/
-  webview_flutter_android:
-    version: ^3.7.0+2
-    hosted:
-      name: webview_flutter_android
-      url: http://192.168.8.75:4000/
-  webview_flutter_wkwebview:
-    version: ^3.4.3+2
-    hosted:
-      name: webview_flutter_wkwebview
-      url: http://192.168.8.75:4000/
+  android_intent_plus: ^4.0.3
+  webview_flutter: ^4.5.0
+  webview_flutter_wkwebview: ^3.10.0
 
   flutter_kit:
     version: ">=0.0.1 <0.1.0"

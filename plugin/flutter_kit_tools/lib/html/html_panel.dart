@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_kit/core/pluggable.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'icon.dart' as icon;
@@ -39,6 +38,10 @@ class HtmlPanelState extends State<HtmlPanel> {
   @override
   void initState() {
     super.initState();
+    initWebViewController();
+  }
+
+  void initWebViewController() {
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -47,13 +50,12 @@ class HtmlPanelState extends State<HtmlPanel> {
     } else {
       params = const PlatformWebViewControllerCreationParams();
     }
+
     webViewController = WebViewController.fromPlatformCreationParams(params)
+      ..setBackgroundColor(Colors.white)
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
-    if (webViewController.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (webViewController.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    } else if (webViewController.platform is WebKitWebViewController) {
+
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       (webViewController.platform as WebKitWebViewController)
           .setAllowsBackForwardNavigationGestures(true);
     }
@@ -78,14 +80,7 @@ class HtmlPanelState extends State<HtmlPanel> {
           body: SafeArea(
             child: Column(children: [
               textField,
-              Expanded(
-                child: ColoredBox(
-                  color: Colors.white,
-                  child: Stack(children: [
-                    webView,
-                  ]),
-                ),
-              ),
+              Expanded(child: webView),
             ]),
           ),
         ),
@@ -118,7 +113,7 @@ class HtmlPanelState extends State<HtmlPanel> {
           ),
         ),
         controller: textEditingController,
-        style: const TextStyle(color: Colors.blue, fontSize: 14),
+        style: TextStyle(color: Colors.grey.shade50, fontSize: 14),
         maxLines: 5,
         minLines: 1,
         autocorrect: false,

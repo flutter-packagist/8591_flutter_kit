@@ -1,3 +1,7 @@
+## 0.1.2
+
+* 更新 webview_flutter 版本
+
 ## 0.1.1
 
 * 更新 webview_flutter 版本
