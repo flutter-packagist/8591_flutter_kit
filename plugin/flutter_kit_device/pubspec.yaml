@@ -1,6 +1,6 @@
 name: flutter_kit_device
 description: A plugin for device info.
-version: 0.1.0
+version: 0.1.1
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_device
 publish_to: http://192.168.8.75:4000/
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  device_info_plus: ^9.0.3
-  platform: ^3.1.0
+  device_info_plus: ^10.1.0
+  platform: ^3.1.4
   system_info2: ^4.0.0
 
   flutter_kit:
@@ -25,6 +25,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
 
 flutter:
