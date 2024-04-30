@@ -71,7 +71,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
 
 dependency_overrides:
   file_picker: 6.1.1
