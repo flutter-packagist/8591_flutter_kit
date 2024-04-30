@@ -13,7 +13,7 @@ import 'package:flutter_kit_transfer/utils/scroll_util.dart';
 import 'package:get/get.dart'
     hide GetPlatform, Response, FormData, MultipartFile;
 import 'package:path/path.dart' hide context;
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shelf/shelf.dart' as shelf;
 
 import '../compatible/platform/platform.dart';
