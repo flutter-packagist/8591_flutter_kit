@@ -308,10 +308,14 @@ class _InspectorOverlayRenderState {
   final _SelectionInfo selectionInfo;
 
   @override
-  bool operator ==(dynamic other) {
-    if (other.runtimeType != runtimeType) return false;
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType &&
+        other is! _InspectorOverlayRenderState) {
+      return false;
+    }
 
-    final _InspectorOverlayRenderState typedOther = other;
+    final _InspectorOverlayRenderState typedOther =
+        other as _InspectorOverlayRenderState;
     return overlayRect == typedOther.overlayRect &&
         selected == typedOther.selected &&
         listEquals<_TransformedRect>(candidates, typedOther.candidates);
@@ -331,9 +335,11 @@ class _TransformedRect {
   final Matrix4 transform;
 
   @override
-  bool operator ==(dynamic other) {
-    if (other.runtimeType != runtimeType) return false;
-    final _TransformedRect typedOther = other;
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType && other is! _TransformedRect) {
+      return false;
+    }
+    final _TransformedRect typedOther = other as _TransformedRect;
     return rect == typedOther.rect && transform == typedOther.transform;
   }
 

@@ -14,7 +14,7 @@ class ServiceWrapper {
     if (_isolateId != null) {
       return _isolateId;
     }
-    _isolateId = Service.getIsolateID(Isolate.current);
+    _isolateId = Service.getIsolateId(Isolate.current);
     return _isolateId;
   }
 
