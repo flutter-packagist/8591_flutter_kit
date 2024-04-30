@@ -1,6 +1,6 @@
 name: flutter_kit_performance
 description: A plugin for flutter performance
-version: 0.1.0
+version: 0.1.1
 homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_performance
 publish_to: http://192.168.8.75:4000/
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  vm_service: ^11.9.0
+  vm_service: ^13.0.0
   flutter_kit:
     version: ">=0.0.1 <0.1.0"
     hosted:
@@ -22,6 +22,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
 
 flutter:
