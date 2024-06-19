@@ -15,15 +15,25 @@ dependencies:
   app_settings: ^5.1.1
   fluttertoast: ^8.2.5
   image: ^4.1.7
-  android_intent_plus: ^5.0.2
-  webview_flutter: ^4.7.0
-  webview_flutter_wkwebview: ^3.13.0
+  webview_flutter:
+    version: ^4.2.0+2
+    hosted:
+      name: webview_flutter
+      url: http://192.168.8.75:4000/
+  webview_flutter_android:
+    version: ^3.7.0+2
+    hosted:
+      name: webview_flutter_android
+      url: http://192.168.8.75:4000/
+  webview_flutter_wkwebview:
+    version: ^3.4.3+2
+    hosted:
+      name: webview_flutter_wkwebview
+      url: http://192.168.8.75:4000/
 
   flutter_kit:
-    version: ">=0.0.1 <0.1.0"
-    hosted:
-      name: flutter_kit
-      url: http://192.168.8.75:4000/
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
 
 dev_dependencies:
   flutter_test:

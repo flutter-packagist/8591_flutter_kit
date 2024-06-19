@@ -56,15 +56,13 @@ dependencies:
       url: http://192.168.8.75:4000/
 
   flutter_kit:
-    version: ">=0.0.1 <0.1.0"
-    hosted:
-      name: flutter_kit
-      url: http://192.168.8.75:4000/
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+
   flutter_kit_dio:
-    version: ">=0.0.1 <0.2.0"
-    hosted:
-      name: flutter_kit_dio
-      url: http://192.168.8.75:4000/
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+      path: plugin/flutter_kit_dio
 
 dev_dependencies:
   flutter_test:
