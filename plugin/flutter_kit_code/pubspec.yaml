@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   string_scanner: ^1.2.0
-  vm_service: ^13.0.0
+  vm_service: 13.0.0
 
   flutter_kit:
     git:
