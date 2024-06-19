@@ -19,7 +19,7 @@ dependencies:
   # 设备信息获取
   device_info_plus: ^10.1.0
   # 网络请求
-  dio: ^5.4.3+1
+  dio: 5.3.0
   # 文件选择器
   file_picker: ^8.0.3
   file_selector: ^1.0.3

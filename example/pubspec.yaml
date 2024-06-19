@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  dio: ^5.4.3+1
+  dio: 5.3.0
   log_wrapper:
     path: ../plugin/log_wrapper
 
