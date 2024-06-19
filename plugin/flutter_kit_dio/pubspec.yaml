@@ -14,9 +14,10 @@ dependencies:
 
   dio: ^5.4.3+1
   log_wrapper:
-    version: ">=1.0.0 <2.0.0"
-    hosted:
-      url: http://192.168.8.75:4000/
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+      path: plugin/log_wrapper
+
   flutter_kit:
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
