@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  device_info_plus: ^10.1.0
+  device_info_plus: 9.1.2
   platform: ^3.1.4
   system_info2: ^4.0.0
 

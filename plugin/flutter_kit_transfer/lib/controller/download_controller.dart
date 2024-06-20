@@ -8,15 +8,15 @@ import 'package:flutter_kit_transfer/utils/toast_util.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class DownloadController extends GetxController {
   Future<void> download(String url) async {
     if (GetPlatform.isWeb) {
-      if (await canLaunchUrlString(url)) {
+      /*if (await canLaunchUrlString(url)) {
         await launchUrlString('$url?download=true');
         return;
-      }
+      }*/
+      showToast("当前操作系统不支持下载，请联系开发者");
     } else {
       await FileSaver.instance.saveAs(
         name: url.getFileName,
