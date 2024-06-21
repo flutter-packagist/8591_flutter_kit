@@ -14,9 +14,10 @@ dependencies:
 
   dio: 5.3.0
   log_wrapper:
-    git:
-      url: https://github.com/flutter-packagist/8591_flutter_kit.git
-      path: plugin/log_wrapper
+    path: ../plugin/log_wrapper
+#    git:
+#      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+#      path: plugin/log_wrapper
 
 
   flutter_kit:

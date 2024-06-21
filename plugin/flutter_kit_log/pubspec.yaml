@@ -14,15 +14,17 @@ dependencies:
 
   archive: 3.4.2
   logger: ^2.2.0
-  path: ^1.9.0
+  path: ^1.8.3
   path_provider: 2.0.15
   tuple: ^2.0.2
   log_wrapper:
+    #path: ../log_wrapper
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
       path: plugin/log_wrapper
 
   flutter_kit:
+    #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
 

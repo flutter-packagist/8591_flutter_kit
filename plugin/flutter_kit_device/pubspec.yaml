@@ -17,6 +17,7 @@ dependencies:
   system_info2: ^4.0.0
 
   flutter_kit:
+    #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
 

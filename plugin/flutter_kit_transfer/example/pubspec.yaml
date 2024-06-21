@@ -12,9 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   log_wrapper:
-    version: ">=1.0.0 <2.0.0"
-    hosted:
-      url: http://192.168.8.75:4000/
+    path: ../../log_wrapper
   flutter_kit_transfer:
     path: ../
 
