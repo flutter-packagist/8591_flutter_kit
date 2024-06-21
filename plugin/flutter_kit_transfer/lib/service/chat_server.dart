@@ -127,7 +127,7 @@ class ChatServer {
     message.deviceName = InitServer().deviceName;
     message.platform = GetPlatform.type.index;
     try {
-      await httpInstance.post("${url}message", data: message.toJson());
+      await httpInstance.post("${url}/message", data: message.toJson());
     } on DioException catch (e) {
       logE('发送加入消息失败：${e.message}');
     }

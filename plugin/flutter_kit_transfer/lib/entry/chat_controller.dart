@@ -146,6 +146,7 @@ extension SetData on ChatController {
 
   /// 服务器接收到消息，进行处理并加入缓存
   void receiveMessage(Map<String, dynamic> data) {
+    print("receiveMessage: $data");
     model.messageCache.add(data);
     if (data['msgType'] == 'exit') {
       DeviceManager().onClose(data['deviceId']);
@@ -407,6 +408,7 @@ extension Network on ChatController {
   }
 
   Future<void> sendFileByBrowser() async {
+    //print("send-sendFileByBrowser");
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowCompression: false, allowMultiple: true);
 
@@ -418,6 +420,7 @@ extension Network on ChatController {
   }
 
   Future<void> sendFileWithBytes(PlatformFile file) async {
+    //print("send-sendFileWithBytes");
     if (file.bytes == null) return;
     String url = "";
     if (!kReleaseMode) {
@@ -455,6 +458,7 @@ extension Network on ChatController {
   }
 
   Future<void> sendFileByClient() async {
+    //print("send-sendFileByClient");
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowCompression: false, allowMultiple: true);
     if (result != null) {
@@ -463,12 +467,64 @@ extension Network on ChatController {
           .map((path) => File(path!))
           .toList();
       for (var file in files) {
-        sendFileWithPath(file.path);
+        //sendFileWithPath2(file.path);
+        sendFileWithPath(file);
       }
     }
   }
 
-  Future<void> sendFileWithPath(String path) async {
+  Future<void> sendFileWithPath(File file) async {
+    //print("send-sendFileWithPath");
+    String path = file.path;
+    path = path.replaceAll('\\', '/');
+    // 读取文件大小
+    int size = await file.length();
+    // 替换windows盘符
+    path = path.replaceAll(RegExp('^[A-Z]:'), '');
+    // 定义文件消息
+    Context pathContext = GetPlatform.isWindows ? windows : posix;
+    final FileMessage fileMessage = FileMessage(
+      filePath: path,
+      fileName: pathContext.basename(path),
+      fileSize: FileUtil.getFileSize(size) ?? "",
+      address: model.addressList,
+      port: model.shelfBindPort,
+      fromDevice: InitServer().deviceName,
+    );
+    fileMessage.platform = 2; // Client
+    logD("文件信息: ${prettyJsonMap(fileMessage.toJson())}");
+    //sendMessage(fileMessage);
+    Widget? messageItem = MessageFactory.getMessageItem(fileMessage, true);
+    if (messageItem != null) chatWidgetList.add(messageItem);
+    scrollController.scrollToEnd();
+    update();
+    MultipartFile multipartFile =
+        MultipartFile.fromBytes(file.readAsBytesSync());
+    Set<String> urls = {};
+    urls.addAll(DeviceManager()
+        .connectedDevice
+        .where((e) => e.uri.isNotEmpty)
+        .map((e) => "${e.uri}:${e.port}/"));
+    Response? response;
+    for (String url in urls) {
+      response = await httpInstance.post(
+        "${url}upload",
+        data: FormData.fromMap({
+          "filename": pathContext.basename(path),
+          "file": multipartFile,
+        }),
+        onSendProgress: (int sent, int total) {
+          logD('sent -> $sent, total -> $total');
+        },
+      );
+    }
+    fileMessage.filePath = response?.data;
+    fileMessage.url = "";
+    sendMessage(fileMessage);
+  }
+
+  Future<void> sendFileWithPath2(String path) async {
+    //print("send-sendFileWithPath");
     await getSuccessBindPort();
     FileServer().deployFile(path, model.shelfBindPort);
     // 替换windows的路径分隔符
