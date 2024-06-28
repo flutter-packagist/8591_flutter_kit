@@ -56,15 +56,15 @@ dependencies:
 #      path: plugin/log_wrapper
 
   flutter_kit:
-    path: ../../
-#    git:
-#      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+    #path: ../../
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
 
   flutter_kit_dio:
-    path: ../flutter_kit_dio
-#    git:
-#      url: https://github.com/flutter-packagist/8591_flutter_kit.git
-#      path: plugin/flutter_kit_dio
+    #path: ../flutter_kit_dio
+    git:
+      url: https://github.com/flutter-packagist/8591_flutter_kit.git
+      path: plugin/flutter_kit_dio
 
 dev_dependencies:
   flutter_test:
