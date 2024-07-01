@@ -1,8 +1,7 @@
 name: flutter_kit_transfer
 description: A plugin for file transfer
 version: 0.1.2
-homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_transfer
-publish_to: http://192.168.8.75:4000/
+homepage: https://github.com/flutter-packagist/8591_flutter_kit.git
 
 environment:
   sdk: ">=2.17.3 <4.0.0"
@@ -33,7 +32,7 @@ dependencies:
   # 获取文件对应的 mime_type
   mime: ^1.0.5
   # 获取常用文件路径
-  path: 1.9.0
+  path: 1.8.3
   #path_provider: 2.0.15
   # 权限管理
   permission_handler: ^11.3.0
@@ -50,18 +49,12 @@ dependencies:
   # 打开链接
   url_launcher: 6.1.0
 
-#  log_wrapper:
-#    git:
-#      url: https://github.com/flutter-packagist/8591_flutter_kit.git
-#      path: plugin/log_wrapper
 
   flutter_kit:
-    #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
 
   flutter_kit_dio:
-    #path: ../flutter_kit_dio
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
       path: plugin/flutter_kit_dio

@@ -1,8 +1,7 @@
 name: flutter_kit_tools
 description: A plugin for dev tools
 version: 0.1.3
-homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_tools
-publish_to: http://192.168.8.75:4000/
+homepage: https://github.com/flutter-packagist/8591_flutter_kit.git
 
 environment:
   sdk: ">=2.17.3 <4.0.0"

@@ -1,7 +1,7 @@
 name: log_wrapper
 description: logger wrapper for flutter
 version: 1.0.3
-homepage: https://github.com/flutter-packagist/log_wrapper
+homepage: https://github.com/flutter-packagist/8591_flutter_kit.git
 
 environment:
   sdk: '>=2.19.6 <4.0.0'

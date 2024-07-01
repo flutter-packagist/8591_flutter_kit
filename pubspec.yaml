@@ -1,8 +1,7 @@
 name: flutter_kit
 description: Debug tools for Flutter.
 version: 0.0.5
-homepage: https://code.addcn.com/flutter/flutter_kit
-publish_to: http://192.168.8.75:4000/
+homepage: https://github.com/flutter-packagist/8591_flutter_kit.git
 
 environment:
   sdk: ">=3.2.0 <4.0.0"

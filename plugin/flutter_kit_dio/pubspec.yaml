@@ -1,8 +1,7 @@
 name: flutter_kit_dio
 description: A plugin to print log for dio network request
 version: 0.1.2
-homepage: https://code.addcn.com/flutter/flutter_kit/-/tree/master/plugin/flutter_kit_dio
-publish_to: http://192.168.8.75:4000/
+homepage: https://github.com/flutter-packagist/
 
 environment:
   sdk: ">=2.17.3 <4.0.0"
@@ -14,13 +13,11 @@ dependencies:
 
   dio: 5.3.0
   log_wrapper:
-    #path: ../log_wrapper
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
       path: plugin/log_wrapper
 
   flutter_kit:
-    #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
 
