@@ -32,7 +32,7 @@ dependencies:
   # 获取文件对应的 mime_type
   mime: ^1.0.5
   # 获取常用文件路径
-  path: 1.8.3
+  path: 1.9.0
   #path_provider: 2.0.15
   # 权限管理
   permission_handler: ^11.3.0
