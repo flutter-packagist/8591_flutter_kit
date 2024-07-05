@@ -171,6 +171,7 @@ class _KitWidgetState extends State<KitWidget> {
         builder: (_) => Material(
           type: MaterialType.transparency,
           child: _ContentPage(
+            key: _contentPageKey,
             controller: contentController,
             refreshChildLayout: () {
               _replaceChild();
