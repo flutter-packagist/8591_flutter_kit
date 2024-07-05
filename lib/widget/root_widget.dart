@@ -38,9 +38,24 @@ class KitWidget extends StatefulWidget {
   final Iterable<Locale>? supportedLocales;
   final Iterable<LocalizationsDelegate> localizationsDelegates;
 
+  /// Close the activated plugin if any.
+  ///
+  /// The method does not have side-effects whether the [UMEWidget]
+  /// is not enabled or no plugin has been activated.
+  static void closeActivatedPlugin() {
+    final __ContentPageState? state =
+        _kitWidgetState?._contentPageKey.currentState;
+    if (state?._currentSelected != null) {
+      state?._closeActivatedPluggable();
+    }
+  }
+
   @override
   _KitWidgetState createState() => _KitWidgetState();
 }
+
+/// Hold the [_UMEWidgetState] as a global variable.
+_KitWidgetState? _kitWidgetState;
 
 class _KitWidgetState extends State<KitWidget> {
   late Widget _child;
@@ -48,6 +63,20 @@ class _KitWidgetState extends State<KitWidget> {
   VoidCallback? _onMetricsChanged;
 
   OverlayEntry _overlayEntry = OverlayEntry(builder: (ctx) => Container());
+
+  final GlobalKey<__ContentPageState> _contentPageKey = GlobalKey();
+
+  _KitWidgetState() {
+    // Make sure only a single `UMEWidget` is being used.
+    assert(
+    _kitWidgetState == null,
+    'Only one `UMEWidget` can be used at the same time.',
+    );
+    if (_kitWidgetState != null) {
+      throw StateError('Only one `UMEWidget` can be used at the same time.');
+    }
+    _kitWidgetState = this;
+  }
 
   @override
   void initState() {
@@ -73,6 +102,7 @@ class _KitWidgetState extends State<KitWidget> {
           _onMetricsChanged;
     }
     super.dispose();
+    _kitWidgetState = null;
   }
 
   @override
@@ -213,18 +243,23 @@ class __ContentPageState extends State<_ContentPage> {
     if (_currentSelected != null) {
       keepState = _currentSelected!.keepState;
       if (!keepState) {
-        PluginManager().deactivatePluggable(_currentSelected!);
-        if (widget.refreshChildLayout != null) {
-          widget.refreshChildLayout!();
-        }
-        _currentSelected = null;
-        _currentWidget = _empty;
-        setState(() {});
+        _closeActivatedPluggable();
         return;
       }
     }
     _showedMenu = !_showedMenu;
     _updatePanelWidget(keepState: keepState);
+  }
+
+  void _closeActivatedPluggable() {
+    PluginManager().deactivatePluggable(_currentSelected!);
+    if (widget.refreshChildLayout != null) {
+      widget.refreshChildLayout!();
+    }
+    _currentSelected = null;
+    _currentWidget = _empty;
+    setState(() {});
+    return;
   }
 
   void _updatePanelWidget({bool keepState = false}) {
