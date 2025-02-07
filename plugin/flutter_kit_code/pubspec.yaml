@@ -15,8 +15,10 @@ dependencies:
   vm_service: 14.2.5
 
   flutter_kit:
+    #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
+      branch: upgrade
 
 dev_dependencies:
   flutter_test:

@@ -16,10 +16,12 @@ dependencies:
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
       path: plugin/log_wrapper
+      branch: upgrade
 
   flutter_kit:
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
+      branch: upgrade
 
 dev_dependencies:
   flutter_test:

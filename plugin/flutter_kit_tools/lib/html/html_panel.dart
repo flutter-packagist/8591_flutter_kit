@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_kit/core/pluggable.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -135,4 +135,4 @@ class HtmlPanelState extends State<HtmlPanel> {
     Uri uri = Uri.parse(textEditingController.text);
     await webViewController.loadRequest(uri);
   }
-}
+}*/

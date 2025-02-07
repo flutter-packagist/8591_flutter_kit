@@ -29,7 +29,7 @@ void main() {
       const ColorPicker(),
       const TransferPanel(packageName: "com.example.example"),
       const SettingPanel(),
-      const HtmlPanel(),
+      //const HtmlPanel(),
     ])
     ..registerDebugOnly([
       const CodeDisplayPanel(),
