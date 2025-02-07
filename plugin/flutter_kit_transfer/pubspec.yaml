@@ -53,13 +53,13 @@ dependencies:
   flutter_kit:
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
-      branch: upgrade
+      ref: upgrade
 
   flutter_kit_dio:
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
       path: plugin/flutter_kit_dio
-      branch: upgrade
+      ref: upgrade
 
 dev_dependencies:
   flutter_test:

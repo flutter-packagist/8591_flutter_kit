@@ -34,7 +34,7 @@ dependencies:
     #path: ../../
     git:
       url: https://github.com/flutter-packagist/8591_flutter_kit.git
-      branch: upgrade
+      ref: upgrade
 
 dev_dependencies:
   flutter_test:
