@@ -14,7 +14,7 @@ dependencies:
   # 压缩插件
   archive: 4.0.2
   # 桌面文件拖拽到窗口上传
-  desktop_drop: ^0.3.3
+  desktop_drop: ^0.5.0
   # 设备信息获取
   device_info_plus: 11.2.2
   # 网络请求
