@@ -13,7 +13,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  shared_preferences: 2.2.2
+  shared_preferences: ^2.2.2
   vm_service: 14.2.5
 
 dev_dependencies:
