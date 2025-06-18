@@ -58,14 +58,14 @@ dependencies:
 #    hosted:
 #      name: flutter_kit_performance
 #      url: http://192.168.8.75:4000/
-  flutter_kit_tools:
-    path: ../plugin/flutter_kit_tools/
+#  flutter_kit_tools:
+#    path: ../plugin/flutter_kit_tools/
 #    version: ^0.0.1
 #    hosted:
 #      name: flutter_kit_tools
 #      url: http://192.168.8.75:4000/
-  flutter_kit_transfer:
-    path: ../plugin/flutter_kit_transfer/
+#  flutter_kit_transfer:
+#    path: ../plugin/flutter_kit_transfer/
 #    version: ^0.0.1
 #    hosted:
 #      name: flutter_kit_transfer
@@ -82,8 +82,8 @@ dependency_overrides:
     path: ../plugin/flutter_kit_dio/
   flutter_kit_log:
     path: ../plugin/flutter_kit_log/
-  flutter_kit_transfer:
-    path: ../plugin/flutter_kit_transfer/
+#  flutter_kit_transfer:
+#    path: ../plugin/flutter_kit_transfer/
 
 flutter:
   uses-material-design: true
